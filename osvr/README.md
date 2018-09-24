@@ -10,3 +10,12 @@ Your final directory structure will look like this:
     +-- devel/
     +-- src/
 ```
+# Getting the VR headset to display video:
+1) Connect headset to laptop using USB
+2) Start the OSVR server `source ~/.osvr_server_setup`
+3) Open Rviz and run textured sphere:
+    \tOpen a new terminal, then `source ~/catkin-ws/devel/setup.bash`
+    \t `roslaunch rviz_textured_sphere demo.launch`
+4) Connect headset through HDMI (in addition to USB that's already plugged in
+5) Enter OSVR Headset plugin as option in the Rviz param configuration (on the left side of the screen)
+Have fun with your new VR Headset
