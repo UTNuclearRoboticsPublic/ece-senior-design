@@ -1,6 +1,18 @@
 # Troubleshooting Effort Summary
 	By Daniel Diamont
 
+## How To Run
+
+### To Run a Sample from OpenVR
+```
+~/.steam/steam/ubuntu12_32/steam-runtime/run.sh ../bin/linux64/hellovr_vulkan
+```
+
+### For RVIZ
+```
+rosrun --prefix '~/.steam/steam/ubuntu12_32/steam-runtime/run.sh' rviz rviz
+```
+
 ## Installation Steps Taken:
 
 1. Followed RVIZ Vive Plugin Installation procedure on [readme](https://github.com/AndreGilerson/rviz_vive)
@@ -29,7 +41,7 @@
 	```
 
 
-## Problem
+## Problem (SteamVR Error Ccode 102)
 
 Running the RVIZ with Andre Gilerson's plugin (**rviz_vive**) causes a **segmentation
  fault**.
@@ -47,7 +59,9 @@ A related possible fix from an unmerged pull request can be found [here](https:/
 
 Also, note that a post from July 13 shows that this is still an [open issue](https://github.com/ValveSoftware/openvr/issues/827).
 
-## Attempt To Solve Problem
+## Problem Fix (SteamVR Error code 102)
+
+#### Attempt 1 (failed) 
 
 A team member (Beathan Andersen) and I took the following steps, with no change to the end result.
 
@@ -56,7 +70,36 @@ A team member (Beathan Andersen) and I took the following steps, with no change 
 3. Re-built the openVR source.
 4. Re-built the rviz_vive plugin
 
+#### Attempt 2 (success)
+
+1. Reinstalled openVR
+2. Ensured QT5 dependecy was satisfied
+3. Re-built openVR source using gcc++-4.9 toolchain
+4. Ran hellovr_opengl sample from openVR
+
+Passed DLL error, later got HMD error 306 (shared IPC Compositor Connect Failed)
+
+QT5 fix:
+```
+export QT_SELECT=5
+```
+
+GCC ToolChain Fix:
+```
+sudo apt-get install g++-4.9 
+git clone https://github.com/ValveSoftware/openvr.git
+#Apply the patch https://gist.github.com/toastedcrumpets/d4dde447d9d23fcea4181bbbfadd3487
+cd openvr/samples/
+mkdir build
+cd build
+CXX=g++-4.9 cmake ../
+make
+#Now run the examples using the steam runtime environment
+~/.steam/steam/ubuntu12_32/steam-runtime/run.sh ../bin/linux64/hellovr_vulkan
+```
+
 ## System Information
 
-* OpenVR release [v1.0.17](https://github.com/ValveSoftware/openvr/releases/tag/v1.0.17)
+* OpenVR release [v1.0.16](https://github.com/ValveSoftware/openvr/releases/tag/v1.0.16)
+* SteamVR 1533664367
 
