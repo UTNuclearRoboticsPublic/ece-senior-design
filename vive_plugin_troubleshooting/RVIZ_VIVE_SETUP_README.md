@@ -68,6 +68,53 @@ Then reboot the PC for the changes to take effect.
 
 ## How to Run
 
+### Hardware Setup
+
+#### Vive Headset
+
+1. Ensure that HDMI, USB, and power are connected to the Vive Link Box.
+
+2. Connect the link box HDMI cable and USB cable to the PC.
+
+#### Vive Base Stations
+
+1. Set up Base Stations in the following configuration to encompass the play area.
+```
+ BS ------------
+ |              |
+ |              |
+ |              |
+ |   play area  |
+ |              |
+ |              |
+ |              |
+  ------------ BS
+```
+    The base stations should have a clear line of sight to each other.
+
+2. Connect the base stations with the SYNC cable.
+
+3. Make sure that one of the base stations is set to **Channel A** and the other to **Channel B**. 
+    It does not matter which base station is set to which channel, as long as one is set to A and the other is set to B.
+
+#### Vive Controllers (pending)
+
+#### USB Cameras
+
+1. Ensure that the cameras are charged. 
+    In livestream mode, the cameras discharge quickly.
+
+2. Set up both cameras in the desired configuration (back-to-back facing away from each other)
+
+3. Plug in the cameras to the desired USB ports.
+
+4. Turn on the cameras by holding down the power button.
+    After this, the cameras should automatically enter webcam mode.
+    You can verify that they are in webcam mode by checking the LCD screen on each of the cameras, which should display an image saying it is in webcam mode.
+    If they do not automatically go into webcam mode, check the integrity of the USB connection.
+
+#### NVIDIA Graphics Driver Config
+
 1. Check that we are actually using the NVIDIA graphics card.
     * Check Ubuntu Settings > Details -- should see NVIDIA card listed in "Graphics"
 
@@ -76,20 +123,33 @@ Then reboot the PC for the changes to take effect.
         $ nvidia-settings
         ```
 
-2. Start SteamVR through Steam and make sure to select SteamVR beta
+    * A good check is to play a video or do something a bit graphics compute intensive and watch the NVIDA card GPU usage % go up and down. If the usage % remains pretty stable, it may be a sign that the PC may be using the integrated GPU instead. Since SteamVR and the Vive require that a discrete GPU is used, make sure that this is working first.
 
-3. Make sure Vive Base Stations are:
-    * Connected to each other with the sync cable
-    * One is on Channel A; the other on channel B)
+### Software Setup
 
-4. Make sure the Vive headset recognizes both base stations
-    * Aim the front of the headset at each of the base stations. This should cause the base stations to be recognized by the SteamVR server application.
+#### usb_cam launch configuration
 
-5. Make sure that usb_cam dual launch file is looking at the correct /dev/videoX device
+1. Check that the usb cameras are detected by the linux OS and are ready to stream.
+    From the linux terminal:
 
-6. Edit demo.launch file to run steam server .sh file as launch-prefix param so we can roslaunch it
+    ```
+    $ cd /dev/
+    $ ls | grep video
+    ```
+    If the PC has an internal webcam, this will likely be video0.
+    The Vive headset has its own camera, so the vive cam plus the two usb cameras will make up any combination of video1, 2, and 3.
+    If more video devices are plugged in, these numbers will vary, so make sure that you narrow down what device corresponds to each ID.
 
-    Make sure that *demo.launch* in rviz_textured_sphere/src/launch/ contains the following code:
+2. Edit dual_cam.launch to specify the usb camera device numbers:
+    Under the *param name* tag, change the value to point to the correct device number. Do this for each of the cameras.
+
+    Example: <param name="video_device" value="/dev/video3" />
+
+#### rviz_textured_sphere configuration
+
+1. Edit demo.launch file to run steam server .sh file as launch-prefix param so we can roslaunch it
+
+    Make sure that *demo.launch* in rviz_textured_sphere/launch/ consists of the following code:
     ```
     <?xml version="1.0"?>
     <launch>
@@ -99,19 +159,52 @@ Then reboot the PC for the changes to take effect.
         launch-prefix="${HOME}/.steam/steam/ubuntu12_32/steam-runtime/run.sh" />
     </launch>
     ```
-        *Note: I had hardcored the launch-prefix path as /home/senior-design/.steam/....
-         Check that ${HOME}/ actually works...*
 
-7. Then, start ```roscore``` on one terminal.
+#### ROS Environment Setup
 
-8. Open a new terminal and source the *devel/setup.bash* of the catkin workspace
+1. Open a terminal and start the roscore.
 
-9. Start RVIZ with:
+    ```
+    $ roscore
+    ```
+
+2. Open another terminal and set up the ROS Environment for the cameras, Vive, and RVIZ with the following step:
+
+    At the root of your catkin workspace
+    ```
+    $ source devel/setup.bash
+    ```
+
+3. Launch the cameras by running:
+    ```
+    $ roslaunch usb_cam dual_cam.launch
+    ```
+    Check that you are receiving a video feed from both of the cameras.
+
+#### SteamVR Setup
+
+1. Open Steam using the Ubuntu Dashboard.
+
+2. Search for SteamVR and click "Play".
+
+3. (add more detail) Select SteamVR beta.
+
+4. Make sure that the headset can "see" both of the base stations.
+
+### RVIZ / Vive Launch
+
+1. Open another terminal and set up the ROS Environment for the cameras, Vive, and RVIZ with the following step:
+
+    At the root of your catkin workspace
+    ```
+    $ source devel/setup.bash
+    ```
+2. Start RVIZ with:
 
     ```
     roslaunch rviz_textured_sphere demo.launch
     ```
 
-10. Add vive display plugin once in RVIZ. This should cause the stream to render in the HTC VIVE headset.
+3. Add vive display plugin once in RVIZ. This should cause the stream to render in the HTC VIVE headset.
 
 
