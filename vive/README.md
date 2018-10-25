@@ -28,6 +28,13 @@ sudo apt-get update
 sudo apt-get install libogre-dev
 ```
 
+### GLEW
+`wget https://sourceforge.net/projects/glew/files/glew/2.1.0/glew-2.1.0.tgz/`
+`tar -xvzf glew-2.1.0.tgz`
+`cd glew-2.1.0`
+`make`
+
+
 ### Install Qt 5.x
 https://www.lucidar.me/en/dev-c-cpp/how-to-install-qt-creator-on-ubuntu-16-04/
 
