@@ -1,40 +1,78 @@
-# Rviz and Vive Setup
-	By Daniel Diamont
+# Rviz and Vive Installation
+
+## Introduction
+## System Requirements
+* Ubuntu 16.04
+* g++ 4.9
+* ROS #TODO
+* NVIDIA Drivers
 
 ## Installation Steps
 
 This section is broken down into the following sections:
 
-* ROS Kinetic (pending)
 * OGRE (pending)
 * Qt 5.x (pending)
 * GLEW 1.11+ (pending)
+
 * usb_cam (pending)
 * SteamVR
 * OpenVR and rviz_vive plugin
 * NVIDIA Drivers
 
+### OGRE Intallation
+
+```bash
+sudo add-apt-repository ppa:ogre-team/ogre
+sudo apt-get update
+sudo apt-get install libogre-dev
+```
+
+### Install Qt 5.x
+https://www.lucidar.me/en/dev-c-cpp/how-to-install-qt-creator-on-ubuntu-16-04/
+
+
+### Setup usb_cam
+
+```bash
+cd /catkin-ws/src
+git clone https://github.com/ros-drivers/usb_cam.git
+cd $CATKIN/
+catkin_make
+```
+
 ### SteamVR
 
 1. Download Steam
 
+```bash
+sudo apt-key adv \
+  --keyserver keyserver.ubuntu.com \
+  --recv-keys F24AEA9FB05498B7
+REPO="deb http://repo.steampowered.com/steam/ $(lsb_release -cs) steam"
+echo "${REPO}" > /tmp/steam.list
+sudo mv /tmp/steam.list /etc/apt/sources.list.d/ && sudo apt-get update
+sudo apt-get install -y steam
+```
+
 2. Execute the following command:
 
-	```
-	mv ~/.steam/steam/* ~/.local/share/Steam/
-	rmdir ~/.steam/steam
-	ln -s ../.local/share/Steam ~/.steam/steam
-	rm -rf ~/.steam/bin
-	```
+```bash
+mv ~/.steam/steam/* ~/.local/share/Steam/
+rmdir ~/.steam/steam
+ln -s ../.local/share/Steam ~/.steam/steam
+rm -rf ~/.steam/bin
+```
 
 ### OpenVR and rviz_vive plugin from [Andre Gilerson](https://github.com/AndreGilerson/rviz_vive)
 
 1. Ensure that QT5 dependency for OpenVR is satisfied for later build step with gcc++
     
-    ```
+    ```bash
     export QT_SELECT=5
     ```
 2. git clone OpenVR release v1.0.16
+Decide what to do with g++ req, how to notify user
     * Build OpenVR src code (at ~/openvr/src/) with:
 		```
 		sudo apt-get install g++-4.9 
@@ -61,8 +99,14 @@ Update drivers as follows if using an NVIDIA graphics card.
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update
-sudo apt install nvidia-396
+DRIVER=$(sudo ubuntu-drivers devices | grep "recommended" | awk '{print $3}'
+sudo apt install $DRIVER
 ```
+```
+#DRIVERNUM=$(echo $DRIVER | cut -d- -f2)
+
+```
+
 
 Then reboot the PC for the changes to take effect.
 
@@ -182,6 +226,10 @@ Then reboot the PC for the changes to take effect.
     Check that you are receiving a video feed from both of the cameras.
 
 #### SteamVR Setup
+HIGHLIGHT!!!!!!!!!!!
+looking for command line way to run
+is it necessary after runing steam runtime in rviz launch file
+look at https://github.com/ValveSoftware/SteamVR-for-Linux/blob/master/README.md under runtime requirements
 
 1. Open Steam using the Ubuntu Dashboard.
 
