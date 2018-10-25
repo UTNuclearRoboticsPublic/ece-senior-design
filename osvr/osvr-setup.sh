@@ -89,4 +89,3 @@ cd $CATKIN/
 catkin_make
 
 echo "Setup Finished!"
-
