@@ -30,6 +30,6 @@ then
 fi
 
 cd ../
-catkin_make
+echo "USB cam installed, now building catkin workspace."
 
-echo "USB cam setup Finished!"
+catkin_make
