@@ -106,7 +106,7 @@ Update drivers as follows if using an NVIDIA graphics card.
 ```
 sudo add-apt-repository ppa:graphics-drivers/ppa
 sudo apt update
-DRIVER=$(sudo ubuntu-drivers devices | grep "recommended" | awk '{print $3}'
+DRIVER=$(sudo ubuntu-drivers devices | grep "recommended" | awk '{print $3}')
 sudo apt install $DRIVER
 ```
 ```
