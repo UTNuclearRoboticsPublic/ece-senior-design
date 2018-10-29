@@ -3,6 +3,10 @@
 # Authors: John Sigmon and Daniel Diamont
 # Last modified 10/26/18
 
+# Purpose:
+#	This script installs the ROS package usb_cam if it is not already installed
+
+
 # Check that user passed in catkin workspace path
 if [ $# -eq 1 ]; 
 then
