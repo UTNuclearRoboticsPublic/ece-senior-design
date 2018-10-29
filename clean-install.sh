@@ -50,9 +50,58 @@ if [ $? -eq 0 ]; then
     echo "python-catkin-pkg is already installed!"
 else
     echo "python-catkin-pkg is NOT installed. Installing python-catkin-pkg now!"
-	sudo apt-get install cmake python-catkin-pkg \
-	 python-empy python-nose python-setuptools 
-	 libgtest-dev build-essential
+	sudo apt-get install python-catkin-pkg
+fi
+
+
+dpkg -s cmake &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "cmake is already installed!"
+else
+    echo "cmake is NOT installed. Installing now!"
+	sudo apt-get install cmake
+fi
+
+
+dpkg -s python-empy &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "python-empy is already installed!"
+else
+    echo "python-empy is NOT installed. Installing python-empy now!"
+	sudo apt-get install python-empy
+fi
+
+dpkg -s python-nose &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "python-nose is already installed!"
+else
+    echo "python-nose is NOT installed. Installing python-nose now!"
+	sudo apt-get install python-nose
+fi
+
+dpkg -s python-setuptools &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "python-setuptools is already installed!"
+else
+    echo "python-setuptools is NOT installed. Installing python-setuptools now!"
+	sudo apt-get install python-setuptools
+fi
+
+
+dpkg -s libgtest-dev &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "libgtest-dev is already installed!"
+else
+    echo "libgtest-dev is NOT installed. Installing libgtest-dev now!"
+	sudo apt-get install libgtest-dev
+fi
+
+dpkg -s build-essential &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "build-essential is already installed!"
+else
+    echo "build-essential is NOT installed. Installing build-essential now!"
+	sudo apt-get install build-essential
 fi
 
 
