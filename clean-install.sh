@@ -18,18 +18,96 @@
 #	simply skip over these
 #
 
+scriptdir="$(dirname "$0")"
+cd "$scriptdir"
 
 # Take the catkin workspace as a parameter from the user
 if [ $# -eq 1 ];
 then
 	CATKIN=$1
 else
-	echo "Usage: clean-install.sh <path to catkin workspace>"
+	echo "Usage: clean-install.sh <full path to catkin workspace directory>"
 	exit 1
 fi
 
-# Get Current Path
+
+
+# Install git if not already installed
+
+dpkg -s git &> /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "git is already installed!"
+else
+    echo "git is NOT installed. Installing git now!"
+        sudo apt-get install git
+fi
+
+# Install bootstrap dependencies if not already installed
+dpkg -s python-catkin-pkg &> /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "python-catkin-pkg is already installed!"
+else
+    echo "python-catkin-pkg is NOT installed. Installing python-catkin-pkg now!"
+	sudo apt-get install cmake python-catkin-pkg \
+	 python-empy python-nose python-setuptools 
+	 libgtest-dev build-essential
+fi
+
+
+# Get Current Path (top-level directory of install)
 ROOTPATH=`pwd`
-UTILS="
+
+# Set useful paths
+UTILS="utils"
+INSTALL="install"
+CONFIG="config"
+
 # Run ros-install.sh
+bash $ROOTPATH/$INSTALL/ros-install.sh $CATKIN
+source ~/.bashrc
+
+# sudo apt-get update &> /dev/null
+
+# Install catkin if not already installed
+
+dpkg -s ros-kinetic-catkin &> /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "ros-kinetic-catkin is already installed!"
+else
+    echo "ros-kinetic-catkin is NOT installed. Installing ros-kinetic-catkin now!"
+        sudo apt-get install ros-kinetic-catkin
+fi
+
+source ~/.bashrc
+
+#dpkg -s catkin &> /dev/null
+
+#if [ $? -eq 0 ]; then
+#    echo "catkin is already installed!"
+#else
+#    echo "catkin is NOT installed. Installing catkin now!"
+#        sudo apt install catkin
+#fi
+#
+#source ~/.bashrc
+
+# Run usb-cam-install.sh
+bash $ROOTPATH/$INSTALL/usb-cam-install.sh $CATKIN $ROOTPATH
+
+# Run textured-sphere-install.sh
+bash $ROOTPATH/$INSTALL/textured-sphere-install.sh $CATKIN $ROOTPATH
+
+# Run vive-plugin-install.sh
+bash $ROOTPATH/$INSTALL/vive-plugin-install.sh $CATKIN $ROOTPATH
+
+echo "Clean Install finished! Now building catkin workspace"
+
+cd $CATKIN
+catkin_make
+
+
+
 

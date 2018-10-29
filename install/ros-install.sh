@@ -11,6 +11,7 @@
 #		* python-wstool
 #		* build-essential
 
+sudo apt-get update
 
 # Install ros-kinetic-desktop-full package if not already installed.
 dpkg -s ros-kinetic-desktop-full &> /dev/null

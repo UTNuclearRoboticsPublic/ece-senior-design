@@ -9,11 +9,13 @@
 
 
 # Check that user passed in catkin workspace path
-if [ $# -eq 1 ]; 
+if [ $# -eq 2 ]; 
 then
 	CATKIN=$1
+	ROOTPATH=$2
 else
-	echo "Usage: textured-sphere-install.sh <path to catkin workspace>"
+	echo "Usage: textured-sphere-install.sh <path to catkin workspace> \
+		<top level install directory>"
 	exit 1
 fi	
 	
@@ -48,6 +50,6 @@ sed -i '$i\
     launch-prefix="${HOME}/.steam/steam/ubuntu12_32/steam-runtime/run.sh" />' launch/$NEWLAUNCH
 sed -i '5s/\/>//' launch/$NEWLAUNCH
 
-cd ../../
-echo "Textured Sphere Plugin installed, now building catkin workspace."
-catkin_make
+cd $CATKIN
+
+echo "Textured Sphere Plugin installed."

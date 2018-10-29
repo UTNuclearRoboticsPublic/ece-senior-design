@@ -4,24 +4,55 @@
 # Last modified 10/26/18
 
 # Check that user passed in catkin workspace path
-if [ $# -eq 1 ]; 
+if [ $# -eq 2 ]; 
 then
 	CATKIN=$1
+	ROOTPATH=$2
 else
-	echo "Usage: vive-plugin-install.sh <path to catkin workspace>"
+	echo "Usage: vive-plugin-install.sh <path to catkin workspace> \
+		<top level install directory>"
 	exit 1
 fi	
 	
 BUILD="build"
 SRC="src"
 DEST="rviz_vive"
-ROOTPATH=`pwd`
 
 # Create catkin workspace directory if it does not already exist
 mkdir -p "$CATKIN"
 cd "$CATKIN"
 mkdir -p "$BUILD"
 mkdir -p "$SRC"
+
+# Install OpenGL if not already installed
+dpkg -s libglu1-mesa-dev &> /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "OpenGL libglu1-mesa-dev is already installed!"
+else
+    echo "OpenGL libglu1-mesa-dev is NOT installed! Installing now."
+	sudo apt-get libglu1-mesa-dev
+fi
+
+
+dpkg -s freeglut3-dev &> /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "OpenGL freeglut3-dev ibglu1-mesa-dev is already installed!"
+else
+    echo "OpenGL freeglut3-dev ibglu1-mesa-dev is NOT installed! Installing now."
+	sudo apt-get freeglut3-dev
+fi
+
+	
+dpkg -s mesa-common-dev &> /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "mesa-common-dev is already installed!"
+else
+    echo "OpenGL mesa-common-dev is NOT installed! Installing now."
+	sudo apt-get mesa-common-dev
+fi
 
 # Install OGRE
 ## check if installed
@@ -34,6 +65,9 @@ else
 	sudo apt-get install libogre-1.9-dev
 fi
 
+sudo cp /usr/include/OGRE/RenderSystems/GL/GL/* /usr/include/OGRE/RenderSystems/GL/
+
+sudo cp /usr/include/OGRE/RenderSystems/GL/GL/* /usr/include/GL/
 
 # Install Steam
 ## check if steam is installed
@@ -90,12 +124,12 @@ fi
 if [ ! -d "rviz_vive" ]; then
 	echo "rviz_vive plugin repo does not exist. Pulling rviz_vive repository!"
 	git clone https://github.com/AndreGilerson/rviz_vive.git
-	sed -i "30s|.*|set(OPENVR \"${ROOTPATH}\/${CATKIN}\/${SRC}\/openvr\")|" \
+	sed -i "30s|.*|set(OPENVR \"${CATKIN}\/${SRC}\/openvr\")|" \
 			rviz_vive/CMakeLists.txt
 else
 	echo "rviz_vive plugin repo already exists!"
 	# in case it was already downloaded but the path was not replaced...
-	sed -i "30s|.*|set(OPENVR \"${ROOTPATH}\/${CATKIN}\/${SRC}\/openvr\")|" \
+	sed -i "30s|.*|set(OPENVR \"${CATKIN}\/${SRC}\/openvr\")|" \
 			rviz_vive/CMakeLists.txt
 fi
 
@@ -116,9 +150,4 @@ else
 	sudo apt install $DRIVER
 fi
 
-cd ../
-echo "Rviz Vive Plugin installed, now building catkin workspace."
-echo `pwd`
-echo $ROOTPATH/$CATKIN/$SRC/openvr
-
-catkin_make
+echo "Rviz Vive Plugin installed."
