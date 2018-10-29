@@ -24,24 +24,40 @@ mkdir -p "$BUILD"
 mkdir -p "$SRC"
 
 # Install OGRE
-sudo add-apt-repository ppa:ogre-team/ogre
-sudo apt-get update
-sudo apt-get install libogre-dev
+## check if installed
+dpkg -s libogre-1.9-dev &> /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "OGRE is already installed!"
+else
+    echo "OGRE  is NOT installed!"
+	sudo apt-get install libogre-1.9-dev
+fi
+
 
 # Install Steam
-sudo apt-key adv \
-  --keyserver keyserver.ubuntu.com \
-  --recv-keys F24AEA9FB05498B7
-REPO="deb http://repo.steampowered.com/steam/ $(lsb_release -cs) steam"
-echo "${REPO}" > /tmp/steam.list
-sudo mv /tmp/steam.list /etc/apt/sources.list.d/ && sudo apt-get update
-sudo apt-get install -y steam
+## check if steam is installed
+dpkg -s steam &> /dev/null
 
-# Steam Installer is broken... these are the steps that the installer tries to do
-mv ~/.steam/steam/* ~/.local/share/Steam/
-rmdir ~/.steam/steam
-ln -s ../.local/share/Steam ~/.steam/steam
-rm -rf ~/.steam/bin
+if [ $? -eq 0 ]; then
+    echo "Steam is already installed!"
+else
+    echo "Steam is NOT installed!"
+	sudo apt-key adv \
+  		--keyserver keyserver.ubuntu.com \
+  		--recv-keys F24AEA9FB05498B7
+	REPO="deb http://repo.steampowered.com/steam/ $(lsb_release -cs) steam"
+	echo "${REPO}" > /tmp/steam.list
+	sudo mv /tmp/steam.list /etc/apt/sources.list.d/ && sudo apt-get update
+	sudo apt-get install -y steam
+
+	# Steam Installer is broken... these are the steps that the installer tries to do
+	mv ~/.steam/steam/* ~/.local/share/Steam/
+	rmdir ~/.steam/steam
+	ln -s ../.local/share/Steam ~/.steam/steam
+	rm -rf ~/.steam/bin
+fi
+
 
 # do not know if we need this...
 #export QT_SELECT=5
@@ -51,8 +67,14 @@ rm -rf ~/.steam/bin
 # sudo apt-get install g++-4.9
 
 # OpenVR Install
-cd $SRC 
-git clone https://github.com/ValveSoftware/openvr.git
+cd $SRC
+## install OpenVR repo if directory 'openvr' does not exist
+if [ ! -d "openvr" ]; then
+	echo "OpenVR repo does not exist. Pulling OpenVR repository!" 
+	git clone https://github.com/ValveSoftware/openvr.git
+else
+	echo "OpenVR repo already exists!"
+fi
 
 # Don't know if we need this (also for maybe running openvr samples
 # Andre Gilerson said he never had to rebuild openVR binaries... just use included
@@ -64,15 +86,39 @@ git clone https://github.com/ValveSoftware/openvr.git
 #make
 
 # Vive Plugin Install
-git clone https://github.com/AndreGilerson/rviz_vive.git
-sed -i '30s/.*/set(OPENVR "${ROOTPATH}/${CATKIN}/${SRC}/openvr")/' CMakeLists.txt
-cd ../
+## install rviz_vive plugin repo if directory 'rviz_vive' does not exist
+if [ ! -d "rviz_vive" ]; then
+	echo "rviz_vive plugin repo does not exist. Pulling rviz_vive repository!"
+	git clone https://github.com/AndreGilerson/rviz_vive.git
+	sed -i "30s|.*|set(OPENVR \"${ROOTPATH}\/${CATKIN}\/${SRC}\/openvr\")|" \
+			rviz_vive/CMakeLists.txt
+else
+	echo "rviz_vive plugin repo already exists!"
+	# in case it was already downloaded but the path was not replaced...
+	sed -i "30s|.*|set(OPENVR \"${ROOTPATH}\/${CATKIN}\/${SRC}\/openvr\")|" \
+			rviz_vive/CMakeLists.txt
+fi
 
-### NVIDIA Drivers
-sudo add-apt-repository ppa:graphics-drivers/ppa
-sudo apt update
+
+# NVIDIA Drivers
+## install drivers if not already installed
+
 DRIVER=$(sudo ubuntu-drivers devices | grep "recommended" | awk '{print $3}')
-sudo apt install $DRIVER
 
+dpkg -s $DRIVER &> /dev/null
+
+if [ $? -eq 0 ]; then
+    echo "Proper NVIDIA graphics card drivers are already installed!"
+else
+    echo "NVIDIA graphics card drivers are NOT installed! Installing now."
+	sudo add-apt-repository ppa:graphics-drivers/ppa
+	sudo apt update
+	sudo apt install $DRIVER
+fi
+
+cd ../
 echo "Rviz Vive Plugin installed, now building catkin workspace."
+echo `pwd`
+echo $ROOTPATH/$CATKIN/$SRC/openvr
+
 catkin_make
