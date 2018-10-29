@@ -3,6 +3,11 @@
 # Authors: John Sigmon and Daniel Diamont
 # Last modified 10/26/18
 
+# Purpose:
+#	This script installs the rviz_textured_sphere plugin from the 
+#	UTNuclearRoboticsGroup public repository
+
+
 # Check that user passed in catkin workspace path
 if [ $# -eq 1 ]; 
 then
@@ -29,6 +34,8 @@ cd $SRC
 if [ ! -d "$DEST" ];
 then
     git clone https://github.com/UTNuclearRoboticsPublic/rviz_textured_sphere.git
+else
+	echo "rviz_textured_sphere is already installed!"
 fi
 
 # Cmake
