@@ -124,7 +124,7 @@ INSTALL="install"
 CONFIG="config"
 
 # Run ros-install.sh
-bash $ROOTPATH/$INSTALL/ros-install.sh $CATKIN
+bash -i $ROOTPATH/$INSTALL/ros-install.sh $CATKIN
 source ~/.bashrc
 
 # sudo apt-get update &> /dev/null
@@ -154,13 +154,13 @@ source ~/.bashrc
 #source ~/.bashrc
 
 # Run usb-cam-install.sh
-bash $ROOTPATH/$INSTALL/usb-cam-install.sh $CATKIN $ROOTPATH
+bash -i $ROOTPATH/$INSTALL/usb-cam-install.sh $CATKIN $ROOTPATH
 
 # Run textured-sphere-install.sh
-bash $ROOTPATH/$INSTALL/textured-sphere-install.sh $CATKIN $ROOTPATH
+bash -i $ROOTPATH/$INSTALL/textured-sphere-install.sh $CATKIN $ROOTPATH
 
 # Run vive-plugin-install.sh
-bash $ROOTPATH/$INSTALL/vive-plugin-install.sh $CATKIN $ROOTPATH
+bash -i $ROOTPATH/$INSTALL/vive-plugin-install.sh $CATKIN $ROOTPATH
 
 echo "Clean Install finished! Now building catkin workspace"
 
