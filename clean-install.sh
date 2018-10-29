@@ -18,6 +18,16 @@
 #	simply skip over these
 #
 
+
+# Check if shell was launched with interactive mode '-i'
+if [[ $- == *i* ]]
+then
+	echo "Launching..."
+else
+	echo "Usage: bash -i clean-install.sh <full path to catkin workspace directory>"
+	exit 1
+fi
+
 scriptdir="$(dirname "$0")"
 cd "$scriptdir"
 
