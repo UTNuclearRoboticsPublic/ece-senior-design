@@ -38,11 +38,12 @@ then
     git clone https://github.com/ros-drivers/usb_cam.git
 fi
 
+echo "USB cam installed, now building catkin workspace."
+source ~/.bashrc; cd $CATKIN; catkin_make
+
 # Take dual-cam.launch file located in config/
 # 	and place it in usb_cam 'launch' directory
 cp $TOPLEVEL/$CONFIG/$DUALCAM $CATKIN/$SRC/$DEST/$LAUNCH/$DUALCAM
 
-cd $CATKIN
-echo "USB cam installed, now building catkin workspace."
 
-source ~/.bashrc
+source ~/.bashrc; cd $CATKIN; catkin_make

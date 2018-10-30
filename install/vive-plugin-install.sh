@@ -76,20 +76,32 @@ dpkg -s steam &> /dev/null
 if [ $? -eq 0 ]; then
     echo "Steam is already installed!"
 else
-    echo "Steam is NOT installed!"
-	sudo apt-key adv \
-  		--keyserver keyserver.ubuntu.com \
-  		--recv-keys F24AEA9FB05498B7
-	REPO="deb http://repo.steampowered.com/steam/ $(lsb_release -cs) steam"
-	echo "${REPO}" > /tmp/steam.list
-	sudo mv /tmp/steam.list /etc/apt/sources.list.d/ && sudo apt-get update
-	sudo apt-get install -y steam
+    echo "Steam is NOT installed. Installing now!"
+#	sudo apt-key adv \
+#  		--keyserver keyserver.ubuntu.com \
+#  		--recv-keys F24AEA9FB05498B7
+#	REPO="deb http://repo.steampowered.com/steam/ $(lsb_release -cs) steam"
+#	echo "${REPO}" > /tmp/steam.list
+#	sudo mv /tmp/steam.list /etc/apt/sources.list.d/ && sudo apt-get update
+#	sudo apt-get install -y steam
 
-	# Steam Installer is broken... these are the steps that the installer tries to do
-	mv ~/.steam/steam/* ~/.local/share/Steam/
-	rmdir ~/.steam/steam
-	ln -s ../.local/share/Steam ~/.steam/steam
-	rm -rf ~/.steam/bin
+#	# Steam Installer is broken... these are the steps that the installer tries to do
+#	mv ~/.steam/steam/* ~/.local/share/Steam/
+#	rmdir ~/.steam/steam
+#	ln -s ../.local/share/Steam ~/.steam/steam
+#	rm -rf ~/.steam/bin
+	
+	# Easier way to install steam
+	sudo add-apt-repository multiverse
+	echo " "
+	echo " Updating package lists with 'apt-get update'. Please wait..."
+	sudo apt update &> /dev/null
+	sudo apt install steam
+	echo " "
+	echo "Steam will now update itself in the background"
+	echo " "
+	bash steam &> /dev/null &
+	disown
 fi
 
 
@@ -146,7 +158,8 @@ if [ $? -eq 0 ]; then
 else
     echo "NVIDIA graphics card drivers are NOT installed! Installing now."
 	sudo add-apt-repository ppa:graphics-drivers/ppa
-	sudo apt update
+	echo " Updating package lists with 'apt-get update'. Please wait..."
+	sudo apt update &> /dev/null
 	sudo apt install $DRIVER
 fi
 

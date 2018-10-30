@@ -153,6 +153,9 @@ source ~/.bashrc
 #
 #source ~/.bashrc
 
+cd $CATKIN
+catkin_make
+
 # Run usb-cam-install.sh
 bash -i $ROOTPATH/$INSTALL/usb-cam-install.sh $CATKIN $ROOTPATH
 

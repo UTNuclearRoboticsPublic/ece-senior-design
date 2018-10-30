@@ -11,7 +11,10 @@
 #		* python-wstool
 #		* build-essential
 
-sudo apt-get update
+echo " "
+echo " Updating package lists with 'apt-get update'. Please wait..."
+echo " "
+sudo apt-get update &> /dev/null
 
 # Install ros-kinetic-desktop-full package if not already installed.
 dpkg -s ros-kinetic-desktop-full &> /dev/null
@@ -25,17 +28,16 @@ else
 	sudo apt-key adv \
   		--keyserver hkp://ha.pool.sks-keyservers.net:80 \
   		--recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-
-	sudo apt-get update
-
+	
+	echo " "
+	echo "Updating package lists with 'apt-get update'. Please wait..."
+	echo " "
+	sudo apt-get update &> /dev/null
 	sudo apt-get install ros-kinetic-desktop-full
-
 	sudo rosdep init
 	rosdep update
-
 	echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
 	source ~/.bashrc
-
 fi
 
 # Install python-rosinstall if not already installed
