@@ -80,8 +80,19 @@ fi
 x-terminal-emulator -e roslaunch usb_cam $USB_CAM_LAUNCH $CAMS
 
 # 5 Launch Steam VR (?)
+if [ $VERBOSE == "true" ];
+then
+	echo "Launching SteamVR..."
+fi
+# could be: x-terminal-emulator -e steam steam://run/250820
+# or could be: x-terminal-emulator -e /path/to/steam/Steam.exe -applaunch 250820
+# seems to lauch in background so not helpful for debugging
 
 # 6 Launch textured sphere / Rviz
+if [ $VERBOSE == "true" ];
+then
+	echo ""
+roslaunch rviz_textured_sphere demo.launch
 
 # 7 Point Rviz to vive plugin (?) 
 while :
