@@ -11,25 +11,29 @@ then
 	# Strip extra slash off of given catkin path (if there is one)
     CATKIN=$(echo $1 | sed 's:/*$::')
 	VERBOSE=true # Optional argument whether or not to print stuff default true
-	if [[ $# -ge 2 && $2 == "quiet" ]]; 
+	if [[ $# -ge 2 && $2 == "--quiet" || "quiet" || "q" || "-q"  ]]; 
 	then 
 		VERBOSE=false # Only change quiet option
-	fi
+    fi
 else
-    echo "Usage: $0 <path to catkin workspace> [\"quiet\"]"
+    echo "Usage: $0 <path to catkin workspace> [-q --quiet]"
     exit 1
 fi	
 
-if [ $VERBOSE == "true" ];
-then 
-	echo "Launching VR camera system with catkin workspace $CATKIN..."
-fi
-# 0 b) set other variables	
 BUILD="build"
 SRC="src"
-DEST="rviz_textured_sphere"
-DEMOLAUNCH="demo.launch"
-NEWLAUNCH="vive.launch"
+SPHERE="rviz_textured_sphere"
+SPHERE_LAUNCH="vive.launch"
+USB_CAM_LAUNCH=$CATKIN/$SRC/usb_cam/launch/usb
+num_cams=0
+CAMS=$(bash utils/find_cam_dev_name.sh);
+CAM_ARR=($CAMS)
+
+if [ $VERBOSE == "true" ];
+then 
+	echo "Launching system from $CATKIN..."
+
+fi
 
 # 1 Launch roscore (in its own terminal or background it)
 if [ $VERBOSE == "true" ];
@@ -50,25 +54,18 @@ if [ $VERBOSE == "true" ];
 then 
 	echo "Locating cameras..."
 fi
-USB_CAM_LAUNCH=$CATKIN/src/usb_cam/launch/usb
-num_cams=0
-CAMS=$(bash utils/find_cam_dev_name.sh);
-CAM_ARR=($CAMS)
 
-# TODO: Check if we even still want to support single cam launch at all...
-# If not just delete this if statement and make srue you have 2 cams plugged in
 if [[ ${#CAM_ARR[@]} == 1 ]];
 then 
-	USB_CAM_LAUNCH=$CATKIN/src/usb_cam/launch/single_cam.launch
+	USB_CAM_LAUNCH=$CATKIN/$SRC/usb_cam/launch/single_cam.launch
 
 elif [[ ${#CAM_ARR[@]} == 2 ]];
 then 
-	USB_CAM_LAUNCH=$CATKIN/src/usb_cam/launch/double_cam.launch
+	USB_CAM_LAUNCH=$CATKIN/$SRC/usb_cam/launch/double_cam.launch
 else
 	echo "Error: Need 1 or 2 cameras plugged into USB (and turned on), found ${#CAM_ARR[@]}"
 	source utils/kill_roscore.sh
 	exit 1
-
 fi
 
 # 4 Launch usb cam in its own terminal 
@@ -84,18 +81,16 @@ if [ $VERBOSE == "true" ];
 then
 	echo "Launching SteamVR..."
 fi
-# could be: x-terminal-emulator -e steam steam://run/250820
+
+x-terminal-emulator -e steam steam://run/250820 &> /dev/null
 # or could be: x-terminal-emulator -e /path/to/steam/Steam.exe -applaunch 250820
-# seems to lauch in background so not helpful for debugging
 
 # 6 Launch textured sphere / Rviz
 if [ $VERBOSE == "true" ];
 then
-	echo ""
-roslaunch rviz_textured_sphere demo.launch
+	echo "Launching textured sphere in rviz"
+fi
+roslaunch rviz_textured_sphere $CATKIN/$SRC/$SPHERE/launch/$SPHERE_LAUNCH
 
-# 7 Point Rviz to vive plugin (?) 
-while :
-do 
-	:
-done
+# 7 Point Rviz to vive plugin (?)
+ 

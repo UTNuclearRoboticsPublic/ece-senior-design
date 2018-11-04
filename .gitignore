@@ -65,3 +65,7 @@ venv.bak/
 # Log Files
 *log*
 *.txt
+
+# Catkin workspaces
+catkin/
+catkin-ws/
