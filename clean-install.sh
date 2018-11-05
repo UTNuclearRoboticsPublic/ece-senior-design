@@ -34,13 +34,17 @@ cd "$scriptdir"
 # Take the catkin workspace as a parameter from the user
 if [ $# -eq 1 ];
 then
-	CATKIN=$1
+	CATKIN_RELATIVE=${1%/}
 else
-	echo "Usage: clean-install.sh <full path to catkin workspace directory>"
+	echo "Usage: clean-install.sh <path to catkin workspace directory>"
 	exit 1
 fi
 
-
+ROOT=$PWD
+CATKIN=../$CATKIN_RELATIVE
+UTILS="utils"
+INSTALL="install"
+CONFIG="config"
 
 # Install git if not already installed
 
@@ -63,7 +67,6 @@ else
 	sudo apt-get install python-catkin-pkg
 fi
 
-
 dpkg -s cmake &> /dev/null
 if [ $? -eq 0 ]; then
     echo "cmake is already installed!"
@@ -71,7 +74,6 @@ else
     echo "cmake is NOT installed. Installing now!"
 	sudo apt-get install cmake
 fi
-
 
 dpkg -s python-empy &> /dev/null
 if [ $? -eq 0 ]; then
@@ -97,7 +99,6 @@ else
 	sudo apt-get install python-setuptools
 fi
 
-
 dpkg -s libgtest-dev &> /dev/null
 if [ $? -eq 0 ]; then
     echo "libgtest-dev is already installed!"
@@ -113,15 +114,6 @@ else
     echo "build-essential is NOT installed. Installing build-essential now!"
 	sudo apt-get install build-essential
 fi
-
-
-# Get Current Path (top-level directory of install)
-ROOTPATH=`pwd`
-
-# Set useful paths
-UTILS="utils"
-INSTALL="install"
-CONFIG="config"
 
 # Run ros-install.sh
 bash -i $ROOTPATH/$INSTALL/ros-install.sh $CATKIN
@@ -154,22 +146,16 @@ source ~/.bashrc
 #source ~/.bashrc
 
 cd $CATKIN
-catkin_make
 
 # Run usb-cam-install.sh
-bash -i $ROOTPATH/$INSTALL/usb-cam-install.sh $CATKIN $ROOTPATH
+bash -i $ROOTPATH/$INSTALL/usb-cam-install.sh $CATKIN
 
 # Run textured-sphere-install.sh
-bash -i $ROOTPATH/$INSTALL/textured-sphere-install.sh $CATKIN $ROOTPATH
+bash -i $ROOTPATH/$INSTALL/textured-sphere-install.sh $CATKIN
 
 # Run vive-plugin-install.sh
-bash -i $ROOTPATH/$INSTALL/vive-plugin-install.sh $CATKIN $ROOTPATH
+bash -i $ROOTPATH/$INSTALL/vive-plugin-install.sh $CATKIN
 
-echo "Clean Install finished! Now building catkin workspace"
+echo "Clean Install finished!"
 
 cd $CATKIN
-catkin_make
-
-
-
-
