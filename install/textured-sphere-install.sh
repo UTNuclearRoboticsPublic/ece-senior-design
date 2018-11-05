@@ -9,24 +9,23 @@
 
 
 # Check that user passed in catkin workspace path
-if [ $# -eq 2 ]; 
+if [ $# -eq 1 ]; 
 then
-	CATKIN=$1
-	ROOTPATH=$2
+	CATKIN_RELATIVE=${1%/}
 else
-	echo "Usage: textured-sphere-install.sh <path to catkin workspace> \
-		<top level install directory>"
+	echo "Usage: textured-sphere-install.sh <path to catkin workspace>"
 	exit 1
-fi	
+fi
 	
+ROOT=$PWD
+CATKIN=$ROOT/$CATKIN_RELATIVE	
 BUILD="build"
 SRC="src"
 DEST="rviz_textured_sphere"
 DEMOLAUNCH="demo.launch"
 NEWLAUNCH="vive.launch"
 
-# Create catkin workspace directory if it does not already exist
-mkdir -p "$CATKIN"
+# Create catkin workspace subdirectories
 cd "$CATKIN"
 mkdir -p "$BUILD"
 mkdir -p "$SRC"
@@ -41,8 +40,8 @@ else
 fi
 
 # Cmake
-cd $DEST 
-cmake ..
+cd $CATKIN/$SRC/$DEST
+cmake .
 
 # Make new launch file and edit it
 cat launch/$DEMOLAUNCH > launch/$NEWLAUNCH
@@ -50,6 +49,6 @@ sed -i '$i\
     launch-prefix="${HOME}/.steam/steam/ubuntu12_32/steam-runtime/run.sh" />' launch/$NEWLAUNCH
 sed -i '5s/\/>//' launch/$NEWLAUNCH
 
-cd $CATKIN
+cd $ROOT
 
 echo "Textured Sphere Plugin installed."

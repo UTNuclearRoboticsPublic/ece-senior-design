@@ -1,25 +1,24 @@
 #!/usr/bin/env bash
 
 # Authors: John Sigmon and Daniel Diamont
-# Last modified 10/26/18
+# Last modified 11/5/18
 
 # Check that user passed in catkin workspace path
-if [ $# -eq 2 ]; 
+if [ $# -eq 1 ]; 
 then
-	CATKIN=$1
-	ROOTPATH=$2
+	CATKIN_RELATIVE=${1%/}
 else
-	echo "Usage: vive-plugin-install.sh <path to catkin workspace> \
-		<top level install directory>"
+	echo "Usage: vive-plugin-install.sh <path to catkin workspace>"
 	exit 1
 fi	
 	
+ROOT=$PWD
+CATKIN=$ROOT/$CATKIN_RELATIVE	
 BUILD="build"
 SRC="src"
 DEST="rviz_vive"
 
 # Create catkin workspace directory if it does not already exist
-mkdir -p "$CATKIN"
 cd "$CATKIN"
 mkdir -p "$BUILD"
 mkdir -p "$SRC"
@@ -33,7 +32,6 @@ else
     echo "OpenGL libglu1-mesa-dev is NOT installed! Installing now."
 	sudo apt-get libglu1-mesa-dev
 fi
-
 
 dpkg -s freeglut3-dev &> /dev/null
 
@@ -162,5 +160,7 @@ else
 	sudo apt update &> /dev/null
 	sudo apt install $DRIVER
 fi
+
+cd $ROOT
 
 echo "Rviz Vive Plugin installed."
