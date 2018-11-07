@@ -24,7 +24,7 @@ if [[ $- == *i* ]]
 then
 	echo "Launching..."
 else
-	echo "Usage: bash -i clean-install.sh <full path to catkin workspace directory>"
+	echo "Usage: bash -i clean-install.sh <Path to catkin workspace directory>"
 	exit 1
 fi
 
@@ -39,9 +39,8 @@ else
 	echo "Usage: clean-install.sh <path to catkin workspace directory>"
 	exit 1
 fi
-
 ROOT=$PWD
-CATKIN=../$CATKIN_RELATIVE
+#CATKIN=../$CATKIN_RELATIVE
 UTILS="utils"
 INSTALL="install"
 CONFIG="config"
@@ -116,7 +115,7 @@ else
 fi
 
 # Run ros-install.sh
-bash -i $ROOTPATH/$INSTALL/ros-install.sh $CATKIN
+bash -i $INSTALL/ros-install.sh ../$CATKIN_RELATIVE
 source ~/.bashrc
 
 # sudo apt-get update &> /dev/null
@@ -132,8 +131,6 @@ else
         sudo apt-get install ros-kinetic-catkin
 fi
 
-source ~/.bashrc
-
 #dpkg -s catkin &> /dev/null
 
 #if [ $? -eq 0 ]; then
@@ -145,17 +142,16 @@ source ~/.bashrc
 #
 #source ~/.bashrc
 
-cd $CATKIN
 
 # Run usb-cam-install.sh
-bash -i $ROOTPATH/$INSTALL/usb-cam-install.sh $CATKIN
+bash -i $INSTALL/usb-cam-install.sh $CATKIN_RELATIVE
 
 # Run textured-sphere-install.sh
-bash -i $ROOTPATH/$INSTALL/textured-sphere-install.sh $CATKIN
+bash -i $INSTALL/textured-sphere-install.sh $CATKIN_RELATIVE
 
 # Run vive-plugin-install.sh
-bash -i $ROOTPATH/$INSTALL/vive-plugin-install.sh $CATKIN
+bash -i $INSTALL/vive-plugin-install.sh $CATKIN_RELATIVE
+
+source /opt/ros/kinetic/setup.bash
 
 echo "Clean Install finished!"
-
-cd $CATKIN
