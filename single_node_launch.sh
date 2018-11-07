@@ -64,8 +64,8 @@ then
 	USB_CAM_LAUNCH=$CATKIN/$SRC/usb_cam/launch/double_cam.launch
 else
 	echo "Error: Need 1 or 2 cameras plugged into USB (and turned on), found ${#CAM_ARR[@]}"
-	source utils/kill_roscore.sh
-	exit 1
+	#bash kill_launch.sh
+	#exit 1
 fi
 
 # 4 Launch usb cam in its own terminal 
@@ -90,7 +90,7 @@ if [ $VERBOSE == "true" ];
 then
 	echo "Launching textured sphere in rviz"
 fi
-roslaunch rviz_textured_sphere $CATKIN/$SRC/$SPHERE/launch/$SPHERE_LAUNCH
+roslaunch rviz_textured_sphere $SPHERE_LAUNCH
 
 # 7 Point Rviz to vive plugin (?)
  
