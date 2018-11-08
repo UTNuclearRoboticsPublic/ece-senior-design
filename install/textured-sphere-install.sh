@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 # Authors: John Sigmon and Daniel Diamont
-# Last modified 10/26/18
+# Last modified 11/5/18
 
 # Purpose:
 #	This script installs the rviz_textured_sphere plugin from the 
@@ -16,14 +16,20 @@ else
 	echo "Usage: textured-sphere-install.sh <path to catkin workspace>"
 	exit 1
 fi
-	
+
+FILENAME="textured-sphere-install.sh"
+MYPATH=$(locate $FILENAME)	
+MYPATH=${MYPATH%/*}
 ROOT=$PWD
 CATKIN=$ROOT/$CATKIN_RELATIVE	
 BUILD="build"
 SRC="src"
 DEST="rviz_textured_sphere"
+INSTALL="install"
+CONFIG="config"
+LAUNCH="launch"
 DEMOLAUNCH="demo.launch"
-NEWLAUNCH="vive.launch"
+VIVELAUNCH="vive.launch"
 
 # Create catkin workspace subdirectories
 cd "$CATKIN"
@@ -43,12 +49,9 @@ fi
 cd $CATKIN/$SRC/$DEST
 cmake .
 
-# Make new launch file and edit it
-cat launch/$DEMOLAUNCH > launch/$NEWLAUNCH
-sed -i '$i\
-    launch-prefix="${HOME}/.steam/steam/ubuntu12_32/steam-runtime/run.sh" />' launch/$NEWLAUNCH
-sed -i '5s/\/>//' launch/$NEWLAUNCH
+cd $MYPATH
 
-cd $ROOT
+# Make new launch file and edit it
+cp $CONFIG/$VIVELAUNCH $CATKIN/$SRC/$DEST/$LAUNCH/$VIVELAUNCH
 
 echo "Textured Sphere Plugin installed."

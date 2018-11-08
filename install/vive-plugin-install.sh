@@ -10,13 +10,19 @@ then
 else
 	echo "Usage: vive-plugin-install.sh <path to catkin workspace>"
 	exit 1
-fi	
-	
+fi
+
+FILENAME="textured-sphere-install.sh"
+MYPATH=$(locate $FILENAME)	
+MYPATH=${MYPATH%/*}
 ROOT=$PWD
 CATKIN=$ROOT/$CATKIN_RELATIVE	
 BUILD="build"
 SRC="src"
 DEST="rviz_vive"
+INSTALL="install"
+CONFIG="config"
+LAUNCH="launch"
 
 # Create catkin workspace directory if it does not already exist
 cd "$CATKIN"
