@@ -35,12 +35,16 @@ then
 
 fi
 
+########################################################################
+# roslaunch does this on its own                                       #
+########################################################################
+
 # 1 Launch roscore (in its own terminal or background it)
-if [ $VERBOSE == "true" ];
-then 
-	echo "Launching roscore..."
-fi
-x-terminal-emulator -e roscore
+#if [ $VERBOSE == "true" ];
+#then 
+#	echo "Launching roscore..."
+#fi
+#x-terminal-emulator -e roscore
 
 # 2 Source ros enviornment script
 if [ $VERBOSE == "true" ];
@@ -64,7 +68,7 @@ then
 	USB_CAM_LAUNCH=$CATKIN/$SRC/usb_cam/launch/double_cam.launch
 else
 	echo "Error: Need 1 or 2 cameras plugged into USB (and turned on), found ${#CAM_ARR[@]}"
-	#bash kill_launch.sh
+	#bash kill_launch.sh 	# We don't want to crash the program
 	#exit 1
 fi
 
