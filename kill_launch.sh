@@ -10,3 +10,5 @@ kill $STEAM 2> /dev/null
 ROSCORE=$(ps -uf | awk '/roscore/ {print $2}')
 kill $ROSCORE 2> /dev/null
 
+LAUNCHSCRIPT=$(ps -uf | awk '/node_launch.sh/ {print $2}')
+kill -9 $LAUNCHSCRIPT 2> /dev/null
