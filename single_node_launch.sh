@@ -32,6 +32,9 @@ USB_CAM="usb_cam"
 SINGLE_CAM_LAUNCH="single-cam.launch"
 DUAL_CAM_LAUNCH="dual-cam.launch"
 
+RVIZ_CONFIG="vive_launch_config.rviz"
+RVIZ_CONFIG_FOLDER="rviz_cfg" 
+
 # Declaring usb camera finding function
 function find_cam_dev_name {
 	for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
@@ -92,13 +95,11 @@ CAM_ARR=($CAMS)
 
 if [[ ${#CAM_ARR[@]} == 1 ]];
 then 
-#    x-terminal-emulator -e roslaunch usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}"
     roslaunch usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}" &
     echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE
 
 elif [[ ${#CAM_ARR[@]} == 2 ]];
 then 
-#    x-terminal-emulator -e roslaunch usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}"
     roslaunch usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}" &
     echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE 
     echo "${CAM_ARR[1]}" >> $CATKIN/$LOGFILE 
@@ -130,5 +131,5 @@ then
 	echo "Launching textured sphere in rviz" >> $CATKIN/$LOGFILE
 fi
 roslaunch rviz_textured_sphere $SPHERE_LAUNCH
-
+#rosrun rviz rviz -d `rospack find package_name`/rviz/config_file.rviz
 # 7 Point Rviz to vive plugin (?)

@@ -23,6 +23,9 @@ DEST="rviz_vive"
 INSTALL="install"
 CONFIG="config"
 LAUNCH="launch"
+RVIZ_CONFIG="vive_launch_config.rviz"
+RVIZ_CONFIG_FOLDER="rviz_cfg" 
+
 
 # Create catkin workspace directory if it does not already exist
 cd "$CATKIN"
@@ -149,6 +152,8 @@ else
 			rviz_vive/CMakeLists.txt
 fi
 
+# Move config file to proper location 
+#cp $CONFIG/$RVIZ_CONFIG $CATKIN/$SRC/$DEST/$RVIZ_CONFIG_FOLDER/$RVIZ_CONFIG
 
 # NVIDIA Drivers
 ## install drivers if not already installed
