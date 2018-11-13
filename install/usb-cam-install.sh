@@ -17,10 +17,11 @@ else
 fi
 
 FILENAME="usb-cam-install.sh"
-MYPATH=$(locate $FILENAME)	
-MYPATH=${MYPATH%/*}
-ROOT=$PWD
-CATKIN=$ROOT/$CATKIN_RELATIVE	
+MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
+MYPATH=${MYFULLPATH%/*}
+#ROOT=$PWD
+#CATKIN=$ROOT/$CATKIN_RELATIVE	
+CATKIN=$CATKIN_RELATIVE	
 BUILD="build"
 SRC="src"
 DEST="usb_cam"
@@ -30,24 +31,23 @@ SINGLECAM="single-cam.launch"
 DUALCAM="dual-cam.launch"
 
 # Create catkin workspace subdirectories
-cd "$CATKIN"
-mkdir -p "$BUILD"
-mkdir -p "$SRC"
+#cd "$CATKIN"
+mkdir -p "$CATKIN"/"$BUILD"
+mkdir -p "$CATKIN"/"$SRC"
 
 # Setup usb_cam
-cd $SRC
-if [ ! -d "$DEST" ];
+#cd $SRC
+if [ ! -d "$CATKIN"/"$SRC"/"$DEST" ];
 then
-    git clone https://github.com/ros-drivers/usb_cam.git
+    git clone https://github.com/ros-drivers/usb_cam.git "$CATKIN"/"$SRC"/"$DEST"/
 fi
 
-cd $MYPATH
+#cd $MYPATH
 
 # Take dual-cam.launch file located in config/
 # 	and place it in usb_cam 'launch' directory
-cp $CONFIG/$SINGLECAM $CATKIN/$SRC/$DEST/$LAUNCH/$SINGLECAM
-cp $CONFIG/$DUALCAM $CATKIN/$SRC/$DEST/$LAUNCH/$DUALCAM
-
+cp $MYPATH/$CONFIG/$SINGLECAM $CATKIN/$SRC/$DEST/$LAUNCH/ #$SINGLECAM
+cp $MYPATH/$CONFIG/$DUALCAM $CATKIN/$SRC/$DEST/$LAUNCH/ #$DUALCAM
    
 #if [ ! -f "$CATKIN/$SRC/$DEST/$LAUNCH/$DUALCAM" ];
 #then

@@ -18,10 +18,11 @@ else
 fi
 
 FILENAME="textured-sphere-install.sh"
-MYPATH=$(locate $FILENAME)	
-MYPATH=${MYPATH%/*}
-ROOT=$PWD
-CATKIN=$ROOT/$CATKIN_RELATIVE	
+MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
+MYPATH=${MYFULLPATH%/*}
+#ROOT=$PWD
+#CATKIN=$ROOT/$CATKIN_RELATIVE	
+CATKIN=$CATKIN_RELATIVE	
 BUILD="build"
 SRC="src"
 DEST="rviz_textured_sphere"
@@ -30,28 +31,32 @@ CONFIG="config"
 LAUNCH="launch"
 DEMOLAUNCH="demo.launch"
 VIVELAUNCH="vive.launch"
+RVIZ_CONFIG="vive_launch_config.rviz"
+RVIZ_CONFIG_FOLDER="rviz_cfg" 
 
 # Create catkin workspace subdirectories
-cd "$CATKIN"
-mkdir -p "$BUILD"
-mkdir -p "$SRC"
+#cd "$CATKIN"
+mkdir -p "$CATKIN"/"$BUILD"
+mkdir -p "$CATKIN"/"$SRC"
 
 # Setup rviz textured sphere 
-cd $SRC
-if [ ! -d "$DEST" ];
+#cd $SRC
+if [ ! -d "$CATKIN"/"$SRC"/"$DEST" ];
 then
-    git clone https://github.com/UTNuclearRoboticsPublic/rviz_textured_sphere.git
+    git clone https://github.com/UTNuclearRoboticsPublic/rviz_textured_sphere.git "$CATKIN"/"$SRC"/"$DEST"
 else
 	echo "rviz_textured_sphere is already installed!"
 fi
 
 # Cmake
-cd $CATKIN/$SRC/$DEST
-cmake .
+#cd $CATKIN/$SRC/$DEST
+#:cmake .
 
-cd $MYPATH
+#cd $MYPATH
 
 # Make new launch file and edit it
-cp $CONFIG/$VIVELAUNCH $CATKIN/$SRC/$DEST/$LAUNCH/$VIVELAUNCH
+cp $MYPATH/$CONFIG/$VIVELAUNCH $CATKIN/$SRC/$DEST/$LAUNCH/$VIVELAUNCH
 
+# Move rviz config file to proper location
+cp $MYPATH/$CONFIG/$RVIZ_CONFIG $CATKIN/$SRC/$DEST/$RVIZ_CONFIG_FOLDER/$RVIZ_CONFIG
 echo "Textured Sphere Plugin installed."
