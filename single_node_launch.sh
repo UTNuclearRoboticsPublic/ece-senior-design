@@ -95,13 +95,11 @@ CAM_ARR=($CAMS)
 
 if [[ ${#CAM_ARR[@]} == 1 ]];
 then 
-#    x-terminal-emulator -e roslaunch usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}"
     roslaunch usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}" &
     echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE
 
 elif [[ ${#CAM_ARR[@]} == 2 ]];
 then 
-#    x-terminal-emulator -e roslaunch usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}"
     roslaunch usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}" &
     echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE 
     echo "${CAM_ARR[1]}" >> $CATKIN/$LOGFILE 
@@ -132,6 +130,5 @@ if [ $VERBOSE == "true" ];
 then
 	echo "Launching textured sphere in rviz" >> $CATKIN/$LOGFILE
 fi
-roslaunch rviz_textured_sphere $SPHERE_LAUNCH configfile:="${RVIZ_CONFIG_FILE}"
 
-# 7 Point Rviz to vive plugin (?)
+roslaunch rviz_textured_sphere $SPHERE_LAUNCH configfile:="${RVIZ_CONFIG_FILE}"

@@ -45,7 +45,7 @@ if [ ! -d "$CATKIN"/"$SRC"/"$DEST" ];
 then
     git clone https://github.com/UTNuclearRoboticsPublic/rviz_textured_sphere.git "$CATKIN"/"$SRC"/"$DEST"
 else
-	echo "rviz_textured_sphere is already installed!"
+	  echo "rviz_textured_sphere is already installed!"
 fi
 
 # Cmake
@@ -59,4 +59,5 @@ cp $MYPATH/$CONFIG/$VIVELAUNCH $CATKIN/$SRC/$DEST/$LAUNCH/$VIVELAUNCH
 
 # Move rviz config file to proper location
 cp $MYPATH/$CONFIG/$RVIZ_CONFIG $CATKIN/$SRC/$DEST/$RVIZ_CONFIG_FOLDER/$RVIZ_CONFIG
+
 echo "Textured Sphere Plugin installed."
