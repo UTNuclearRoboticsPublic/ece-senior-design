@@ -27,13 +27,13 @@ SRC="src"
 LAUNCH="launch"
 
 SPHERE="rviz_textured_sphere"
-SPHERE_LAUNCH="vive.launch"
+SPHERE_LAUNCH="demo.launch"
 USB_CAM="usb_cam"
 SINGLE_CAM_LAUNCH="single-cam.launch"
 DUAL_CAM_LAUNCH="dual-cam.launch"
 
-RVIZ_CONFIG="vive_launch_config.rviz"
-RVIZ_CONFIG_FOLDER="rviz_cfg" 
+RVIZ_CONFIG_FILE="rviz_textured_sphere.rviz"
+RVIZ_CONFIG="rviz_cfg"
 
 # Declaring usb camera finding function
 function find_cam_dev_name {
@@ -130,6 +130,5 @@ if [ $VERBOSE == "true" ];
 then
 	echo "Launching textured sphere in rviz" >> $CATKIN/$LOGFILE
 fi
-roslaunch rviz_textured_sphere $SPHERE_LAUNCH
-#rosrun rviz rviz -d `rospack find package_name`/rviz/config_file.rviz
-# 7 Point Rviz to vive plugin (?)
+
+roslaunch rviz_textured_sphere $SPHERE_LAUNCH configfile:="${RVIZ_CONFIG_FILE}"

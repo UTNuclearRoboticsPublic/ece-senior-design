@@ -12,25 +12,25 @@ else
 	exit 1
 fi
 
-FILENAME="textured-sphere-install.sh"
-MYPATH=$(locate $FILENAME)	
-MYPATH=${MYPATH%/*}
-ROOT=$PWD
-CATKIN=$ROOT/$CATKIN_RELATIVE	
+FILENAME="vive-plugin-install.sh"
+MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
+MYPATH=${MYFULLPATH%/*}
+#ROOT=$PWD
+#CATKIN=$ROOT/$CATKIN_RELATIVE	
+CATKIN=$CATKIN_RELATIVE	
 BUILD="build"
 SRC="src"
 DEST="rviz_vive"
 INSTALL="install"
 CONFIG="config"
 LAUNCH="launch"
-RVIZ_CONFIG="vive_launch_config.rviz"
-RVIZ_CONFIG_FOLDER="rviz_cfg" 
-
+RVIZ_CONFIG_FILE="vive_launch_config.rviz"
+RVIZ_CONFIG="rviz_cfg" 
 
 # Create catkin workspace directory if it does not already exist
-cd "$CATKIN"
-mkdir -p "$BUILD"
-mkdir -p "$SRC"
+#cd "$CATKIN"
+mkdir -p "$CATKIN"/"$BUILD"
+mkdir -p "$CATKIN"/"$SRC"
 
 # Install OpenGL if not already installed
 dpkg -s libglu1-mesa-dev &> /dev/null
@@ -73,7 +73,6 @@ else
 fi
 
 sudo cp /usr/include/OGRE/RenderSystems/GL/GL/* /usr/include/OGRE/RenderSystems/GL/
-
 sudo cp /usr/include/OGRE/RenderSystems/GL/GL/* /usr/include/GL/
 
 # Install Steam
@@ -120,11 +119,11 @@ fi
 # sudo apt-get install g++-4.9
 
 # OpenVR Install
-cd $SRC
-## install OpenVR repo if directory 'openvr' does not exist
-if [ ! -d "openvr" ]; then
+#cd $SRC
+# Install OpenVR repo if directory 'openvr' does not exist
+if [ ! -d "$CATKIN"/"$SRC"/"openvr" ]; then
 	echo "OpenVR repo does not exist. Pulling OpenVR repository!" 
-	git clone https://github.com/ValveSoftware/openvr.git
+	git clone https://github.com/ValveSoftware/openvr.git $CATKIN/$SRC/"openvr"
 else
 	echo "OpenVR repo already exists!"
 fi
@@ -140,20 +139,20 @@ fi
 
 # Vive Plugin Install
 ## install rviz_vive plugin repo if directory 'rviz_vive' does not exist
-if [ ! -d "rviz_vive" ]; then
+if [ ! -d "$CATKIN"/"$SRC"/"$DEST" ]; then
 	echo "rviz_vive plugin repo does not exist. Pulling rviz_vive repository!"
-	git clone https://github.com/AndreGilerson/rviz_vive.git
-	sed -i "30s|.*|set(OPENVR \"${CATKIN}\/${SRC}\/openvr\")|" \
-			rviz_vive/CMakeLists.txt
+	git clone https://github.com/AndreGilerson/rviz_vive.git "$CATKIN"/"$SRC"/"$DEST"/
+	sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
+			"$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
 else
 	echo "rviz_vive plugin repo already exists!"
 	# in case it was already downloaded but the path was not replaced...
-	sed -i "30s|.*|set(OPENVR \"${CATKIN}\/${SRC}\/openvr\")|" \
-			rviz_vive/CMakeLists.txt
+	sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
+			"$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
 fi
 
 # Move config file to proper location 
-#cp $CONFIG/$RVIZ_CONFIG $CATKIN/$SRC/$DEST/$RVIZ_CONFIG_FOLDER/$RVIZ_CONFIG
+#cp $MYPATH/$CONFIG/$RVIZ_CONFIG_FILE $CATKIN/$SRC/$DEST/$RVIZ_CONFIG/$RVIZ_CONFIG_FILE
 
 # NVIDIA Drivers
 ## install drivers if not already installed
@@ -172,6 +171,6 @@ else
 	sudo apt install $DRIVER
 fi
 
-cd $ROOT
+#cd $ROOT
 
 echo "Rviz Vive Plugin installed."
