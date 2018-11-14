@@ -15,7 +15,7 @@ fi
 FILENAME="vive-plugin-install.sh"
 MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
 MYPATH=${MYFULLPATH%/*}
-#ROOT=$PWD
+ROOT=$PWD
 #CATKIN=$ROOT/$CATKIN_RELATIVE	
 CATKIN=$CATKIN_RELATIVE	
 BUILD="build"
