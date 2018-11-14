@@ -141,7 +141,7 @@ fi
 ## install rviz_vive plugin repo if directory 'rviz_vive' does not exist
 if [ ! -d "$CATKIN"/"$SRC"/"$DEST" ]; then
 	echo "rviz_vive plugin repo does not exist. Pulling rviz_vive repository!"
-	git clone https://github.com/AndreGilerson/rviz_vive.git "$CATKIN"/"$SRC"/"$DEST"/
+	git clone https://github.com/btandersen383/rviz_vive "$CATKIN"/"$SRC"/"$DEST"/
 	sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
 			"$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
 else

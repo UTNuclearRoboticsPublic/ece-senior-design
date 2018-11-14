@@ -82,6 +82,14 @@ else
 	sudo apt-get install python-empy
 fi
 
+dpkg -s v4l-utils &> /dev/null
+if [ $? -eq 0 ]; then
+    echo "v4l-utils is already installed!"
+else
+    echo "v4l-utils is NOT installed. Installing now!"
+	sudo apt-get install v4l-utils
+fi
+
 dpkg -s python-nose &> /dev/null
 if [ $? -eq 0 ]; then
     echo "python-nose is already installed!"
