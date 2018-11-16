@@ -27,7 +27,7 @@ SRC="src"
 LAUNCH="launch"
 
 SPHERE="rviz_textured_sphere"
-SPHERE_LAUNCH="demo.launch"
+SPHERE_LAUNCH="vive.launch"
 USB_CAM="usb_cam"
 SINGLE_CAM_LAUNCH="single-cam.launch"
 DUAL_CAM_LAUNCH="dual-cam.launch"
@@ -70,19 +70,19 @@ fi
 # roslaunch does this on its own                                       #
 ########################################################################
 
-# 1 Launch roscore (in its own terminal or background it)
-#if [ $VERBOSE == "true" ];
-#then 
-#	echo "Launching roscore..."
-#fi
-#x-terminal-emulator -e roscore
-
-# 2 Source ros enviornment script
+# 1 Source ros enviornment script
 if [ $VERBOSE == "true" ];
 then 
 	echo -e "Configuring ros environment" >> $CATKIN/$LOGFILE
 fi
 source $CATKIN/devel/setup.bash
+
+# 2 Launch roscore (in its own terminal or background it)
+if [ $VERBOSE == "true" ];
+then 
+	echo "Launching roscore..."
+fi
+x-terminal-emulator -e roscore
 
 # 3 Configure cameras (find device numbers and edit launch files)
 if [ $VERBOSE == "true" ];
@@ -93,14 +93,17 @@ fi
 CAMS=$(find_cam_dev_name);
 CAM_ARR=($CAMS)
 
+# THIS ONLY WORKS FOR KODAK USB CAMERAS
 if [[ ${#CAM_ARR[@]} == 1 ]];
 then 
-    roslaunch usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}" &
+    echo "Starting camera..."
+    roslaunch --wait usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}" &
     echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE
 
 elif [[ ${#CAM_ARR[@]} == 2 ]];
-then 
-    roslaunch usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}" &
+then
+    echo "Starting cameras..."
+    roslaunch --wait usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}" &
     echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE 
     echo "${CAM_ARR[1]}" >> $CATKIN/$LOGFILE 
 
@@ -122,7 +125,7 @@ then
 	echo "Launching SteamVR..." >> $CATKIN/$LOGFILE
 fi
 
-x-terminal-emulator -e steam steam://run/250820 &> /dev/null
+#x-terminal-emulator -e steam steam://run/250820 &> /dev/null
 # or could be: x-terminal-emulator -e /path/to/steam/Steam.exe -applaunch 250820
 
 # 6 Launch textured sphere / Rviz
@@ -131,4 +134,4 @@ then
 	echo "Launching textured sphere in rviz" >> $CATKIN/$LOGFILE
 fi
 
-roslaunch rviz_textured_sphere $SPHERE_LAUNCH configfile:="${RVIZ_CONFIG_FILE}"
+roslaunch --wait rviz_textured_sphere $SPHERE_LAUNCH #configfile:="${RVIZ_CONFIG_FILE}"
