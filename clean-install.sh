@@ -47,136 +47,116 @@ timestamp() {
       date +"%T"
 }
 
-LOGFILE="log$(timestamp).txt"
 MYFILENAME="clean-install.sh"
+LOGFILE="log$(timestamp)"$MYFILENAME".txt"
 UTILS="utils"
 INSTALL="install"
 CONFIG="config"
 
-# Set up log
-
-
-# Install git if not already installed
-
+#####################################################################
+# Install dependencies
+#####################################################################
 dpkg -s git &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] git is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] git is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing git."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing git." >> $LOGFILE
     sudo apt-get install git &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed git."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed git." >> $LOGFILE
 fi
 
-# Install dependencies if not already installed
 dpkg -s python-catkin-pkg &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] python-catkin-pkg is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] python-catkin-pkg is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing python-catkin-pkg."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing python-catkin-pkg." >> $LOGFILE
 	sudo apt-get install python-catkin-pkg &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed python-catkin-pkg."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed python-catkin-pkg." >> $LOGFILE
 fi
 
 dpkg -s cmake &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] cmake is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] cmake is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing cmake."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing cmake." >> $LOGFILE
 	sudo apt-get install cmake &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed cmake."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed cmake." >> $LOGFILE
 fi
 
 dpkg -s python-empy &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] python-empy is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] python-empy is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing python-empy."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing python-empy." >> $LOGFILE
 	sudo apt-get install python-empy &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed python-empy."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed python-empy." >> $LOGFILE
 fi
 
 dpkg -s v4l-utils &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] v4l-utils is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] v4l-utils is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing v4l-utils."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing v4l-utils." >> $LOGFILE
 	sudo apt-get install v4l-utils &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed v4l-utils."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed v4l-utils." >> $LOGFILE
 fi
 
 dpkg -s python-nose &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] python-nose is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] python-nose is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing python-nose."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing python-nose." >> $LOGFILE
 	sudo apt-get install python-nose &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed python-nose."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed python-nose." >> $LOGFILE
 fi
 
 dpkg -s python-setuptools &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] python-setuptools is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] python-setuptools is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing python-setuptools."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing python-setuptools." >> $LOGFILE
 	sudo apt-get install python-setuptools &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed python-setuptools."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed python-setuptools." >> $LOGFILE
 fi
 
 dpkg -s libgtest-dev &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] libgtest-dev is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] libgtest-dev is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing libgtest-dev."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing libgtest-dev." >> $LOGFILE
 	sudo apt-get install libgtest-dev &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed libgtest-dev."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed libgtest-dev." >> $LOGFILE
 fi
 
 dpkg -s build-essential &> /dev/null
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] build-essential is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] build-essential is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing build-essential."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing build-essential." >> $LOGFILE
 	sudo apt-get install build-essential &&
-    echo "[INFO: $MYFILENAME $LINENO ] Installed build-essential."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed build-essential." >> $LOGFILE
 fi
 
-# Run ros-install.sh
+#####################################################################
+# Install ROS-Kinetic
+#####################################################################
 bash -i $INSTALL/ros-install.sh ../$CATKIN_RELATIVE
-#source ~/.bashrc NECESSARY?
-
-# Install catkin if not already installed
 
 dpkg -s ros-kinetic-catkin &> /dev/null
-
 if [ $? -eq 0 ]; then
-    echo "[INFO: $MYFILENAME $LINENO ] ros-kinetic-catkin is already installed, skipping installation."
+    echo "[INFO: $MYFILENAME $LINENO ] ros-kinetic-catkin is already installed, skipping installation." >> $LOGFILE
 else
-    echo "[INFO: $MYFILENAME $LINENO ] Installing ros-kinetic-catkin."
+    echo "[INFO: $MYFILENAME $LINENO ] Installing ros-kinetic-catkin." >> $LOGFILE
     sudo apt-get install ros-kinetic-catkin
-    echo "[INFO: $MYFILENAME $LINENO ] Installed ros-kinetic-catkin."
+    echo "[INFO: $MYFILENAME $LINENO ] Installed ros-kinetic-catkin." >> $LOGFILE
 fi
 
-#dpkg -s catkin &> /dev/null
-
-#if [ $? -eq 0 ]; then
-#    echo "catkin is already installed!"
-#else
-#    echo "catkin is NOT installed. Installing catkin now!"
-#        sudo apt install catkin
-#fi
-#
-#source ~/.bashrc
-
-
-# Run usb-cam-install.sh
-bash -i $INSTALL/usb-cam-install.sh $CATKIN_RELATIVE
-
-# Run textured-sphere-install.sh
-bash -i $INSTALL/textured-sphere-install.sh $CATKIN_RELATIVE
-
-# Run vive-plugin-install.sh
-bash -i $INSTALL/vive-plugin-install.sh $CATKIN_RELATIVE
+#####################################################################
+# Install USB cam, stitching plug-in, and Vive plug-in
+#####################################################################
+bash -i $INSTALL/usb-cam-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $INSTALL/textured-sphere-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $INSTALL/vive-plugin-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
 
 source /opt/ros/kinetic/setup.bash
-
-echo "Clean Install finished!"
+echo "[INFO: $MYFILENAME $LINENO ] Install finished." >> $LOGFILE
