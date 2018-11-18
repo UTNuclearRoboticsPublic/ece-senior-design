@@ -1,3 +1,5 @@
+#!/usr/bin-env bash
+#
 # Author: Daniel Diamont
 # Modifications: John Sigmon
 
