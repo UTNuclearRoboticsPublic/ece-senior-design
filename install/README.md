@@ -49,8 +49,10 @@ $ bash usb-cam-install.sh <relative/pathto/catkin-ws>
 ```
 
 ## Vive Plugin Install
-To install the Vive Display plugin and dependencies: TODO
+To install the Vive Display plugin and dependencies: libglu1-mesa-dev, freeglut3-dev, mesa-common-dev, libogre-1.9-dev, steam, and nvidia driver.
 
 ```bash
 $ bash vive-plugin-install.sh <relative/pathto/catkin-ws>
 ```
+
+Once steam is installed, register/login to your account. Plug the HTC Vive into your computer and steam will automatically prompt you to install steamVR.
