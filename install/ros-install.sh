@@ -1,8 +1,8 @@
 #!/usr/bin-env bash
-
+#
 # Authors: Daniel Diamont and John Sigmon
 # Last Modified: 11-18-2018
-
+#
 # Purpose:
 # 	This script installs the following packages if they are not already installed:
 #		* ros-kinetic-desktop-full
@@ -19,6 +19,12 @@ do
 key="$1"
 
 case $key in
+  -h|--help)
+  echo "Usage: ros-install.sh [-l|--logfile logfile]"
+	exit 1
+  shift # past argument
+  shift # past value
+  ;;
     -l|--logfile)
     LOGFILE="$2"
     shift # past argument
@@ -26,8 +32,6 @@ case $key in
     ;;
 esac
 done
-
-#TODO print usage
 
 #####################################################################
 # Configure log
@@ -57,11 +61,9 @@ if [ $? -eq 0 ]; then
 else
 	echo "[INFO: $MYFILENAME $LINENO] Installing ." >> $LOGFILE
     sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
-
 	sudo apt-key adv \
   		--keyserver hkp://ha.pool.sks-keyservers.net:80 \
   		--recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-
     echo "[INFO: $MYFILENAME $LINENO] Updating package lists with 'apt-get update'." >> $LOGFILE
 	sudo apt-get update &> /dev/null
     echo "[INFO: $MYFILENAME $LINENO] Apt-get successful." >> $LOGFILE

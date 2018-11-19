@@ -11,7 +11,7 @@
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: usb-cam-install.sh <path to catkin workspace>"
+	echo "Usage: usb-cam-install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -85,8 +85,8 @@ if [ ! -f "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$SINGLECAM" ];
 then
 	echo "[INFO: $MYFILENAME $LINENO] Copying "$SINGLECAM" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$SINGLECAM"" >> $LOGFILE
     cp $MYPATH/$CONFIG/$SINGLECAM $CATKIN/$SRC/$DEST/$LAUNCH/
-	if [[ $? != 0 ]]; 
-    then 
+	if [[ $? != 0 ]];
+    then
         echo "[INFO: $MYFILENAME $LINENO] Copy "$SINGLECAM" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$SINGLECAM" failed." >> $LOGFILE
     fi
 else
@@ -97,8 +97,8 @@ if [ ! -f "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$DUALCAM" ];
 then
 	echo "[INFO: $MYFILENAME $LINENO] Copying "$DUALCAM" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$DUALCAM"" >> $LOGFILE
     cp $MYPATH/$CONFIG/$DUALCAM $CATKIN/$SRC/$DEST/$LAUNCH/
-	if [[ $? != 0 ]]; 
-    then 
+	if [[ $? != 0 ]];
+    then
         echo "[INFO: $MYFILENAME $LINENO] Copy "$DUALCAM" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$DUALCAM" failed." >> $LOGFILE
     fi
 else

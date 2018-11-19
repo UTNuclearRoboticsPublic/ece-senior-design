@@ -10,7 +10,7 @@
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: vive-plugin-install.sh <path to catkin workspace>"
+	echo "Usage: vive-plugin-install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -48,6 +48,7 @@ MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
 #MYFULLPATH=$(locate $MYFILENAME)	# Finds all copies of this file!!!!!!!
 MYPATH=${MYFULLPATH%/*}
 
+ROOT=$PWD
 BUILD="build"
 SRC="src"
 DEST="rviz_vive"
