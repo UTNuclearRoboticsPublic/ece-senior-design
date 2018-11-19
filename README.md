@@ -31,52 +31,6 @@ Clone the repository.
 $ git clone https://github.com/UTNuclearRoboticsPublic/ece-senior-design.git
 ```
 
-<p>
-Navigate into the cloned repository.
-</p>
-
-```bash
-$ cd ece-senior-design
-```
-
-<p>
-Set up a python virtual environment. 
-(There are several ways to do this, my favorite is below)
-</p>
-
-```bash
-$ virtualenv -p python3 .env
-```
-
-This sets up the environment under the name `.env` which is not descriptive, but keeps me from having to remember how to activate all my different environments. Feel free to install the environment under whatever name you wish, so long as you add the environment name to the .gitignore file in the appropriate place.
-
-<p>
-Next activate the environment, and install all the python dependencies via the requirements file. When the environment is active it will display to the left of the prompt, as shown below.
-</p>
-
-```bash
-$ source .env/bin/activate
-(.env) $ pip install -r requirements
-```
-
-<p> 
-If you install additional libraries, please update the requirements and add the modified file to your commit.
-</p>
-
-```bash
-$ cd /<ROOT_PATH>/ece-senior-design
-$ pip freeze > requirements
-```
-
-<p>
-When finished with the repository or environment, you can deactivate it with the simple command deactivate.
-</p>
-
-```bash
-(.env) $ deactivate
-$ 
-```
-
 ## Installation of subdirectory components
 Please see the readme in the appropriate directory for further installation instructions.
 
@@ -93,6 +47,7 @@ This returns a link to a localhost address where you can view the rendered markd
 # Contents
 
 The repository is set up as follows:
+TODO fix me
 
 ```
 +-- ece-senior-design
