@@ -1,176 +1,216 @@
 #!/usr/bin/env bash
-
+#
 # Authors: John Sigmon and Daniel Diamont
-# Last modified 11/5/18
+# Last modified 11-18-18
+# Purpose:
+# This script installs the OSS plug-in for the Vive headset and SteamVR
 
-# Check that user passed in catkin workspace path
-if [ $# -eq 1 ]; 
+#####################################################################
+# Parse args
+#####################################################################
+if [ $# -lt 2 ];
 then
-	CATKIN_RELATIVE=${1%/}
-else
 	echo "Usage: vive-plugin-install.sh <path to catkin workspace>"
 	exit 1
 fi
 
-FILENAME="vive-plugin-install.sh"
-MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -c|--catkin)
+    CATKIN=${2%/} # strip trailing slash
+    shift # past argument
+    shift # past value
+    ;;
+    -l|--logfile)
+    LOGFILE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+esac
+done
+
+#####################################################################
+# Configure log and vars
+#####################################################################
+timestamp() {
+    date +"%T"
+}
+MYFILENAME="vive-plugin-install.sh"
+if [[ -z "$LOGFILE" ]];
+then
+    LOGFILE="log$(timestamp)"$MYFILENAME".txt"
+fi
+
+MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
+#MYFULLPATH=$(locate $MYFILENAME)	# Finds all copies of this file!!!!!!!
 MYPATH=${MYFULLPATH%/*}
-ROOT=$PWD
-#CATKIN=$ROOT/$CATKIN_RELATIVE	
-CATKIN=$CATKIN_RELATIVE	
+
 BUILD="build"
 SRC="src"
 DEST="rviz_vive"
 INSTALL="install"
 CONFIG="config"
 LAUNCH="launch"
-RVIZ_CONFIG_FILE="vive_launch_config.rviz"
-RVIZ_CONFIG="rviz_cfg" 
+OGREFILES="/usr/include/OGRE/RenderSystems/GL/GL/*"
+OGREDEST1="/usr/include/OGRE/RenderSystems/GL/"
+OGREDEST2="/usr/include/GL/"
+#RVIZ_CONFIG_FILE="vive_launch_config.rviz"
+#RVIZ_CONFIG="rviz_cfg"
 
-# Create catkin workspace directory if it does not already exist
-#cd "$CATKIN"
-mkdir -p "$CATKIN"/"$BUILD"
-mkdir -p "$CATKIN"/"$SRC"
+#####################################################################
+# Make Catkin dirs if not there
+#####################################################################
+if [ ! -d "$CATKIN"/"$BUILD" ];
+then
+	echo "[INFO: $MYFILENAME $LINENO] Making "$BUILD" dir in catkin workspace at "$CATKIN"" >> $LOGFILE
+    mkdir -p "$CATKIN"/"$BUILD"
+fi
 
-# Install OpenGL if not already installed
+if [ ! -d "$CATKIN"/"$SRC" ];
+then
+	echo "[INFO: $MYFILENAME $LINENO] Making "$SRC" dir in catkin workspace at "$CATKIN"" >> $LOGFILE
+    mkdir -p "$CATKIN"/"$SRC"
+fi
+
+#####################################################################
+# Install dependencies
+#####################################################################
 dpkg -s libglu1-mesa-dev &> /dev/null
-
 if [ $? -eq 0 ]; then
-    echo "OpenGL libglu1-mesa-dev is already installed!"
+    echo "[INFO: $MYFILENAME $LINENO] libglu1-mesa-dev is already installed, skipping installation." >> $LOGFILE
 else
-    echo "OpenGL libglu1-mesa-dev is NOT installed! Installing now."
-	sudo apt-get libglu1-mesa-dev
+    echo "[INFO: $MYFILENAME $LINENO] Installing libglu1-mesa-dev." >> $LOGFILE
+    sudo apt-get libglu1-mesa-dev &&
+    echo "[INFO: $MYFILENAME $LINENO] Installed libglu1-mesa-dev." >> $LOGFILE
 fi
 
 dpkg -s freeglut3-dev &> /dev/null
-
 if [ $? -eq 0 ]; then
-    echo "OpenGL freeglut3-dev ibglu1-mesa-dev is already installed!"
+    echo "[INFO: $MYFILENAME $LINENO] freeglut3-dev is already installed, skipping installation." >> $LOGFILE
 else
-    echo "OpenGL freeglut3-dev ibglu1-mesa-dev is NOT installed! Installing now."
-	sudo apt-get freeglut3-dev
+    echo "[INFO: $MYFILENAME $LINENO] Installing freeglut3-dev." >> $LOGFILE
+    sudo apt-get freeglut3-dev &&
+    echo "[INFO: $MYFILENAME $LINENO] Installed freeglut3-dev." >> $LOGFILE
 fi
 
-	
 dpkg -s mesa-common-dev &> /dev/null
-
 if [ $? -eq 0 ]; then
-    echo "mesa-common-dev is already installed!"
+    echo "[INFO: $MYFILENAME $LINENO] mesa-common-dev is already installed, skipping installation." >> $LOGFILE
 else
-    echo "OpenGL mesa-common-dev is NOT installed! Installing now."
-	sudo apt-get mesa-common-dev
+    echo "[INFO: $MYFILENAME $LINENO] Installing mesa-common-dev." >> $LOGFILE
+    sudo apt-get mesa-common-dev &&
+    echo "[INFO: $MYFILENAME $LINENO] Installed mesa-common-dev." >> $LOGFILE
 fi
 
-# Install OGRE
-## check if installed
 dpkg -s libogre-1.9-dev &> /dev/null
-
 if [ $? -eq 0 ]; then
-    echo "OGRE is already installed!"
+    echo "[INFO: $MYFILENAME $LINENO] libogre-1.9-dev is already installed, skipping installation." >> $LOGFILE
 else
-    echo "OGRE  is NOT installed!"
-	sudo apt-get install libogre-1.9-dev
+    echo "[INFO: $MYFILENAME $LINENO] Installing libogre-1.9-dev." >> $LOGFILE
+    sudo apt-get libogre-1.9-dev &&
+    echo "[INFO: $MYFILENAME $LINENO] Installed libogre-1.9-dev." >> $LOGFILE
 fi
 
-sudo cp /usr/include/OGRE/RenderSystems/GL/GL/* /usr/include/OGRE/RenderSystems/GL/
-sudo cp /usr/include/OGRE/RenderSystems/GL/GL/* /usr/include/GL/
+echo "[INFO: $MYFILENAME $LINENO] Copying "$OGREFILES" to "$OGREDEST1"" >> $LOGFILE
+sudo cp $OGREFILES $OGREDEST1
+if [[ $? != 0 ]];
+then
+    echo "[INFO: $MYFILENAME $LINENO] Copy "$OGREFILES" to "$OGREDEST1" failed" >> $LOGFILE
+fi
 
+echo "[INFO: $MYFILENAME $LINENO] Copying "$OGREFILES" to "$OGREDEST2"" >> $LOGFILE
+sudo cp $OGREFILES $OGREDEST2
+if [[ $? != 0 ]];
+then
+    echo "[INFO: $MYFILENAME $LINENO] Copy "$OGREFILES" to "$OGREDEST1" failed" >> $LOGFILE
+fi
+
+#####################################################################
 # Install Steam
-## check if steam is installed
+#####################################################################
 dpkg -s steam &> /dev/null
-
-if [ $? -eq 0 ]; then
-    echo "Steam is already installed!"
+if [ $? -eq 0 ];
+then
+    echo "[INFO: $MYFILENAME $LINENO] Steam is already installed, skipping installation." >> $LOGFILE
 else
-    echo "Steam is NOT installed. Installing now!"
-#	sudo apt-key adv \
-#  		--keyserver keyserver.ubuntu.com \
-#  		--recv-keys F24AEA9FB05498B7
-#	REPO="deb http://repo.steampowered.com/steam/ $(lsb_release -cs) steam"
-#	echo "${REPO}" > /tmp/steam.list
-#	sudo mv /tmp/steam.list /etc/apt/sources.list.d/ && sudo apt-get update
-#	sudo apt-get install -y steam
-
-#	# Steam Installer is broken... these are the steps that the installer tries to do
-#	mv ~/.steam/steam/* ~/.local/share/Steam/
-#	rmdir ~/.steam/steam
-#	ln -s ../.local/share/Steam ~/.steam/steam
-#	rm -rf ~/.steam/bin
-	
-	# Easier way to install steam
+	echo "[INFO: $MYFILENAME $LINENO] Updating package lists with 'apt-get update'." >> $LOGFILE
 	sudo add-apt-repository multiverse
-	echo " "
-	echo " Updating package lists with 'apt-get update'. Please wait..."
 	sudo apt update &> /dev/null
+    echo "[INFO: $MYFILENAME $LINENO] Installing Steam." >> $LOGFILE
 	sudo apt install steam
-	echo " "
-	echo "Steam will now update itself in the background"
-	echo " "
+	echo "[INFO: $MYFILENAME $LINENO] Steam is installed and being pushed to the background to update." >> $LOGFILE
 	bash steam &> /dev/null &
 	disown
 fi
 
-
-# do not know if we need this...
-#export QT_SELECT=5
-
-# also don't know if we need this (maybe for running OpenVR samples??)
-# Install g++ version 4.9
-# sudo apt-get install g++-4.9
-
-# OpenVR Install
-#cd $SRC
-# Install OpenVR repo if directory 'openvr' does not exist
-if [ ! -d "$CATKIN"/"$SRC"/"openvr" ]; then
-	echo "OpenVR repo does not exist. Pulling OpenVR repository!" 
-	git clone https://github.com/ValveSoftware/openvr.git $CATKIN/$SRC/"openvr"
+#####################################################################
+# Install OpenVR
+#####################################################################
+if [ ! -d "$CATKIN"/"$SRC"/"openvr" ];
+then
+	echo "[INFO: $MYFILENAME $LINENO] Cannot find OpenVR in "$CATKIN"/"$SRC". Cloning now." >> $LOGFILE
+	git clone https://github.com/ValveSoftware/openvr.git "$CATKIN"/"$SRC"/"openvr" &&
+	echo "[INFO: $MYFILENAME $LINENO] OpenVR cloned to "$CATKIN"/"$SRC"/openvr." >> $LOGFILE
 else
-	echo "OpenVR repo already exists!"
+    echo "[INFO: $MYFILENAME $LINENO] OpenVR is already cloned, skipping installation." >> $LOGFILE
 fi
 
-# Don't know if we need this (also for maybe running openvr samples
-# Andre Gilerson said he never had to rebuild openVR binaries... just use included
-#cd openvr/samples/
-#mkdir build
-#cd build
-#cmake ..
-#CXX=g++-4.9 cmake ../
-#make
+echo "[INFO: $MYFILENAME $LINENO] Attemting to make OpenVR." >> $LOGFILE
+cd "$CATKIN"/"$SRC"/openvr
+cmake . 2> $LOGFILE
+if [[ $? != 0 ]];
+then
+    echo "[INFO: $MYFILENAME $LINENO] Command 'cmake .' in "$(`pwd`)" failed." >> $LOGFILE
+fi
+make 2> $LOGFILE
+if [[ $? != 0 ]];
+then
+    echo "[INFO: $MYFILENAME $LINENO] Command 'make' in "$(`pwd`)" failed." >> $LOGFILE
+fi
+cd -
 
-# Vive Plugin Install
-## install rviz_vive plugin repo if directory 'rviz_vive' does not exist
-if [ ! -d "$CATKIN"/"$SRC"/"$DEST" ]; then
-	echo "rviz_vive plugin repo does not exist. Pulling rviz_vive repository!"
-	git clone https://github.com/btandersen383/rviz_vive "$CATKIN"/"$SRC"/"$DEST"/
+#####################################################################
+# Install Vive Plug-in
+#####################################################################
+if [ ! -d "$CATKIN"/"$SRC"/"$DEST" ];
+then
+    echo "[INFO: $MYFILENAME $LINENO] Cannot find $DEST in "$CATKIN"/"$SRC". Cloning now." >> $LOGFILE
+    git clone https://github.com/btandersen383/rviz_vive "$CATKIN"/"$SRC"/"$DEST"/
+    echo "[INFO: $MYFILENAME $LINENO] "$DEST" cloned to "$CATKIN"/"$SRC"/"$DEST"" >> $LOGFILE
+    LINETOEDIT=30
+    CMAKELISTS="$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
+    LINEBEFORE=$(head -"$LINETOEDIT" "$CMAKELISTS" | tail -1)
 	sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
-			"$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
+			$CMAKELISTS
+    LINEAFTER=$(head -"$LINETOEDIT" "$CMAKELISTS" | tail -1)
+    echo "[INFO: $MYFILENAME $LINENO] "$CMAKELISTS" for "$DEST" edited. Line "$LINETOEDIT" changed from \
+            "$LINEBEFORE" to "$LINEAFTER"">> $LOGFILE
 else
-	echo "rviz_vive plugin repo already exists!"
-	# in case it was already downloaded but the path was not replaced...
-	sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
-			"$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
+	echo "[INFO: $MYFILENAME $LINENO] Vive plug-in is already cloned, skipping installation." >> $LOGFILE
+	#sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
+#			"$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
 fi
 
-# Move config file to proper location 
+# TODO
+# Move config file to proper location
 #cp $MYPATH/$CONFIG/$RVIZ_CONFIG_FILE $CATKIN/$SRC/$DEST/$RVIZ_CONFIG/$RVIZ_CONFIG_FILE
 
-# NVIDIA Drivers
-## install drivers if not already installed
-
+#####################################################################
+# Install Nvidia Drivers
+#####################################################################
 DRIVER=$(sudo ubuntu-drivers devices | grep "recommended" | awk '{print $3}')
-
 dpkg -s $DRIVER &> /dev/null
-
 if [ $? -eq 0 ]; then
-    echo "Proper NVIDIA graphics card drivers are already installed!"
+    echo "[INFO: $MYFILENAME $LINENO] The recommended graphics drivers ("$DRIVER") \
+		are already installed." >> $LOGFILE
 else
-    echo "NVIDIA graphics card drivers are NOT installed! Installing now."
+	echo "[INFO: $MYFILENAME $LINENO] Updating package lists with 'apt-get update'." >> $LOGFILE
 	sudo add-apt-repository ppa:graphics-drivers/ppa
-	echo " Updating package lists with 'apt-get update'. Please wait..."
-	sudo apt update &> /dev/null
-	sudo apt install $DRIVER
+    sudo apt update &> /dev/null
+	echo "[INFO: $MYFILENAME $LINENO] Installing "$DRIVER"" >> $LOGFILE
+	sudo apt install $DRIVER &&
+	echo "[INFO: $MYFILENAME $LINENO] Installed "$DRIVER"" >> $LOGFILE
 fi
-
-#cd $ROOT
-
-echo "Rviz Vive Plugin installed."
