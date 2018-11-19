@@ -157,7 +157,7 @@ fi
 # Install USB cam, stitching plug-in, and Vive plug-in
 #####################################################################
 bash -i $INSTALL/usb-cam-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
-bash -i $INSTALL/textured-sphere-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $INSTALL/rviz-textured-sphere-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
 bash -i $INSTALL/vive-plugin-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
 
 source /opt/ros/kinetic/setup.bash
