@@ -1,3 +1,5 @@
+#This README is no longer the primary installation method. Navigate to the install folder.
+
 # Rviz and Vive Installation
 
 ## Introduction

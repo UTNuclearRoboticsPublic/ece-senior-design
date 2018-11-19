@@ -72,7 +72,7 @@ Clone the repository.
 $ git clone https://github.com/UTNuclearRoboticsPublic/ece-senior-design.git
 ```
 
-Navigate into the cloned repository.
+Move into the cloned repository.
 
 ```bash
 $ cd ece-senior-design
@@ -91,7 +91,9 @@ $ bash clean-install.sh <relative/path/to/catkin-ws>
 ```
 **TODO List all dependecies installed here**
 
-Be prepared as there are multiple prompts that require answeres. Almost all dependencies will be installed. Any dependencies already installed will not be changed. Start steam and log into your account. Plug in the HTC Vive and Steam will automatically prompt to install SteamVR.
+Be prepared as there are multiple prompts that require answers. Almost all dependencies will be installed. Any dependencies already installed will not be changed. 
+
+Once the installations script completes, start steam and log into your account. Plug in the HTC Vive and Steam will automatically prompt to install SteamVR. This should be the last time you have to mess with steam. **TODO** Add directions to take steam offline
 
 ## Individual Installations
 
