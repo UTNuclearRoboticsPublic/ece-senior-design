@@ -12,11 +12,11 @@ if [ $# -eq 1 ];
 then
 	CATKIN_RELATIVE=${1%/}
 else
-	echo "Usage: usb-cam-install.sh <path to catkin workspace>"
+	echo "Usage: usb_cam_install.sh <path to catkin workspace>"
 	exit 1
 fi
 
-FILENAME="usb-cam-install.sh"
+FILENAME="usb_cam_install.sh"
 MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
 MYPATH=${MYFULLPATH%/*}
 #ROOT=$PWD

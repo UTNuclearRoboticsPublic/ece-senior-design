@@ -8,11 +8,11 @@ if [ $# -eq 1 ];
 then
 	CATKIN_RELATIVE=${1%/}
 else
-	echo "Usage: vive-plugin-install.sh <path to catkin workspace>"
+	echo "Usage: vive_plugin_install.sh <path to catkin workspace>"
 	exit 1
 fi
 
-FILENAME="vive-plugin-install.sh"
+FILENAME="vive_plugin_install.sh"
 MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
 MYPATH=${MYFULLPATH%/*}
 ROOT=$PWD

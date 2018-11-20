@@ -8,10 +8,10 @@
 #
 #
 #	The scripts will be installed in the following order:
-#		1. ros-install.sh
-#		2. usb-cam-install.sh
-#		3. vive-plugin-install.sh
-#		4. textured-sphere-install.sh
+#		1. ros_install.sh
+#		2. usb_cam_install.sh
+#		3. vive_plugin_install.sh
+#		4. textured_sphere_install.sh
 #
 #
 #	Note: If any of the packages are already installed, the scripts will
@@ -122,8 +122,8 @@ else
 	sudo apt-get install build-essential
 fi
 
-# Run ros-install.sh
-bash -i $INSTALL/ros-install.sh ../$CATKIN_RELATIVE
+# Run ros_install.sh
+bash -i $INSTALL/ros_install.sh ../$CATKIN_RELATIVE
 source ~/.bashrc
 
 # sudo apt-get update &> /dev/null
@@ -151,14 +151,14 @@ fi
 #source ~/.bashrc
 
 
-# Run usb-cam-install.sh
-bash -i $INSTALL/usb-cam-install.sh $CATKIN_RELATIVE
+# Run usb_cam_install.sh
+bash -i $INSTALL/usb_cam_install.sh $CATKIN_RELATIVE
 
-# Run textured-sphere-install.sh
-bash -i $INSTALL/textured-sphere-install.sh $CATKIN_RELATIVE
+# Run textured_sphere_install.sh
+bash -i $INSTALL/textured_sphere_install.sh $CATKIN_RELATIVE
 
-# Run vive-plugin-install.sh
-bash -i $INSTALL/vive-plugin-install.sh $CATKIN_RELATIVE
+# Run vive_plugin_install.sh
+bash -i $INSTALL/vive_plugin_install.sh $CATKIN_RELATIVE
 
 source /opt/ros/kinetic/setup.bash
 

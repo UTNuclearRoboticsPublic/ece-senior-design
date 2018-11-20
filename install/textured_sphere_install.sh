@@ -13,11 +13,11 @@ if [ $# -eq 1 ];
 then
 	CATKIN_RELATIVE=${1%/}
 else
-	echo "Usage: textured-sphere-install.sh <path to catkin workspace>"
+	echo "Usage: textured_sphere_install.sh <path to catkin workspace>"
 	exit 1
 fi
 
-FILENAME="textured-sphere-install.sh"
+FILENAME="textured_sphere_install.sh"
 MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
 MYPATH=${MYFULLPATH%/*}
 #ROOT=$PWD
