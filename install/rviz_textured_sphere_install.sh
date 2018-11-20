@@ -12,7 +12,7 @@
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: rviz-textured-sphere-install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	echo "Usage: rviz_textured_sphere_install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -40,7 +40,7 @@ done
 timestamp() {
     date +"%T"
 }
-MYFILENAME="rviz-textured-sphere-install.sh"
+MYFILENAME="rviz_textured_sphere_install.sh"
 if [[ -z "$LOGFILE" ]];
 then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"

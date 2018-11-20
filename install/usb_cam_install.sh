@@ -11,7 +11,7 @@
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: usb-cam-install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	echo "Usage: usb_cam_install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -39,7 +39,7 @@ done
 timestamp() {
     date +"%T"
 }
-MYFILENAME="usb-cam-install.sh"
+MYFILENAME="usb_cam_install.sh"
 if [[ -z "$LOGFILE" ]];
 then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"

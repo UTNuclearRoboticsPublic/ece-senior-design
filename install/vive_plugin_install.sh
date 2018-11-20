@@ -10,7 +10,7 @@
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: vive-plugin-install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	echo "Usage: vive_plugin_install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -38,7 +38,7 @@ done
 timestamp() {
     date +"%T"
 }
-MYFILENAME="vive-plugin-install.sh"
+MYFILENAME="vive_plugin_install.sh"
 if [[ -z "$LOGFILE" ]];
 then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"

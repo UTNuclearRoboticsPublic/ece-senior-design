@@ -12,9 +12,9 @@
 #
 #
 #	The scripts will be installed in the following order:
-#		1. ros-install.sh
-#		2. usb-cam-install.sh
-#		3. vive-plugin-install.sh
+#		1. ros_install.sh
+#		2. usb_cam_install.sh
+#		3. vive_plugin_install.sh
 #		4. textured-sphere-install.sh
 #
 #
@@ -28,7 +28,7 @@ if [[ $- == *i* ]]
 then
 	echo "Launching..."
 else
-	echo "Usage: bash -i clean-install.sh <Path to catkin workspace directory>"
+	echo "Usage: bash -i clean_install.sh <Path to catkin workspace directory>"
 	exit 1
 fi
 
@@ -41,7 +41,7 @@ if [ $# -eq 1 ];
 then
 	CATKIN_RELATIVE=${1%/}
 else
-	echo "Usage: clean-install.sh <path to catkin workspace directory>"
+	echo "Usage: clean_install.sh <path to catkin workspace directory>"
 	exit 1
 fi
 
@@ -49,7 +49,7 @@ timestamp() {
       date +"%T"
 }
 
-MYFILENAME="clean-install.sh"
+MYFILENAME="clean_install.sh"
 LOGFILE="log$(timestamp)"$MYFILENAME".txt"
 UTILS="utils"
 INSTALL="install"
@@ -142,7 +142,7 @@ fi
 #####################################################################
 # Install ROS-Kinetic
 #####################################################################
-bash -i $INSTALL/ros-install.sh -l $LOGFILE
+bash -i $INSTALL/ros_install.sh -l $LOGFILE
 
 dpkg -s ros-kinetic-catkin &> /dev/null
 if [ $? -eq 0 ]; then
@@ -156,9 +156,9 @@ fi
 #####################################################################
 # Install USB cam, stitching plug-in, and Vive plug-in
 #####################################################################
-bash -i $INSTALL/usb-cam-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
-bash -i $INSTALL/rviz-textured-sphere-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
-bash -i $INSTALL/vive-plugin-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $INSTALL/usb_cam_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $INSTALL/rviz_textured_sphere_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $INSTALL/vive_plugin_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
 
 source /opt/ros/kinetic/setup.bash
 echo "[INFO: $MYFILENAME $LINENO] Install finished." >> $LOGFILE

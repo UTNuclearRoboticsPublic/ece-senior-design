@@ -20,7 +20,7 @@ key="$1"
 
 case $key in
   -h|--help)
-  echo "Usage: ros-install.sh [-l|--logfile logfile]"
+  echo "Usage: ros_install.sh [-l|--logfile logfile]"
 	exit 1
   shift # past argument
   shift # past value
@@ -39,7 +39,7 @@ done
 timestamp() {
     date +"%T"
 }
-MYFILENAME="ros-install.sh"
+MYFILENAME="ros_install.sh"
 if [[ -z "$LOGFILE" ]];
 then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"

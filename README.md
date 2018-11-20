@@ -30,10 +30,10 @@ This README contains instructions for installation and usage of the project. Dir
 	│    │    ├── single-cam.launch
 	│    │    ├── vive.launch
 	│    │    └── vive_launch_config.rviz
-	│    ├── ros-install.sh
-	│    ├── textured-sphere-install.sh
-	│    ├── usb-cam-install.sh
-	│    └── vive-plugin-install.sh
+	│    ├── ros_install.sh
+	│    ├── textured_sphere_install.sh
+	│    ├── usb_cam_install.sh
+	│    └── vive_plugin_install.sh
 	├── osvr
 	│    ├── README.md
 	│    └── osvr-setup.sh
@@ -44,7 +44,7 @@ This README contains instructions for installation and usage of the project. Dir
 	├── utils
 	│    ├── find_dev_cam_name.sh
 	│    └── kill_roscore.sh
-	├── clean-install.sh
+	├── clean_install.sh
 	├── kill_launch.sh
 	├── single_node_launch.sh
 	├── requirements
@@ -87,7 +87,7 @@ From here, you have two options:
 For a clean installation, run
 
 ```bash
-$ bash clean-install.sh <relative/path/to/catkin-ws>
+$ bash clean_install.sh <relative/path/to/catkin-ws>
 ```
 **TODO List all dependecies installed here**
 
