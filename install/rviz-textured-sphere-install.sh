@@ -46,9 +46,9 @@ then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"
 fi
 
-MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
+#MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
 #MYFULLPATH=$(locate $MYFILENAME)	# Finds all copies of this file!!!!!!!
-MYPATH=${MYFULLPATH%/*}
+MYPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 BUILD="build"
 SRC="src"
@@ -88,11 +88,12 @@ else
 	  echo "[INFO: $MYFILENAME $LINENO] "$DEST" is already cloned, skipping installation." >> $LOGFILE
 fi
 
-echo "[INFO: $MYFILENAME $LINENO] Copying "$VIVELAUNCH" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$VIVELAUNCH"" >> $LOGFILE
+echo "[INFO: $MYFILENAME $LINENO] Copying "$VIVELAUNCH" from "$MYPATH"/"$CONFIG"/"$VIVELAUNCH" \
+	to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$VIVELAUNCH"" >> $LOGFILE
 cp "$MYPATH"/"$CONFIG"/"$VIVELAUNCH" "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$VIVELAUNCH"
 if [[ $? != 0 ]];
 then
-    echo "[INFO: $MYFILENAME $LINENO] Copy "$VIVELAUNCH" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$VIVELAUNCH" failed." >> $LOGFILE
+    echo "[ERROR: $MYFILENAME $LINENO] Copy "$VIVELAUNCH" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$VIVELAUNCH" failed." >> $LOGFILE
 fi
 
 # Move rviz config file to proper location

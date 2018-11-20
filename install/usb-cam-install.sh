@@ -39,15 +39,16 @@ done
 timestamp() {
     date +"%T"
 }
-MYFILENAME="usb-install.sh"
+MYFILENAME="usb-cam-install.sh"
 if [[ -z "$LOGFILE" ]];
 then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"
 fi
 
-MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
-#MYFULLPATH=$(locate $FILENAME)	# Finds all copies of this file!!!!!!!
-MYPATH=${MYFULLPATH%/*} # strip filename
+#MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
+#MYFULLPATH=$(locate $MYFILENAME)	# Finds all copies of this file!!!!!!!
+MYPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
+
 BUILD="build"
 SRC="src"
 DEST="usb_cam"
@@ -87,7 +88,7 @@ then
     cp $MYPATH/$CONFIG/$SINGLECAM $CATKIN/$SRC/$DEST/$LAUNCH/
 	if [[ $? != 0 ]];
     then
-        echo "[INFO: $MYFILENAME $LINENO] Copy "$SINGLECAM" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$SINGLECAM" failed." >> $LOGFILE
+        echo "[ERROR: $MYFILENAME $LINENO] Copy "$SINGLECAM" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$SINGLECAM" failed." >> $LOGFILE
     fi
 else
 	echo "[INFO: $MYFILENAME $LINENO] "$SINGLECAM" already in "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/ , not copying." >> $LOGFILE
@@ -99,7 +100,7 @@ then
     cp $MYPATH/$CONFIG/$DUALCAM $CATKIN/$SRC/$DEST/$LAUNCH/
 	if [[ $? != 0 ]];
     then
-        echo "[INFO: $MYFILENAME $LINENO] Copy "$DUALCAM" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$DUALCAM" failed." >> $LOGFILE
+        echo "[ERROR: $MYFILENAME $LINENO] Copy "$DUALCAM" to "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$DUALCAM" failed." >> $LOGFILE
     fi
 else
 	echo "[INFO: $MYFILENAME $LINENO] "$DUALCAM" already in "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/ , not copying." >> $LOGFILE

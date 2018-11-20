@@ -44,9 +44,9 @@ then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"
 fi
 
-MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
+#MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
 #MYFULLPATH=$(locate $MYFILENAME)	# Finds all copies of this file!!!!!!!
-MYPATH=${MYFULLPATH%/*}
+MYPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 ROOT=$PWD
 BUILD="build"
@@ -119,14 +119,14 @@ echo "[INFO: $MYFILENAME $LINENO] Copying "$OGREFILES" to "$OGREDEST1"" >> $LOGF
 sudo cp $OGREFILES $OGREDEST1
 if [[ $? != 0 ]];
 then
-    echo "[INFO: $MYFILENAME $LINENO] Copy "$OGREFILES" to "$OGREDEST1" failed" >> $LOGFILE
+    echo "[ERROR: $MYFILENAME $LINENO] Copy "$OGREFILES" to "$OGREDEST1" failed" >> $LOGFILE
 fi
 
 echo "[INFO: $MYFILENAME $LINENO] Copying "$OGREFILES" to "$OGREDEST2"" >> $LOGFILE
 sudo cp $OGREFILES $OGREDEST2
 if [[ $? != 0 ]];
 then
-    echo "[INFO: $MYFILENAME $LINENO] Copy "$OGREFILES" to "$OGREDEST1" failed" >> $LOGFILE
+    echo "[ERROR: $MYFILENAME $LINENO] Copy "$OGREFILES" to "$OGREDEST1" failed" >> $LOGFILE
 fi
 
 #####################################################################
@@ -164,12 +164,12 @@ cd "$CATKIN"/"$SRC"/openvr
 cmake . 2> $LOGFILE
 if [[ $? != 0 ]];
 then
-    echo "[INFO: $MYFILENAME $LINENO] Command 'cmake .' in "$(`pwd`)" failed." >> $LOGFILE
+    echo "[ERROR: $MYFILENAME $LINENO] Command 'cmake .' in "$(`pwd`)" failed." >> $LOGFILE
 fi
 make 2> $LOGFILE
 if [[ $? != 0 ]];
 then
-    echo "[INFO: $MYFILENAME $LINENO] Command 'make' in "$(`pwd`)" failed." >> $LOGFILE
+    echo "[ERROR: $MYFILENAME $LINENO] Command 'make' in "$(`pwd`)" failed." >> $LOGFILE
 fi
 cd -
 
@@ -187,8 +187,7 @@ then
 	sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
 			$CMAKELISTS
     LINEAFTER=$(head -"$LINETOEDIT" "$CMAKELISTS" | tail -1)
-    echo "[INFO: $MYFILENAME $LINENO] "$CMAKELISTS" for "$DEST" edited. Line "$LINETOEDIT" changed from \
-            "$LINEBEFORE" to "$LINEAFTER"">> $LOGFILE
+    echo "[INFO: $MYFILENAME $LINENO] "$CMAKELISTS" for "$DEST" edited. Line "$LINETOEDIT" changed from "$LINEBEFORE" to "$LINEAFTER"">> $LOGFILE
 else
 	echo "[INFO: $MYFILENAME $LINENO] Vive plug-in is already cloned, skipping installation." >> $LOGFILE
 	#sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
