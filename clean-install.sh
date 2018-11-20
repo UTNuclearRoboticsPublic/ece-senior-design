@@ -142,7 +142,7 @@ fi
 #####################################################################
 # Install ROS-Kinetic
 #####################################################################
-bash -i $INSTALL/ros-install.sh ../$CATKIN_RELATIVE
+bash -i $INSTALL/ros-install.sh -l $LOGFILE
 
 dpkg -s ros-kinetic-catkin &> /dev/null
 if [ $? -eq 0 ]; then
