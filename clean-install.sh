@@ -1,9 +1,9 @@
 #!/usr/bin-env bash
 #
 # Author: Daniel Diamont
-# Modifications: John Sigmon
+# Modifications: John Sigmon, Kate Baumli
 
-# Last Modified: 11-15-2018
+# Last Modified: 11-20-2018
 
 # Purpose:
 # 	This script will execute 4 installation scripts to set up a fully working
@@ -13,7 +13,7 @@
 #
 #	The scripts will be installed in the following order:
 #		1. ros-install.sh
-#		2. usb-cam-install.sh
+#		2. cv-camera-install.sh
 #		3. vive-plugin-install.sh
 #		4. textured-sphere-install.sh
 #
@@ -153,10 +153,10 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-catkin." >> $LOGFILE
 fi
 
-#####################################################################
-# Install USB cam, stitching plug-in, and Vive plug-in
-#####################################################################
-bash -i $INSTALL/usb-cam-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+#############################################################################
+# Install OpenCV Video streaming package, stitching plug-in, and Vive plug-in
+#############################################################################
+bash -i $INSTALL/cv-video-stream-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
 bash -i $INSTALL/rviz-textured-sphere-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
 bash -i $INSTALL/vive-plugin-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
 

@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 #
-# Authors: Kate Baumli 
-# Last modified 11/20/20
+# Author: Kate Baumli 
+# Last modified 11/20/18
 #
 # Purpose:
-#	This script installs the ROS package cv_camera if it is not already installed
+#	This script installs the ROS package video_stream_opencv if it is not already installed
 
 #####################################################################
 # Parse args
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: cv-camera-install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	echo "Usage: cv-video-stream-install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -39,7 +39,7 @@ done
 timestamp() {
     date +"%T"
 }
-MYFILENAME="cv-camera-install.sh"
+MYFILENAME="cv-video-stream-install.sh"
 if [[ -z "$LOGFILE" ]];
 then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"
@@ -51,14 +51,14 @@ MYPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
 
 BUILD="build"
 SRC="src"
-DEST="cv_camera"
+DEST="video_stream_opencv"
 LAUNCH="launch"
 CONFIG="config"
 SINGLECAM="single-cam.launch"
 DUALCAM="dual-cam.launch"
 
 #####################################################################
-# Make Catkin dirs if not there and clone cv-camera
+# Make Catkin dirs if not there and clone video_stream_opencv
 #####################################################################
 if [ ! -d "$CATKIN"/"$BUILD" ];
 then
@@ -74,13 +74,13 @@ fi
 
 if [ ! -d "$CATKIN"/"$SRC"/"$DEST" ];
 then
-	echo "[INFO: $MYFILENAME $LINENO] Installing cv-camera into "$CATKIN"/"$SRC"/"$DEST"" >> $LOGFILE
-    git clone https://github.com/OTL/cv_camera.git "$CATKIN"/"$SRC"/"$DEST"/ &&
-	echo "[INFO: $MYFILENAME $LINENO] Installed cv-camera into "$CATKIN"/"$SRC"/"$DEST"" >> $LOGFILE
+	echo "[INFO: $MYFILENAME $LINENO] Installing video_stream_opencv into "$CATKIN"/"$SRC"/"$DEST"" >> $LOGFILE
+    git clone https://github.com/ros-drivers/video_stream_opencv.git "$CATKIN"/"$SRC"/"$DEST"/ &&
+	echo "[INFO: $MYFILENAME $LINENO] Installed video_stream_opencv into "$CATKIN"/"$SRC"/"$DEST"" >> $LOGFILE
 fi
 
 #####################################################################
-# Copy launch files to cv_camera 'launch' dir
+# Copy launch files to video_stream_opencv 'launch' dir
 #####################################################################
 if [ ! -f "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$SINGLECAM" ];
 then

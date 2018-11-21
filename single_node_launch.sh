@@ -28,7 +28,8 @@ LAUNCH="launch"
 
 SPHERE="rviz_textured_sphere"
 SPHERE_LAUNCH="vive.launch"
-USB_CAM="usb_cam"
+#USB_CAM="usb_cam"
+OPENCV_VIDEO="video_stream_opencv"
 SINGLE_CAM_LAUNCH="single-cam.launch"
 DUAL_CAM_LAUNCH="dual-cam.launch"
 
@@ -97,16 +98,16 @@ CAM_ARR=($CAMS)
 if [[ ${#CAM_ARR[@]} == 1 ]];
 then 
     echo "Starting camera..."
-    roslaunch --wait usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}" &
+    roslaunch --wait $OPENCV_VIDEO $SINGLE_CAM_LAUNCH camera_name1:="${CAM_ARR[0]}" &
     echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE
-
+    CAM_LAUNCH=$SINGLE_CAM_LAUNCH
 elif [[ ${#CAM_ARR[@]} == 2 ]];
 then
     echo "Starting cameras..."
-    roslaunch --wait usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}" &
+    roslaunch --wait $OPENCV_VIDEO $DUAL_CAM_LAUNCH camera_name1:="${CAM_ARR[0]}" camera_name2:="${CAM_ARR[1]}" &
     echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE 
     echo "${CAM_ARR[1]}" >> $CATKIN/$LOGFILE 
-
+    CAM_LAUNCH=$DUAL_CAM_LAUNCH
 else
 	echo "Error: Need 1 or 2 cameras plugged into USB (and turned on), found ${#CAM_ARR[@]}" >> $CATKIN/$LOGFILE
 	#bash kill_launch.sh 	# We don't want to crash the program
@@ -116,7 +117,7 @@ fi
 if [ $VERBOSE == "true" ];
 then 
 	echo "Found ${#CAM_ARR[@]} cameras!" >> $CATKIN/$LOGFILE
-	echo "Running $USB_CAM_LAUNCH $CAMS" >> $CATKIN/$LOGFILE
+	echo "Running $CAM_LAUNCH $CAMS" >> $CATKIN/$LOGFILE
 fi
 
 # 5 Launch Steam VR (?)
