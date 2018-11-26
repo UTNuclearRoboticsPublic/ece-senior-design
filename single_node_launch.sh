@@ -1,26 +1,48 @@
 #/usr/bin/env bash
+#
 # Authors:	Kate Baumli & John Sigmon
-# Date:		November 1, 2018
+#Last modified: 11-18-18
 # Purpose:	This script launches all processes necessary to connect panospheric cameras to vive headset
 #		 	via ros, rviz plugin, and steam vr
 
-
-# 0 a) Load command args: check that user passed in catkin workspace path
-if [ $# -ge 1 ]; 
+#####################################################################
+# Parse args
+#####################################################################
+if [ $# -lt 2 ];
 then
-	# Strip extra slash off of given catkin path (if there is one)
-    CATKIN=$(echo $1 | sed 's:/*$::')
-	VERBOSE=true # Optional argument whether or not to print stuff default true
-#	if [[ $# -ge 2 && $2 == "--quiet" || "quiet" || "q" || "-q"  ]]; 
-#	then 
-#		VERBOSE=false # Only change quiet option
-#    fi
-else
-    echo "Usage: $0 <path to catkin workspace> [-q --quiet]"
-    exit 1
-fi	
+	echo "Usage: single_node_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	exit 1
+fi
 
-LOGFILE="log.txt"
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -c|--catkin)
+    CATKIN=${2%/} # strip trailing slash
+    shift # past argument
+    shift # past value
+    ;;
+    -l|--logfile)
+    LOGFILE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+esac
+done
+
+#####################################################################
+# Configure log and vars
+#####################################################################
+timestamp() {
+    date +"%T"
+}
+MYFILENAME="usb-install.sh"
+if [[ -z "$LOGFILE" ]];
+then
+    LOGFILE="log$(timestamp)"$MYFILENAME".txt"
+fi
 
 BUILD="build"
 SRC="src"
@@ -32,10 +54,12 @@ USB_CAM="usb_cam"
 SINGLE_CAM_LAUNCH="single-cam.launch"
 DUAL_CAM_LAUNCH="dual-cam.launch"
 
-RVIZ_CONFIG_FILE="rviz_textured_sphere.rviz"
-RVIZ_CONFIG="rviz_cfg"
+#RVIZ_CONFIG_FILE="rviz_textured_sphere.rviz"
+#RVIZ_CONFIG="rviz_cfg"
 
-# Declaring usb camera finding function
+#####################################################################
+# Camera parsing function  --- works for Kodaks only
+#####################################################################
 function find_cam_dev_name {
 	for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
 		(
@@ -44,7 +68,7 @@ function find_cam_dev_name {
 			[[ "$devname" == "bus/"* ]] && continue
 			eval "$(udevadm info -q property --export -p $syspath)"
 			[[ -z "$ID_SERIAL" ]] && continue
-			if [[ "$devname" == "video"* ]] 
+			if [[ "$devname" == "video"* ]]
 				then
 					if [[ "$ID_SERIAL" == *"KODAK"* ]]
 						then
@@ -55,83 +79,34 @@ function find_cam_dev_name {
 	done
 }
 
-# Delete old log file, make new one
-if [ -f "$CATKIN/$LOGFILE" ];
-then
-    rm -f $CATKIN/$LOGFILE
-fi
-
-if [ "$VERBOSE" ];
-then 
-	echo "Launching system from $CATKIN" >> $CATKIN/$LOGFILE
-fi
-
-########################################################################
-# roslaunch does this on its own                                       #
-########################################################################
-
-# 1 Source ros enviornment script
-if [ $VERBOSE == "true" ];
-then 
-	echo -e "Configuring ros environment" >> $CATKIN/$LOGFILE
-fi
+#####################################################################
+ # Source devel/setup.bash and start roscore
+#####################################################################
 source $CATKIN/devel/setup.bash
-
-# 2 Launch roscore (in its own terminal or background it)
-if [ $VERBOSE == "true" ];
-then 
-	echo "Launching roscore..."
-fi
 x-terminal-emulator -e roscore
 
-# 3 Configure cameras (find device numbers and edit launch files)
-if [ $VERBOSE == "true" ];
-then 
-	echo "Locating cameras" >> $CATKIN/$LOGFILE
-fi
-
+#####################################################################
+ # Configure and launch cameras
+#####################################################################
 CAMS=$(find_cam_dev_name);
+echo "[INFO: $MYFILENAME $LINENO] Cameras found at "$CAMS"" >> $LOGFILE
 CAM_ARR=($CAMS)
 
-# THIS ONLY WORKS FOR KODAK USB CAMERAS
 if [[ ${#CAM_ARR[@]} == 1 ]];
-then 
-    echo "Starting camera..."
+then
     roslaunch --wait usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}" &
-    echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE
-
+    echo "[INFO: $MYFILENAME $LINENO] One camera launched from "${CAM_ARR[0]}"" >> $LOGFILE
 elif [[ ${#CAM_ARR[@]} == 2 ]];
 then
-    echo "Starting cameras..."
     roslaunch --wait usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}" &
-    echo "${CAM_ARR[0]}" >> $CATKIN/$LOGFILE 
-    echo "${CAM_ARR[1]}" >> $CATKIN/$LOGFILE 
-
+    echo "[INFO: $MYFILENAME $LINENO] Two cameras launched from "${CAM_ARR[0]}" and "${CAM_ARR[1]}"" >> $LOGFILE
 else
-	echo "Error: Need 1 or 2 cameras plugged into USB (and turned on), found ${#CAM_ARR[@]}" >> $CATKIN/$LOGFILE
-	#bash kill_launch.sh 	# We don't want to crash the program
-	#exit 1
-fi
- 
-if [ $VERBOSE == "true" ];
-then 
-	echo "Found ${#CAM_ARR[@]} cameras!" >> $CATKIN/$LOGFILE
-	echo "Running $USB_CAM_LAUNCH $CAMS" >> $CATKIN/$LOGFILE
+    echo "[INFO: $MYFILENAME $LINENO] No cameras launched. Devices found at: "$CAMS"" >> $LOGFILE
 fi
 
-# 5 Launch Steam VR (?)
-if [ $VERBOSE == "true" ];
-then
-	echo "Launching SteamVR..." >> $CATKIN/$LOGFILE
-fi
-
-#x-terminal-emulator -e steam steam://run/250820 &> /dev/null
-# or could be: x-terminal-emulator -e /path/to/steam/Steam.exe -applaunch 250820
-
-# 6 Launch textured sphere / Rviz
-if [ $VERBOSE == "true" ];
-then
-	echo "Launching textured sphere in rviz" >> $CATKIN/$LOGFILE
-fi
-
-roslaunch --wait rviz_textured_sphere $SPHERE_LAUNCH #configfile:="${RVIZ_CONFIG_FILE}"
+#####################################################################
+ # Launch Rviz and textured sphere
+#####################################################################
+echo "[INFO: $MYFILENAME $LINENO] Attempting to launch rviz textured sphere with "$SPHERE_LAUNCH"" >> $LOGFILE
+roslaunch --wait rviz_textured_sphere $SPHERE_LAUNCH && #configfile:="${RVIZ_CONFIG_FILE}"
+echo "[INFO: $MYFILENAME $LINENO] rviz_textured_sphere launched with "$SPHERE_LAUNCH"" >> $LOGFILE
