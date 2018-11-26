@@ -1,84 +1,131 @@
 
 # Overview
 
-<p>
-This repository contains code used by the ECE Senior Design team composed of:
-<ul>
-   <li>Beathen Andersen</li>
-   <li>Kate Baumli</li>
-   <li>Daniel Diamont</li>
-   <li>Bryce Fuller</li>
-   <li>Caleb Johnson</li>
-   <li>John Sigmon</li>
-</ul>
-</p>
-<p>
-The team is advised by Dr. Mitchell Pyror, and the project is being supervised by Dr. Pryor as head of the UT Nuclear Robotics Group.
-</p>
+Provide end to end handling of data for live streaming video to the HTC Vive headset.
+* [Overview](#overview)
+* [Requirements](#requirements)
+* [Installation](#installation)
+* [Usage](#usage)
+* [Extras](#extras)
 
-# Project Summary
+## Members
+
+This repository contains code used by the ECE Senior Design team composed of: Beathen Andersen, Kate Baumli, Daniel Diamont, Bryce Fuller, Caleb Johnson, John Sigmon. The team is advised by Dr. Mitchell Pyror, head of the University of Texas Nuclear Robotics Group.
+
+## Description
 
 TODO
 
+## This document
+
+This README contains instructions for installation and usage of the project. Directions for complete clean installation are given as well as how to install each subsystem individually. All dependencies for each section are described, **read carefully** as we may install software that will replace what you are currently using. Make sure your system already meets the requirements listed below before trying to install and run this project.
+
+## Contents
+
+```tree
+	ece-senior-design
+	├── install
+	│    ├── config
+	│    │    ├── dual-cam.launch
+	│    │    ├── single-cam.launch
+	│    │    ├── vive.launch
+	│    │    └── vive_launch_config.rviz
+	│    ├── ros_install.sh
+	│    ├── textured_sphere_install.sh
+	│    ├── usb_cam_install.sh
+	│    └── vive_plugin_install.sh
+	├── osvr
+	│    ├── README.md
+	│    └── osvr-setup.sh
+	├── vive
+	│    ├── README.md
+	│    ├── modified_vive_display.cpp
+	│    └── troubleshooting_install.md
+	├── utils
+	│    ├── find_dev_cam_name.sh
+	│    └── kill_roscore.sh
+	├── clean_install.sh
+	├── kill_launch.sh
+	├── single_node_launch.sh
+	├── requirements
+	└── README.md
+```
+
+# Requirements
+
+* Ubuntu 16.04
+* Nvidia GPU
+* g++ 4.9
+* ROS Kinetic
+* OGRE
+* Qt 5.x
+* GLEW 1.11+
+* SteamVR
+* OpenVR
+* NVIDIA Driver
+
 # Installation
 
-## Installing the repository for the first time
-<p>
 Clone the repository.
-</p>
 
 ```bash
 $ git clone https://github.com/UTNuclearRoboticsPublic/ece-senior-design.git
 ```
 
-<p>
-Navigate into the cloned repository.
-</p>
+Move into the cloned repository.
 
 ```bash
 $ cd ece-senior-design
 ```
 
-<p>
-Set up a python virtual environment. 
-(There are several ways to do this, my favorite is below)
-</p>
+From here, you have two options:
+1. [Perform the clean installation](#clean-installation)
+2. [Perform one or more individual installations](#individual-installations)
+
+## Clean Installation
+
+For a clean installation, run
 
 ```bash
-$ virtualenv -p python3 .env
+$ bash clean_install.sh <relative/path/to/catkin-ws>
 ```
+**TODO List all dependecies installed here**
 
-This sets up the environment under the name `.env` which is not descriptive, but keeps me from having to remember how to activate all my different environments. Feel free to install the environment under whatever name you wish, so long as you add the environment name to the .gitignore file in the appropriate place.
+Be prepared as there are multiple prompts that require answers. Almost all dependencies will be installed. Any dependencies already installed will not be changed. 
 
-<p>
-Next activate the environment, and install all the python dependencies via the requirements file. When the environment is active it will display to the left of the prompt, as shown below.
-</p>
+Once the installations script completes, start steam and log into your account. Plug in the HTC Vive and Steam will automatically prompt to install SteamVR. This should be the last time you have to mess with steam. **TODO** Add directions to take steam offline
+
+## Individual Installations
+
+For detailed instructions on how to install individually, navigate to the install directory. There are individual scripts for ROS Kinetic, Textured Sphere stiching, USB Cam, and the Vive Plugin.
+
+# Usage
+
+There will be two hardware configurations supported. Single node and double node. **Double node is not yet supported.** Before attempting to start the system, make sure all hardware is properly connected to either the laptop or the desktop nodes.
+
+## Single Node Launch
+
+To launch the system from a single node, run
+```bash
+$ bash single_node_launch.sh <relative/path/to/catkin-ws>
+```
+This will start all the necessary processes: roscore, steam, and rviz. Once rviz is running and steam has connection to both base stations and the headset, add vive_display in rviz.
+
+## Double Node Launch
+
+**Not yet supported**
+
+## Kill launch
+
+To close **all** project related processes, run
 
 ```bash
-$ source .env/bin/activate
-(.env) $ pip install -r requirements
+$ bash kill_launch.sh
 ```
 
-<p> 
-If you install additional libraries, please update the requirements and add the modified file to your commit.
-</p>
+**Warning:** this will also close the roscore. 
 
-```bash
-$ cd /<ROOT_PATH>/ece-senior-design
-$ pip freeze > requirements
-```
-
-<p>
-When finished with the repository or environment, you can deactivate it with the simple command deactivate.
-</p>
-
-```bash
-(.env) $ deactivate
-$ 
-```
-
-## Installation of subdirectory components
-Please see the readme in the appropriate directory for further installation instructions.
+# Extras
 
 ## Updating the documentation
 
@@ -89,12 +136,3 @@ $ grip <readme name>
 ```
 
 This returns a link to a localhost address where you can view the rendered markdown file.
-
-# Contents
-
-The repository is set up as follows:
-
-```
-+-- ece-senior-design
-    +-- osvr                # Contains setup code for the OSVR headset
-```

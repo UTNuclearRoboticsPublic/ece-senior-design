@@ -69,3 +69,5 @@ venv.bak/
 # Catkin workspaces
 catkin/
 catkin-ws/
+test-catkin/
+test_catkin/
