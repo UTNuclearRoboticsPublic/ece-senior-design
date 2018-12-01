@@ -32,8 +32,12 @@ else
 	exit 1
 fi
 
-#scriptdir="$(dirname "$0")"
-#cd "$scriptdir"
+#DIRNAME=$0
+#echo "${$DIRNAME"
+
+scriptdir="$(dirname "$0")"
+echo $scriptdir
+cd "$scriptdir"
 #I think this is unnecessary^^
 
 # Take the catkin workspace as a parameter from the user
@@ -52,7 +56,6 @@ timestamp() {
 MYFILENAME="clean_install.sh"
 LOGFILE="log$(timestamp)"$MYFILENAME".txt"
 UTILS="utils"
-INSTALL="install"
 CONFIG="config"
 
 #####################################################################
@@ -142,7 +145,7 @@ fi
 #####################################################################
 # Install ROS-Kinetic
 #####################################################################
-bash -i $INSTALL/ros_install.sh -l $LOGFILE
+bash -i $UTILS/ros_install.sh -l $LOGFILE
 
 dpkg -s ros-kinetic-catkin &> /dev/null
 if [ $? -eq 0 ]; then
@@ -156,9 +159,9 @@ fi
 #####################################################################
 # Install USB cam, stitching plug-in, and Vive plug-in
 #####################################################################
-bash -i $INSTALL/usb_cam_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
-bash -i $INSTALL/rviz_textured_sphere_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
-bash -i $INSTALL/vive_plugin_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $UTILS/usb_cam_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $UTILS/rviz_textured_sphere_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i $UTILS/vive_plugin_install.sh -c $CATKIN_RELATIVE -l $LOGFILE
 
 source /opt/ros/kinetic/setup.bash
 echo "[INFO: $MYFILENAME $LINENO] Install finished." >> $LOGFILE

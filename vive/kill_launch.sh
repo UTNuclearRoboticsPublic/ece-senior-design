@@ -1,5 +1,5 @@
 #/usr/bin/env bash
-# Authors:	Kate Baumli & John Sigmon & Beathan
+# Authors:	Kate Baumli & John Sigmon & Beathan Andersen
 # Date:		November 4, 2018
 # Purpose:	This script kills all launches used in single_node_launch.sh
 #		 	via ros, rviz plugin, and steam vr
