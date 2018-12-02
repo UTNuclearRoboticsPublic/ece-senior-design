@@ -28,12 +28,9 @@ if [[ $- == *i* ]]
 then
 	echo "Launching..."
 else
-	echo "Usage: bash -i clean_install.sh <Path to catkin workspace directory>"
+	echo "Usage: bash -i install.sh <Path to catkin workspace directory>"
 	exit 1
 fi
-
-#DIRNAME=$0
-#echo "${$DIRNAME"
 
 scriptdir="$(dirname "$0")"
 echo $scriptdir
@@ -45,7 +42,7 @@ if [ $# -eq 1 ];
 then
 	CATKIN_RELATIVE=${1%/}
 else
-	echo "Usage: clean_install.sh <path to catkin workspace directory>"
+	echo "Usage: bash -i install.sh <Path to catkin workspace directory>"
 	exit 1
 fi
 
@@ -152,7 +149,7 @@ if [ $? -eq 0 ]; then
     echo "[INFO: $MYFILENAME $LINENO] ros-kinetic-catkin is already installed, skipping installation." >> $LOGFILE
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing ros-kinetic-catkin." >> $LOGFILE
-    sudo apt-get install ros-kinetic-catkin
+    sudo apt-get install ros-kinetic-catkin &&
     echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-catkin." >> $LOGFILE
 fi
 
