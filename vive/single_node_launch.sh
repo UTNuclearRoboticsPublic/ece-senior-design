@@ -78,6 +78,7 @@ function find_cam_dev_name {
 #####################################################################
  # Source devel/setup.bash and start roscore
 #####################################################################
+# shellcheck disable=SC1090
 source "$CATKIN"/devel/setup.bash
 x-terminal-emulator -e roscore
 
