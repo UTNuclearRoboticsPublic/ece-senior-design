@@ -44,10 +44,7 @@ then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"
 fi
 
-#MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
-#MYFULLPATH=$(locate $MYFILENAME)	# Finds all copies of this file!!!!!!!
 MYPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-
 ROOT=$PWD
 BUILD="build"
 SRC="src"
@@ -161,17 +158,17 @@ fi
 
 echo "[INFO: $MYFILENAME $LINENO] Attemting to make OpenVR." >> $LOGFILE
 cd "$CATKIN"/"$SRC"/openvr
-cmake . 2> $LOGFILE
+cmake . >> $LOGFILE 2>&1
 if [[ $? != 0 ]];
 then
     echo "[ERROR: $MYFILENAME $LINENO] Command 'cmake .' in "$(`pwd`)" failed." >> $LOGFILE
 fi
-make 2> $LOGFILE
+make >> $LOGFILE 2>&1
 if [[ $? != 0 ]];
 then
     echo "[ERROR: $MYFILENAME $LINENO] Command 'make' in "$(`pwd`)" failed." >> $LOGFILE
 fi
-cd -
+cd - > /dev/null
 
 #####################################################################
 # Install Vive Plug-in
@@ -181,17 +178,23 @@ then
     echo "[INFO: $MYFILENAME $LINENO] Cannot find $DEST in "$CATKIN"/"$SRC". Cloning now." >> $LOGFILE
     git clone https://github.com/btandersen383/rviz_vive "$CATKIN"/"$SRC"/"$DEST"/
     echo "[INFO: $MYFILENAME $LINENO] "$DEST" cloned to "$CATKIN"/"$SRC"/"$DEST"" >> $LOGFILE
+    
+    # If CATKIN is not absolute, make absolute for CMake file
+    if [[ $CATKIN != '/'* ]];
+    then
+        $CATKIN=$PWD/$CATKIN
+    fi
+
+    # Edit the CMakeList to point to OpenVR
     LINETOEDIT=30
     CMAKELISTS="$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
     LINEBEFORE=$(head -"$LINETOEDIT" "$CMAKELISTS" | tail -1)
-	sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
+	sed -i "30s|.*|set(OPENVR \"${CATKIN}\/${SRC}\/openvr\")|" \
 			$CMAKELISTS
     LINEAFTER=$(head -"$LINETOEDIT" "$CMAKELISTS" | tail -1)
     echo "[INFO: $MYFILENAME $LINENO] "$CMAKELISTS" for "$DEST" edited. Line "$LINETOEDIT" changed from "$LINEBEFORE" to "$LINEAFTER"">> $LOGFILE
 else
 	echo "[INFO: $MYFILENAME $LINENO] Vive plug-in is already cloned, skipping installation." >> $LOGFILE
-	#sed -i "30s|.*|set(OPENVR \"${ROOT}\/${CATKIN}\/${SRC}\/openvr\")|" \
-#			"$CATKIN"/"$SRC"/"$DEST"/CMakeLists.txt
 fi
 
 # TODO

@@ -46,10 +46,7 @@ then
     LOGFILE="log$(timestamp)"$MYFILENAME".txt"
 fi
 
-#MYFULLPATH=$(readlink -f $MYFILENAME)	# More portable
-#MYFULLPATH=$(locate $MYFILENAME)	# Finds all copies of this file!!!!!!!
 MYPATH="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null && pwd )"
-
 BUILD="build"
 SRC="src"
 DEST="rviz_textured_sphere"
