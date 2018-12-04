@@ -52,13 +52,13 @@ MYFILENAME="clean_install.sh"
 LOGFILE="log$(timestamp)$MYFILENAME.txt"
 UTILS="utils"
 scriptdir="$(dirname "$0")"
-cd "$scriptdir"
+cd "$scriptdir" || exit
 
 #####################################################################
 # Install dependencies
 #####################################################################
-dpkg -s git &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s git &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] git is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing git." >> "$LOGFILE"
@@ -66,8 +66,8 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed git." >> "$LOGFILE"
 fi
 
-dpkg -s python-catkin-pkg &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s python-catkin-pkg &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] python-catkin-pkg is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing python-catkin-pkg." >> "$LOGFILE"
@@ -75,8 +75,8 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed python-catkin-pkg." >> "$LOGFILE"
 fi
 
-dpkg -s cmake &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s cmake &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] cmake is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing cmake." >> "$LOGFILE"
@@ -84,8 +84,8 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed cmake." >> "$LOGFILE"
 fi
 
-dpkg -s python-empy &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s python-empy &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] python-empy is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing python-empy." >> "$LOGFILE"
@@ -93,8 +93,8 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed python-empy." >> "$LOGFILE"
 fi
 
-dpkg -s v4l-utils &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s v4l-utils &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] v4l-utils is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing v4l-utils." >> "$LOGFILE"
@@ -102,8 +102,8 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed v4l-utils." >> "$LOGFILE"
 fi
 
-dpkg -s python-nose &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s python-nose &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] python-nose is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing python-nose." >> "$LOGFILE"
@@ -111,8 +111,8 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed python-nose." >> "$LOGFILE"
 fi
 
-dpkg -s python-setuptools &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s python-setuptools &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] python-setuptools is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing python-setuptools." >> "$LOGFILE"
@@ -120,8 +120,8 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed python-setuptools." >> "$LOGFILE"
 fi
 
-dpkg -s libgtest-dev &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s libgtest-dev &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] libgtest-dev is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing libgtest-dev." >> "$LOGFILE"
@@ -129,8 +129,8 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed libgtest-dev." >> "$LOGFILE"
 fi
 
-dpkg -s build-essential &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s build-essential &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] build-essential is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing build-essential." >> "$LOGFILE"
@@ -143,8 +143,8 @@ fi
 #####################################################################
 bash -i $UTILS/ros_install.sh -l "$LOGFILE"
 
-dpkg -s ros-kinetic-catkin &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s ros-kinetic-catkin &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] ros-kinetic-catkin is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing ros-kinetic-catkin." >> "$LOGFILE"
@@ -159,5 +159,6 @@ bash -i $UTILS/usb_cam_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
 bash -i $UTILS/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
 bash -i $UTILS/vive_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
 
+# shellcheck disable=SC1091
 source /opt/ros/kinetic/setup.bash
 echo "[INFO: $MYFILENAME $LINENO] Install finished." >> "$LOGFILE"
