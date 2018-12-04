@@ -55,8 +55,8 @@ echo "[INFO: $MYFILENAME $LINENO] Apt-get successful." >> "$LOGFILE"
 #####################################################################
 # Install ROS-Kinetic and dependencies
 #####################################################################
-dpkg -s ros-kinetic-desktop-full &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s ros-kinetic-desktop-full &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] ros-kinetic-desktop-full is already installed, skipping installation." >> "$LOGFILE"
 else
 	echo "[INFO: $MYFILENAME $LINENO] Installing ." >> "$LOGFILE"
@@ -71,12 +71,13 @@ else
 	sudo rosdep init
 	rosdep update
 	echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
-	source ~/.bashrc
+    # shellcheck disable=SC1090
+    source ~/.bashrc
 	echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop-full." >> "$LOGFILE"
 fi
 
-dpkg -s python-rosinstall &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s python-rosinstall &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] python-rosinstall  is already installed, skipping installation." >> "$LOGFILE"
 else
 	echo "[INFO: $MYFILENAME $LINENO] Installing python-rosinstall ." >> "$LOGFILE"
@@ -84,8 +85,8 @@ else
 	echo "[INFO: $MYFILENAME $LINENO] Installed python-rosinstall ." >> "$LOGFILE"
 fi
 
-dpkg -s python-rosinstall-generator &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s python-rosinstall-generator &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] python-rosinstall-generator  is already installed, skipping installation." >> "$LOGFILE"
 else
 	echo "[INFO: $MYFILENAME $LINENO] Installing python-rosinstall-generator ." >> "$LOGFILE"
@@ -93,8 +94,8 @@ else
 	echo "[INFO: $MYFILENAME $LINENO] Installed python-rosinstall-generator ." >> "$LOGFILE"
 fi
 
-dpkg -s python-wstool &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s python-wstool &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] python-wstool  is already installed, skipping installation." >> "$LOGFILE"
 else
 	echo "[INFO: $MYFILENAME $LINENO] Installing python-wstool ." >> "$LOGFILE"
@@ -102,8 +103,8 @@ else
 	echo "[INFO: $MYFILENAME $LINENO] Installed python-wstool ." >> "$LOGFILE"
 fi
 
-dpkg -s build-essential &> /dev/null
-if [ $? -eq 0 ]; then
+if ! dpkg -s build-essential &> /dev/null
+then
     echo "[INFO: $MYFILENAME $LINENO] build-essential  is already installed, skipping installation." >> "$LOGFILE"
 else
 	echo "[INFO: $MYFILENAME $LINENO] Installing build-essential ." >> "$LOGFILE"

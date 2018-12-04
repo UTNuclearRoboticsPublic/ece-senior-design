@@ -82,8 +82,7 @@ fi
 if [ ! -f "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$SINGLECAM" ];
 then
 	echo "[INFO: $MYFILENAME $LINENO] Copying $SINGLECAM to $CATKIN/$SRC/$DEST/$LAUNCH/$SINGLECAM" >> "$LOGFILE"
-    cp "$MYPATH"/"$CONFIG"/"$SINGLECAM" "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/
-	if [[ $? != 0 ]];
+    if ! cp "$MYPATH"/"$CONFIG"/"$SINGLECAM" "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/
     then
         echo "[ERROR: $MYFILENAME $LINENO] Copy $SINGLECAM to $CATKIN/$SRC/$DEST/$LAUNCH/$SINGLECAM failed." >> "$LOGFILE"
     fi
@@ -94,8 +93,7 @@ fi
 if [ ! -f "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$DUALCAM" ];
 then
 	echo "[INFO: $MYFILENAME $LINENO] Copying $DUALCAM to $CATKIN/$SRC/$DEST/$LAUNCH/$DUALCAM" >> "$LOGFILE"
-    cp "$MYPATH"/"$CONFIG"/"$DUALCAM" "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/
-	if [[ $? != 0 ]];
+    if ! cp "$MYPATH"/"$CONFIG"/"$DUALCAM" "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/
     then
         echo "[ERROR: $MYFILENAME $LINENO] Copy $DUALCAM to $CATKIN/$SRC/$DEST/$LAUNCH/$DUALCAM failed." >> "$LOGFILE"
     fi
