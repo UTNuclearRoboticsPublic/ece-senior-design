@@ -1,13 +1,14 @@
 #!/usr/bin/env bash
-
+# shellcheck disable=SC2044
+# shellcheck disable=SC2106
 
 function find_cam_names {	
 	for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
 		(
 			syspath="${sysdevpath%/dev}"
-			devname="$(udevadm info -q name -p $syspath)"
+			devname="$(udevadm info -q name -p "$syspath")"
 			[[ "$devname" == "bus/"* ]] && continue
-			eval "$(udevadm info -q property --export -p $syspath)"
+			eval "$(udevadm info -q property --export -p "$syspath")"
 			[[ -z "$ID_SERIAL" ]] && continue
 			if [[ "$devname" == "video"* ]] 
 				then
@@ -22,7 +23,7 @@ function find_cam_names {
 
 
 cams=$(find_cam_names)
-echo $cams
+echo "$cams"
 CAM_ARR=($cams)
 echo "${CAM_ARR[0]}"
 echo "${CAM_ARR[1]}"

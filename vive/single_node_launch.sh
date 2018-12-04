@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 #
 # Authors:	Kate Baumli & John Sigmon
 #Last modified: 11-18-18
@@ -41,16 +41,10 @@ timestamp() {
 MYFILENAME="usb-install.sh"
 if [[ -z "$LOGFILE" ]];
 then
-    LOGFILE="log$(timestamp)"$MYFILENAME".txt"
+    LOGFILE="log$(timestamp)$MYFILENAME.txt"
 fi
 
-BUILD="build"
-SRC="src"
-LAUNCH="launch"
-
-SPHERE="rviz_textured_sphere"
 SPHERE_LAUNCH="vive.launch"
-USB_CAM="usb_cam"
 SINGLE_CAM_LAUNCH="single-cam.launch"
 DUAL_CAM_LAUNCH="dual-cam.launch"
 
@@ -61,12 +55,14 @@ DUAL_CAM_LAUNCH="dual-cam.launch"
 # Camera parsing function  --- works for Kodaks only
 #####################################################################
 function find_cam_dev_name {
+    # shellcheck disable=SC2044
+    # shellcheck disable=SC2106
 	for sysdevpath in $(find /sys/bus/usb/devices/usb*/ -name dev); do
 		(
 			syspath="${sysdevpath%/dev}"
-			devname="$(udevadm info -q name -p $syspath)"
+			devname="$(udevadm info -q name -p "$syspath")"
 			[[ "$devname" == "bus/"* ]] && continue
-			eval "$(udevadm info -q property --export -p $syspath)"
+			eval "$(udevadm info -q property --export -p "$syspath")"
 			[[ -z "$ID_SERIAL" ]] && continue
 			if [[ "$devname" == "video"* ]]
 				then
@@ -82,31 +78,32 @@ function find_cam_dev_name {
 #####################################################################
  # Source devel/setup.bash and start roscore
 #####################################################################
-source $CATKIN/devel/setup.bash
+# shellcheck disable=SC1090
+source "$CATKIN"/devel/setup.bash
 x-terminal-emulator -e roscore
 
 #####################################################################
  # Configure and launch cameras
 #####################################################################
 CAMS=$(find_cam_dev_name);
-echo "[INFO: $MYFILENAME $LINENO] Cameras found at "$CAMS"" >> $LOGFILE
+echo "[INFO: $MYFILENAME $LINENO] Cameras found at $CAMS" >> "$LOGFILE"
 CAM_ARR=($CAMS)
 
 if [[ ${#CAM_ARR[@]} == 1 ]];
 then
     roslaunch --wait usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}" &
-    echo "[INFO: $MYFILENAME $LINENO] One camera launched from "${CAM_ARR[0]}"" >> $LOGFILE
+    echo "[INFO: $MYFILENAME $LINENO] One camera launched from ${CAM_ARR[0]}" >> "$LOGFILE"
 elif [[ ${#CAM_ARR[@]} == 2 ]];
 then
     roslaunch --wait usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}" &
-    echo "[INFO: $MYFILENAME $LINENO] Two cameras launched from "${CAM_ARR[0]}" and "${CAM_ARR[1]}"" >> $LOGFILE
+    echo "[INFO: $MYFILENAME $LINENO] Two cameras launched from ${CAM_ARR[0]} and ${CAM_ARR[1]}" >> "$LOGFILE"
 else
-    echo "[INFO: $MYFILENAME $LINENO] No cameras launched. Devices found at: "$CAMS"" >> $LOGFILE
+    echo "[INFO: $MYFILENAME $LINENO] No cameras launched. Devices found at: $CAMS" >> "$LOGFILE"
 fi
 
 #####################################################################
  # Launch Rviz and textured sphere
 #####################################################################
-echo "[INFO: $MYFILENAME $LINENO] Attempting to launch rviz textured sphere with "$SPHERE_LAUNCH"" >> $LOGFILE
+echo "[INFO: $MYFILENAME $LINENO] Attempting to launch rviz textured sphere with $SPHERE_LAUNCH" >> "$LOGFILE"
 roslaunch --wait rviz_textured_sphere $SPHERE_LAUNCH && #configfile:="${RVIZ_CONFIG_FILE}"
-echo "[INFO: $MYFILENAME $LINENO] rviz_textured_sphere launched with "$SPHERE_LAUNCH"" >> $LOGFILE
+echo "[INFO: $MYFILENAME $LINENO] rviz_textured_sphere launched with $SPHERE_LAUNCH" >> "$LOGFILE"

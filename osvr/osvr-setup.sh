@@ -12,34 +12,34 @@ CATKIN=~/catkin-ws
 BUILD="build"
 SRC="src"
 
-mkdir -p "$CATKIN" && cd "$CATKIN"
+mkdir -p "$CATKIN" && cd "$CATKIN" || exit
 mkdir "$BUILD"
 mkdir "$SRC"
 
 # Clone and build libfunctionality and libuvs
-cd $BUILD
+cd $BUILD || exit
 git clone --recursive https://github.com/OSVR/libfunctionality.git
 git clone https://github.com/ktossell/libuvc.git
 
 # Build libfunctionality
-cd libfunctionality
+cd libfunctionality || exit
 cmake . -DCMAKE_INSTALL_PREFIX=~/osvr
 make
 make install
 
 # Build libuvc
-cd $CATKIN/$BUILD
-cd libuvc
+cd $CATKIN/$BUILD || exit
+cd libuvc || exit
 mkdir build
-cd build
+cd build || exit
 cmake ..
 make && sudo make install
 
 # Clone and build OSVR Core
-cd $CATKIN/$BUILD
+cd $CATKIN/$BUILD || exit
 git clone --recursive https://github.com/OSVR/OSVR-Core.git
 
-cd OSVR-Core
+cd OSVR-Core || exit
 
 # Edit the CMakeLists.txt file
 sed -i -e $'s/find_package(OpenCV)/set(OpenCV_DIR "\/opt\/ros\/kinetic\/share\/OpenCV-3.3.1\/")\\\n    find_package(OpenCV COMPONENTS core videoio imgproc features2d calib3d highgui flann ml imgcodecs)/g' CMakeLists.txt
@@ -49,8 +49,8 @@ sed -i $'/opencv_features2d/a\\\n            opencv_ml\\\n            opencv_img
 sed -i $'/list(REMOVE_DUPLICATES OPENCV_MODULES_USED)/a\\\n    # Set configuration mapping from RelWithDebInfo to NONE for each imported opencv module\\\n    foreach(_cvMod ${OPENCV_MODULES_USED})\\\n        message(STATUS "Adding mapping to component: ${_cvMod}")\\\n        set_property(TARGET ${_cvMod} APPEND PROPERTY MAP_IMPORTED_CONFIG_RELWITHDEBINFO NONE)\\\n    endforeach()\\\n    include_directories("${OpenCV_INCLUDE_DIRS}")' CMakeLists.txt
 
 # Build OSVR
-cd $CATKIN/$BUILD/OSVR-Core
-mkdir build && cd build
+cd $CATKIN/$BUILD/OSVR-Core || exit
+mkdir build && cd build || exit
 cmake .. -DCMAKE_INSTALL_PREFIX=~/osvr
 make -j4
 make install
@@ -61,31 +61,31 @@ sudo sed -i "s/plugdev/$CURRENTGROUP/g" /etc/udev/rules.d/50-OSVR.rules
 sudo udevadm control --reload-rules && sudo udevadm trigger
 
 # Setup rviz_plugin_osvr
-cd $CATKIN/$SRC
+cd $CATKIN/$SRC || exit
 git clone https://github.com/Veix123/rviz-plugin-osvr.git
-cd $CATKIN/$BUILD/rviz-plugin-osvr/
+cd $CATKIN/$BUILD/rviz-plugin-osvr/ || exit
 cmake ..
-cd $CATKIN/$SRC/rviz-plugin-osvr/
+cd $CATKIN/$SRC/rviz-plugin-osvr/ || exit
 cmake ..
-cd $CATKIN/
+cd $CATKIN/ || exit
 catkin_make
 
 # Setup rviz_texture_osvr
-cd $CATKIN/$SRC
+cd $CATKIN/$SRC || exit
 git clone https://github.com/UTNuclearRoboticsPublic/rviz_textured_sphere.git
-cd $CATKIN/$BUILD/rviz_textured_sphere/
+cd $CATKIN/$BUILD/rviz_textured_sphere/ || exit
 cmake ..
-cd $CATKIN/$SRC/rviz_textured_sphere/
+cd $CATKIN/$SRC/rviz_textured_sphere/ || exit
 cmake ..
-cd $CATKIN/
+cd $CATKIN/ || exit
 catkin_make
 
 echo "export OSVR_CORE=~/osvr" >> ~/.bashrc
 
 # Setup usb_cam
-cd $CATKIN/$SRC
+cd $CATKIN/$SRC || exit
 git clone https://github.com/ros-drivers/usb_cam.git
-cd $CATKIN/
+cd $CATKIN/ || exit
 catkin_make
 
 echo "Setup Finished!"
