@@ -6,6 +6,12 @@
 
 The goal of continuous integration is to merge in small changes to the stable codebase often, with the confidence that they will work. The tool we hawe set up to do this is called [Travis](https://travis-ci.org/). 
 
+For some blogs on CI in theory, see:
+* [https://circleci.com/blog/path-to-production-how-and-where-to-segregate-test-environments/](https://circleci.com/blog/path-to-production-how-and-where-to-segregate-test-environments/)
+* [https://martinfowler.com/articles/continuousIntegration.html](https://martinfowler.com/articles/continuousIntegration.html)
+
+For an example of it in action, see:
+* [https://eng.uber.com/ios-monorepo/](https://eng.uber.com/ios-monorepo/)
 
 ---
 
