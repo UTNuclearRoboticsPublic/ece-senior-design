@@ -28,7 +28,7 @@ The repository contains two directories, `osvr` and `vive`. The `osvr` directory
 	│    └── README.md
 	├── vive/
 	│    ├── README.md
-  |    └── install/
+    |    └── install/
 	├── utils/
 	├── docs/
 	└── README.md
