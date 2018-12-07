@@ -1,22 +1,59 @@
 # Video Display on the Vive
 
----
+* [Introduction](#introduction)
+* [Contents](#contents)
+* [Usage](#usage)
+* [Installation](#installation)
+* [Software](#software)
+* [Hardware](#hardware)
 
 ## Introduction
+This README contains instructions for installation and usage of the project. Directions for complete clean installation are given as well as how to install each subsystem individually. All dependencies for each section are described, **read carefully** as we may install software that will replace what you are currently using. Make sure your system already meets the requirements listed below before trying to install and run this project.
 
-TODO
+---
+
+## Contents
+```
+vive
+ ├── install/
+ │    ├── utils/
+ │    │    ├── config/
+ │    │    ├── ros-install.sh
+ │    │    ├── textured-sphere-install.sh
+ │    │    ├── usb-cam-install.sh
+ │    │    └── vive-plugin-install.sh
+ │    └── install.sh
+ ├── utils/
+ │    └── find_cam_dev_name.sh
+ ├── README.md
+ ├── single_node_launch.sh
+ ├── kill_launch.sh
+ └── other_launches.sh
+```
+
 ---
 
 ## Usage
+There are two hardware configurations supported. Single node and dual node. **Dual node is not yet supported.** Before attempting to start the system, make sure all hardware is properly connected to the laptop and/or the desktop node(s).
 
+### Single Node Launch
 To launch the system on a sigle computer, first plug in the headset and cameras. Then run the following:
-
 ```bash
 bash single_node_launch.sh -c <path to catkin workspace> -l <optional path to log file>
 ```
 
-To kill all processes associated with a launch, run the following:
+### Dual Node Launch
+To launch the system on a robot-base configuration, run the following on the robot module:
+```bash
+bash robot_launch.sh -c <path to catkin workspace>
+```
+Then run the following on the base module:
+```bash
+bash base_launch.sh -c <path to catkin workspace>
+```
 
+### Kill Launch
+To kill all processes associated with a launch, including the roscore, run the following:
 ```bash
 bash kill_launch.sh
 ```
@@ -24,14 +61,6 @@ bash kill_launch.sh
 ---
 
 ## Installation
-
----
-
-### Software 
-
-## System Requirements
-* Ubuntu 16.04
-TODO
 
 Navigate to `install/` and run `install.sh`.
 
@@ -53,7 +82,28 @@ Further installation details can be found inside `install/`
 
 ---
 
-### Hardware
+## Software
+
+### Software Requirements
+* Ubuntu 16.04
+* Nvidia GPU
+* g++ 4.9
+* ROS Kinetic
+* OGRE
+* Qt 5.x
+* GLEW 1.11+
+* SteamVR
+* OpenVR
+* NVIDIA Driver
+
+---
+
+## Hardware
+
+### Hardware Requirements
+* Nvidia GPU
+* Vive Headset
+* Wide view cameras
 
 #### Vive Headset
 
