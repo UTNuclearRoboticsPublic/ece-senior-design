@@ -20,4 +20,4 @@ Note that `catkin_make` can also be used to build your workspace, however the tw
 To ensure that the installation process was correct, check the log file that is created in the directory you called install.sh from. 
 
 ## Individual Installations
-Each subsystem has its own installation script. If you only need one, navigate to `install/utils` for the desired script.
+Each subsystem has its own installation script. If you only need one, navigate to [`install/utils`](utils) for the desired script.

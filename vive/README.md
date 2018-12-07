@@ -78,7 +78,7 @@ catkin build
 
 Note that `catkin_make` can also be used to build your workspace, however the two methods cannot be combined. See [https://catkin-tools.readthedocs.io/en/latest/migration.html](https://catkin-tools.readthedocs.io/en/latest/migration.html) for more details.
 
-Further installation details can be found inside `install/`
+Further installation details can be found inside [`install/`](install)
 
 ---
 
