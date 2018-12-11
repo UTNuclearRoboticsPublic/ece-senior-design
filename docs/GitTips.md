@@ -28,7 +28,6 @@ To meld as the merge tool, add the following to your .gitconfig file.
 [merge]
     tool = meld
 [mergetool "meld"]
-    # Choose one of these 2 lines (not both!) explained below.
     cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
 ```
 
