@@ -10,5 +10,25 @@ This should trigger a Travis build. If the Travis build fails, you can log in to
 ---
 
 ## Setting Meld as Your Merge Tool
+To meld as the diff tool, add the following to your .gitconfig file.
+```
+[diff]
+    tool = meld
+[difftool]
+    prompt = false
+[difftool "meld"]
+    cmd = meld "$LOCAL" "$REMOTE"
+```
 
+To meld as the merge tool, add the following to your .gitconfig file.
+```
+[merge]
+    tool = meld
+[mergetool "meld"]
+    # Choose one of these 2 lines (not both!) explained below.
+    cmd = meld "$LOCAL" "$MERGED" "$REMOTE" --output "$MERGED"
+```
 
+When using the meld tool to merge, merge as you would normally in git, with `git merge branch_name`, then after git lists the merge info, `git mergetool`. Git will ask you file by file if you want to keep the remote or local version for deleted files. For modified files, meld will be launched. Each meld window is a merge for one file. On the left pane you will see the current local file. On the right pane you will see the remote file. In the middle pane is the merged result. Use meld as normal by transfering everything you want to keep to the middle pane. Save and exit the window.
+
+---
