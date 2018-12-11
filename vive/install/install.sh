@@ -48,7 +48,7 @@ timestamp() {
 
 # TODO check catkin relative for absolute and ~
 CATKIN_ABS=$PWD/$CATKIN_RELATIVE
-MYFILENAME="clean_install.sh"
+MYFILENAME="install.sh"
 LOGFILE="log$(timestamp)$MYFILENAME.txt"
 UTILS="utils"
 scriptdir="$(dirname "$0")"
@@ -57,7 +57,7 @@ cd "$scriptdir" || exit
 #####################################################################
 # Install dependencies
 #####################################################################
-if ! dpkg -s git &> /dev/null
+if dpkg -s git &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] git is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -66,7 +66,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed git." >> "$LOGFILE"
 fi
 
-if ! dpkg -s python-catkin-pkg &> /dev/null
+if dpkg -s python-catkin-pkg &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] python-catkin-pkg is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -75,7 +75,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed python-catkin-pkg." >> "$LOGFILE"
 fi
 
-if ! dpkg -s cmake &> /dev/null
+if dpkg -s cmake &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] cmake is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -84,7 +84,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed cmake." >> "$LOGFILE"
 fi
 
-if ! dpkg -s python-empy &> /dev/null
+if dpkg -s python-empy &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] python-empy is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -93,7 +93,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed python-empy." >> "$LOGFILE"
 fi
 
-if ! dpkg -s v4l-utils &> /dev/null
+if dpkg -s v4l-utils &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] v4l-utils is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -102,7 +102,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed v4l-utils." >> "$LOGFILE"
 fi
 
-if ! dpkg -s python-nose &> /dev/null
+if dpkg -s python-nose &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] python-nose is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -111,7 +111,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed python-nose." >> "$LOGFILE"
 fi
 
-if ! dpkg -s python-setuptools &> /dev/null
+if dpkg -s python-setuptools &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] python-setuptools is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -120,7 +120,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed python-setuptools." >> "$LOGFILE"
 fi
 
-if ! dpkg -s libgtest-dev &> /dev/null
+if dpkg -s libgtest-dev &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] libgtest-dev is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -129,7 +129,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed libgtest-dev." >> "$LOGFILE"
 fi
 
-if ! dpkg -s build-essential &> /dev/null
+if dpkg -s build-essential &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] build-essential is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -141,9 +141,9 @@ fi
 #####################################################################
 # Install ROS-Kinetic
 #####################################################################
-bash -i $UTILS/ros_install.sh -l "$LOGFILE"
+bash -i "$UTILS"/ros_install.sh -l "$LOGFILE"
 
-if ! dpkg -s ros-kinetic-catkin &> /dev/null
+if dpkg -s ros-kinetic-catkin &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] ros-kinetic-catkin is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -155,9 +155,9 @@ fi
 #############################################################################
 # Install OpenCV Video streaming package, stitching plug-in, and Vive plug-in
 #############################################################################
-bash -i $INSTALL/cv-video-stream-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
-bash -i $INSTALL/rviz-textured-sphere-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
-bash -i $INSTALL/vive-plugin-install.sh -c $CATKIN_RELATIVE -l $LOGFILE
+bash -i "$UTILS"/cv_video_stream_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
+bash -i "$UTILS"/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
+bash -i "$UTILS"/vive_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
 
 # shellcheck disable=SC1091
 source /opt/ros/kinetic/setup.bash
