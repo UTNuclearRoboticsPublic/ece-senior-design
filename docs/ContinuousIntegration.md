@@ -28,6 +28,14 @@ Setting up tests to run with Travis is as easy as pointing it to a new script. M
 
 Go to their [website](https://travis-ci.org/) and click "Sign Up With GitHub". From there it automatically syncs with your GitHub profile and by navigating to this repository you can see logs from any commit or pull request.
 
+### More Information on Travis and Bash
+
+Travis has excellent documentation, with the notable exception of Bash scripting. A few examples and some links are located in this Stack Overflow [post](https://stackoverflow.com/questions/20449707/using-travis-ci-for-testing-on-unix-shell-scripts).
+
+
+### Running Travis Locally
+
+While this has not been a problem yet, it does seem to be possible to do this. For the future, there is a blog post [here](https://andy-carter.com/blog/setting-up-travis-locally-with-docker-to-test-continuous-integration), and a Stack Overflow post [here](https://stackoverflow.com/questions/21053657/how-to-run-travis-ci-locally) that look helpful.
 ---
 
 ## ShellCheck
@@ -35,7 +43,7 @@ Go to their [website](https://travis-ci.org/) and click "Sign Up With GitHub". F
 ### Introduction
 [ShellCheck](https://www.shellcheck.net/) is a popular linter. A linter checks your code for poor style or code that is likely to cause errors. In general, we want to correct what the linter yells at us for. ShellCheck can be run on its own from your terminal, although it is integrated into Travis and Travis will run it for us whenever we push a commit.
 
-### Configuring Errors
+### Supressing Errors
 In the cases where we want to willfully ignore a linter error, we can use whats called a *directive* to suppress the error and pass our tests.
 
 Example of suppressing an error:
@@ -45,12 +53,4 @@ Example of suppressing an error:
 ```
 
 This code is inserted directly into the bash script, ideally as close as possible to the offending code. The `SC2044` should be changed to match the error you are suppressing. The error ID can be obtained by running shellcheck in your terminal or checking the Travis logs. There is scoping for shellcheck directives, see more on these [here](https://github.com/koalaman/shellcheck/wiki/Directive). 
-
----
-
-## Submitting a Pull Request
-
-In the ideal case, any changes we make are in a branch separate from master. After verifying your changes on your branch, you can navigate to the repository in your web browser and issue a pull request.
-This should trigger a Travis build. If the Travis build fails, you can log in to your Travis account and check the build log. Fix any errors in your localr repository and commit them to your branch. Each commit will update the pull request and trigger another build.
-
 
