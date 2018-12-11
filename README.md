@@ -15,6 +15,8 @@ This system will allow operators to control a robot which inspects radioactive n
 
 This repository contains code used by the ECE Senior Design team composed of: Beathen Andersen, Kate Baumli, Daniel Diamont, Bryce Fuller, Caleb Johnson, John Sigmon. The team is advised by Dr. Mitchell Pyror, head of the University of Texas Nuclear Robotics Group.
 
+
+![Image](https://i.imgur.com/Uyfj7dN.png)
 # Contents
 
 The repository contains two directories, `osvr` and `vive`. The `osvr` directory contains files from an earlier implementation of the project. The current working project is located in `vive`. Further details are contained in the `vive` directory.
