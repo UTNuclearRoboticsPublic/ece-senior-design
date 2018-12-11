@@ -10,7 +10,9 @@ This should trigger a Travis build. If the Travis build fails, you can log in to
 ---
 
 ## Setting Meld as Your Merge Tool
+
 To meld as the diff tool, add the following to your .gitconfig file.
+
 ```
 [diff]
     tool = meld
@@ -21,6 +23,7 @@ To meld as the diff tool, add the following to your .gitconfig file.
 ```
 
 To meld as the merge tool, add the following to your .gitconfig file.
+
 ```
 [merge]
     tool = meld
@@ -32,3 +35,28 @@ To meld as the merge tool, add the following to your .gitconfig file.
 When using the meld tool to merge, merge as you would normally in git, with `git merge branch_name`, then after git lists the merge info, `git mergetool`. Git will ask you file by file if you want to keep the remote or local version for deleted files. For modified files, meld will be launched. Each meld window is a merge for one file. On the left pane you will see the current local file. On the right pane you will see the remote file. In the middle pane is the merged result. Use meld as normal by transfering everything you want to keep to the middle pane. Save and exit the window.
 
 ---
+
+## Setting Vim as Default
+
+You can either set Vim as default for Git, or system-wide.
+
+To set Vim as default for Git only, do *ONE OF* the following:
+
+```bash
+git config --global core.editor "vim"
+```
+
+or
+
+```bash
+echo "export GIT_EDITOR=vim" >> ~/.bashrc
+source ~/.bashrc
+```
+
+To set Vim as default for Git _and_ other programs, do the following:
+
+```bash
+echo "export VISUAL=vim" >> ~/.bashrc
+echo "export EDITOR=\"$VISUAL\"" >> ~/.bashrc
+source ~/.bashrc
+```
