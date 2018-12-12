@@ -7,7 +7,7 @@
 
 ---
 
-# Introduction
+# Project Description
 
 The goal of this project is to build a long distance virtual reality (VR) streaming system for the University of Texas at Austin [Nuclear Robotics Group](https://robotics.me.utexas.edu/) (UT NRG.)
 
@@ -15,9 +15,11 @@ This system will allow operators to control a robot which inspects radioactive n
 
 This repository contains code used by the ECE Senior Design team composed of: Beathen Andersen, Kate Baumli, Daniel Diamont, Bryce Fuller, Caleb Johnson, John Sigmon. The team is advised by Dr. Mitchell Pyror, head of the University of Texas Nuclear Robotics Group.
 
+## System Diagram
 
-![Image](https://i.imgur.com/Uyfj7dN.png)
-# Contents
+![Image](./media/SystemDiagram.png)
+
+## Contents
 
 The repository contains two directories, `osvr` and `vive`. The `osvr` directory contains files from an earlier implementation of the project. The current working project is located in `vive`. Further details are contained in the `vive` directory.
 
@@ -30,5 +32,6 @@ ece-senior-design/
  │    ├── utils/
  │    └── README.md
  ├── docs/
+ ├── media/
  └── README.md
 ```
