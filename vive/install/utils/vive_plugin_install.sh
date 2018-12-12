@@ -110,12 +110,14 @@ else
 fi
 
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST1" >> "$LOGFILE"
+# shellcheck disable=SC2024
 if ! sudo cp -a "$OGREFILES" "$OGREDEST1" &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $OGREFILES to $OGREDEST1 failed" >> "$LOGFILE"
 fi
 
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST2" >> "$LOGFILE"
+# shellcheck disable=SC2024
 if ! sudo cp -a "$OGREFILES" "$OGREDEST2" &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $OGREFILES to $OGREDEST1 failed" >> "$LOGFILE"
