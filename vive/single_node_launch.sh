@@ -91,11 +91,11 @@ CAM_ARR=($CAMS)
 
 if [[ ${#CAM_ARR[@]} == 1 ]];
 then
-    roslaunch --wait usb_cam $SINGLE_CAM_LAUNCH cam1:="${CAM_ARR[0]}" &
+    roslaunch --wait video_stream_opencv $SINGLE_CAM_LAUNCH &
     echo "[INFO: $MYFILENAME $LINENO] One camera launched from ${CAM_ARR[0]}" >> "$LOGFILE"
 elif [[ ${#CAM_ARR[@]} == 2 ]];
 then
-    roslaunch --wait usb_cam $DUAL_CAM_LAUNCH cam1:="${CAM_ARR[0]}" cam2:="${CAM_ARR[1]}" &
+    roslaunch --wait video_stream_opencv $DUAL_CAM_LAUNCH &
     echo "[INFO: $MYFILENAME $LINENO] Two cameras launched from ${CAM_ARR[0]} and ${CAM_ARR[1]}" >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] No cameras launched. Devices found at: $CAMS" >> "$LOGFILE"
