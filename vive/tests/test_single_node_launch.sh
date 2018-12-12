@@ -36,6 +36,9 @@ else
     echo "[INFO: $0 $LINENO $(timestamp)] First test passed!]" >> "$LOGFILE"
 fi
 
+sleep 60s
+
+bash ../kill_launch.sh
 
 #####################################################################
 # Grep log for errors
