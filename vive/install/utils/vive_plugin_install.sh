@@ -49,7 +49,7 @@ BUILD="build"
 SRC="src"
 DEST="rviz_vive"
 #CONFIG="config"
-OGREFILES="/usr/include/OGRE/RenderSystems/GL/GL/*"
+OGREFILES="/usr/include/OGRE/RenderSystems/GL/GL/."
 OGREDEST1="/usr/include/OGRE/RenderSystems/GL/"
 OGREDEST2="/usr/include/GL/"
 #RVIZ_CONFIG_FILE="vive_launch_config.rviz"
@@ -110,13 +110,13 @@ else
 fi
 
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST1" >> "$LOGFILE"
-if ! sudo cp "$OGREFILES" "$OGREDEST1"
+if ! sudo cp -a "$OGREFILES" "$OGREDEST1" &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $OGREFILES to $OGREDEST1 failed" >> "$LOGFILE"
 fi
 
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST2" >> "$LOGFILE"
-if ! sudo cp "$OGREFILES" "$OGREDEST2"
+if ! sudo cp -a "$OGREFILES" "$OGREDEST2" &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $OGREFILES to $OGREDEST1 failed" >> "$LOGFILE"
 fi
@@ -152,15 +152,15 @@ fi
 
 echo "[INFO: $MYFILENAME $LINENO] Attemting to make OpenVR." >> "$LOGFILE"
 cd "$CATKIN"/"$SRC"/openvr || exit
-if cmake . >> "$LOGFILE" 2>&1
+if cmake . &>> "$LOGFILE" 
 then
     echo "[ERROR: $MYFILENAME $LINENO] Command 'cmake .' in $PWD failed." >> "$LOGFILE"
 fi
-if make >> "$LOGFILE" 2>&1
+if make &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Command 'make' in $PWD failed." >> "$LOGFILE"
 fi
-cd - || exit > /dev/null
+cd - > /dev/null || exit
 
 #####################################################################
 # Install Vive Plug-in

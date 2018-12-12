@@ -32,15 +32,32 @@ else
     exit 1
 fi
 
-# Take the catkin workspace as a parameter from the user
-if [ $# -eq 1 ];
+#####################################################################
+# Parse args
+#####################################################################
+if [ $# -lt 2 ];
 then
-	CATKIN_RELATIVE=${1%/}
-else
-	echo "Usage: bash -i install.sh <Path to catkin workspace directory>"
-	echo "Did you forget the '-i'?"
+	echo "Usage: single_node_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
+
+while [[ $# -gt 0 ]]
+do
+key="$1"
+
+case $key in
+    -c|--catkin)
+    CATKIN_RELATIVE=${2%/} # strip trailing slash
+    shift # past argument
+    shift # past value
+    ;;
+    -l|--logfile)
+    LOGFILE="$2"
+    shift # past argument
+    shift # past value
+    ;;
+esac
+done
 
 timestamp() {
       date +"%T"
