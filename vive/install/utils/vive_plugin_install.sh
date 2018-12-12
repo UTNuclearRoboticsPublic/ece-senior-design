@@ -49,7 +49,7 @@ BUILD="build"
 SRC="src"
 DEST="rviz_vive"
 #CONFIG="config"
-OGREFILES="/usr/include/OGRE/RenderSystems/GL/GL/*"
+OGREFILES="/usr/include/OGRE/RenderSystems/GL/GL/."
 OGREDEST1="/usr/include/OGRE/RenderSystems/GL/"
 OGREDEST2="/usr/include/GL/"
 #RVIZ_CONFIG_FILE="vive_launch_config.rviz"
@@ -73,7 +73,7 @@ fi
 #####################################################################
 # Install dependencies
 #####################################################################
-if ! dpkg -s libglu1-mesa-dev &> /dev/null
+if dpkg -s libglu1-mesa-dev &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] libglu1-mesa-dev is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -82,7 +82,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed libglu1-mesa-dev." >> "$LOGFILE"
 fi
 
-if ! dpkg -s freeglut3-dev &> /dev/null
+if dpkg -s freeglut3-dev &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] freeglut3-dev is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -91,7 +91,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed freeglut3-dev." >> "$LOGFILE"
 fi
 
-if ! dpkg -s mesa-common-dev &> /dev/null
+if dpkg -s mesa-common-dev &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] mesa-common-dev is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -100,7 +100,7 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed mesa-common-dev." >> "$LOGFILE"
 fi
 
-if ! dpkg -s libogre-1.9-dev &> /dev/null
+if dpkg -s libogre-1.9-dev &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] libogre-1.9-dev is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -110,13 +110,15 @@ else
 fi
 
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST1" >> "$LOGFILE"
-if ! sudo cp "$OGREFILES" "$OGREDEST1"
+# shellcheck disable=SC2024
+if ! sudo cp -a "$OGREFILES" "$OGREDEST1" &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $OGREFILES to $OGREDEST1 failed" >> "$LOGFILE"
 fi
 
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST2" >> "$LOGFILE"
-if ! sudo cp "$OGREFILES" "$OGREDEST2"
+# shellcheck disable=SC2024
+if ! sudo cp -a "$OGREFILES" "$OGREDEST2" &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $OGREFILES to $OGREDEST1 failed" >> "$LOGFILE"
 fi
@@ -124,7 +126,7 @@ fi
 #####################################################################
 # Install Steam
 #####################################################################
-if ! dpkg -s steam &> /dev/null
+if dpkg -s steam &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] Steam is already installed, skipping installation." >> "$LOGFILE"
 else
@@ -152,15 +154,15 @@ fi
 
 echo "[INFO: $MYFILENAME $LINENO] Attemting to make OpenVR." >> "$LOGFILE"
 cd "$CATKIN"/"$SRC"/openvr || exit
-if ! cmake . >> "$LOGFILE" 2>&1
+if cmake . &>> "$LOGFILE" 
 then
     echo "[ERROR: $MYFILENAME $LINENO] Command 'cmake .' in $PWD failed." >> "$LOGFILE"
 fi
-if ! make >> "$LOGFILE" 2>&1
+if make &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Command 'make' in $PWD failed." >> "$LOGFILE"
 fi
-cd - || exit > /dev/null
+cd - > /dev/null || exit
 
 #####################################################################
 # Install Vive Plug-in
@@ -197,7 +199,7 @@ fi
 # Install Nvidia Drivers
 #####################################################################
 DRIVER=$(sudo ubuntu-drivers devices | grep "recommended" | awk '{print $3}')
-if ! dpkg -s "$DRIVER" &> /dev/null
+if dpkg -s "$DRIVER" &> /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] The recommended graphics drivers ($DRIVER) are already installed." >> "$LOGFILE"
 else

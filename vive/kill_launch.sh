@@ -7,7 +7,10 @@
 STEAM=$(ps -ef | awk '/steam/ {print $2}')
 kill "$STEAM" 2> /dev/null
 
-ROSCORE=$(ps -uf | awk '/roscore/ {print $2}')
+OPENCV=$(ps -ef | awk '/opencv/ {print $2}')
+kill "$OPENCV" 2> /dev/null
+
+ROSCORE=$(ps -ef | awk '/roscore/ {print $2}')
 kill "$ROSCORE" 2> /dev/null
 
 LAUNCHSCRIPT=$(ps -uf | awk '/node_launch.sh/ {print $2}')
