@@ -2,6 +2,14 @@
 
 ---
 
+## Oh Shit Git
+
+There is a copy of [Julia Evans'](https://jvns.ca/) wonderful 10 page pdf called "Oh Shit Git" pinned to our Slack general.
+
+## Commit messages
+
+A [rant](https://juffalow.com/other/write-good-git-commit-message) on writing commit messages. This never seems to matter until you have a broken build and can't figure out which commit to revert to.
+
 ## Submitting a Pull Request
 
 In the ideal case, any changes we make are in a branch separate from master. After verifying your changes on your branch, you can navigate to the repository in your web browser and issue a pull request.

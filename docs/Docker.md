@@ -28,6 +28,12 @@ Docker provides installation instructions on their website for many platforms [h
 
 ## Advanced Usage
 
+#### Best Practices
+
+* [Collection of practices on GitHub](https://github.com/FuriKuri/docker-best-practices)
+
+* [Google post on best practices](https://cloud.google.com/solutions/best-practices-for-building-containers)
+
 #### Dockerfiles
 
 * [Docker's Documentation](https://docs.docker.com/engine/reference/builder/#usage)

@@ -2,6 +2,16 @@
 
 ---
 
+#### Redirects
+
+All those fun redirect operators are outlined pretty well in this [Stack Overflow post](https://unix.stackexchange.com/questions/159513/what-are-the-shells-control-and-redirection-operators).
+
+---
+
+#### Grep, Awk, and Sed
+
+Grep is one of the most flexible and useful Linux utilities, Awk is actually a full blown programming language, and Sed isn't too bad either. This [9 page overview](https://www-users.york.ac.uk/~mijp1/teaching/2nd_year_Comp_Lab/guides/grep_awk_sed.pdf) gives some good tips to get started without being overly long and verbose.
+
 #### Comparison Operators 
 
 The cases of comparing strings versus comparing variables are handled a little differently in bash. [This](https://www.tldp.org/LDP/abs/html/comparison-ops.html) is an excellent guide. Note the whitespace! Bash is particular about whitespace.
