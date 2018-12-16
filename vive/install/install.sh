@@ -79,12 +79,12 @@ cd "$scriptdir" || exit
 # Install dependencies
 #####################################################################
 sudo apt-get update
-sudo apt-get -y install build-essential\
-                        cmake\
+sudo apt-get -y install build-essential=12.1ubuntu2\
+                        cmake=3.5.1-1ubuntu3\
                         git\
-                        libgtest-dev\
-                        python-catkin-pkg\
-                        v4l-utils 2>&1 | tee -a $LOGPATH
+                        libgtest-dev=1.7.0-4ubuntu1\
+                        python-catkin-pkg=0.4.9-100\
+                        v4l-utils=1.10.0-1 2>&1 | tee -a "$LOGPATH"
 
 #                    python-empy\ 
 #                    python-nose\
@@ -94,10 +94,10 @@ sudo apt-get -y install build-essential\
 # Install ROS-Kinetic, OpenCV Video streaming package, 
 # stitching plug-in, and Vive plug-in
 #####################################################################
-bash "$UTILS"/ros_install.sh -l "$LOGFILE" 2>&1 | tee -a "$LOGPATH"
-bash "$UTILS"/open_cv_video_stream_install.sh -c "$CATKIN_ABS" -l "$LOGFILE" 2>&1 | tee -a "$LOGPATH"
-bash "$UTILS"/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGFILE" 2>&1 | tee -a "$LOGPATH"
-bash "$UTILS"/vive_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGFILE" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/ros_install.sh -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/open_cv_video_stream_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/vive_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
 
 # shellcheck disable=SC1091
 source /opt/ros/kinetic/setup.bash

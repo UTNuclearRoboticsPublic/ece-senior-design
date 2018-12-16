@@ -6,10 +6,6 @@
 # Purpose:
 # 	This script installs the following packages if they are not already installed:
 #		* ros-kinetic-desktop-full
-#		* python-rosinstall
-#		* python-rosinstall-generator
-#		* python-wstool
-#		* build-essential
 
 #####################################################################
 # Parse args
@@ -49,7 +45,7 @@ fi
 #####################################################################
 # Install ROS-Kinetic and dependencies
 #####################################################################
-sudo apt-get -y install ros-kinetic-catkin
+sudo apt-get -y install ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800
 
 if ! dpkg -s ros-kinetic-desktop-full > /dev/null
 then
@@ -59,7 +55,7 @@ then
         --keyserver hkp://ha.pool.sks-keyservers.net:80 \
         --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
     sudo apt-get update
-    sudo apt-get -y install ros-kinetic-desktop-full
+    sudo apt-get -y install ros-kinetic-desktop-full=1.3.2-0
     sudo rosdep init
     rosdep update
     echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc

@@ -61,10 +61,10 @@ mkdir -p "$CATKIN"/"$SRC"
 #####################################################################
 # Install dependencies
 #####################################################################
-sudo apt-get -y install freeglut3-dev\
-                libglu1-mesa-dev\
-                libogre-1.9-dev\
-                mesa-common-dev
+sudo apt-get -y install freeglut3-dev=2.8.1-2\
+                libglu1-mesa-dev=9.0.0-2.1\
+                libogre-1.9-dev=1.9.0+dfsg1-7\
+                mesa-common-dev=18.0.5-0ubuntu0~16.04.1
 
 # shellcheck disable=SC2024
 if ! sudo cp -a "$OGREFILES" "$OGREDEST1"
@@ -81,7 +81,7 @@ fi
 #####################################################################
 # Install Steam
 #####################################################################
-if command -v steam
+if command -v steam > /dev/null
 then
     echo "[INFO: $MYFILENAME $LINENO] Steam is already installed, skipping installation."
 else
