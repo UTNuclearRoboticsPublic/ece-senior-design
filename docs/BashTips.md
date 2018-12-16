@@ -56,3 +56,26 @@ else
     # command returned true
 fi
 ```
+
+---
+
+#### Checking Apt Versions
+
+Ex.
+
+```bash
+$ apt-cache policy libgtest-dev
+libgtest-dev:
+  Installed: 1.7.0-4ubuntu1
+  Candidate: 1.7.0-4ubuntu1
+  Version table:
+ *** 1.7.0-4ubuntu1 500
+        500 http://us.archive.ubuntu.com/ubuntu xenial/universe amd64 Packages
+        100 /var/lib/dpkg/status
+```
+
+ Here the version is `1.7.0-4ubuntu1` and this version can be installed by running:
+
+```bash
+apt-get install libgtest-dev=1.7.0-4ubuntu1
+```
