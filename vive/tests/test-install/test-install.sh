@@ -36,15 +36,15 @@ timestamp() {
 }
 
 MYFILENAME="test_install.sh"
-LOGFILE="log_${MYFILENAME}_$(timestamp).txt"
-LOGDIR="logs"
+#LOGFILE="log_${MYFILENAME}_$(timestamp).txt"
+#LOGDIR="logs"
 
 # start time
 
 if ! docker build -t testinstall .
 then
     echo "[ERROR l.$LINENO $MYFILENAME] Docker needs to be installed." # to logfile or no?
-    exit(1)
+    exit 1
 fi
 
 docker run testinstall #TODO fix for mounting volume
