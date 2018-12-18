@@ -45,7 +45,8 @@ fi
 #####################################################################
 # Install ROS-Kinetic and dependencies
 #####################################################################
-sudo apt-get update && apt-get -y install ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800
+sudo apt-get update && apt-get -y install lsb_release\
+                                ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800
 
 if ! dpkg -s ros-kinetic-desktop-full > /dev/null
 then
