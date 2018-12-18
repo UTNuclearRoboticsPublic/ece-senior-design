@@ -78,8 +78,7 @@ cd "$scriptdir" || exit
 #####################################################################
 # Install dependencies
 #####################################################################
-sudo apt-get update
-sudo apt-get -y install build-essential=12.1ubuntu2\
+sudo apt-get update && apt-get -y install build-essential=12.1ubuntu2\
                         cmake=3.5.1-1ubuntu3\
                         git\
                         libgtest-dev=1.7.0-4ubuntu1\
@@ -101,4 +100,6 @@ bash "$UTILS"/vive_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -
 
 # shellcheck disable=SC1091
 source /opt/ros/kinetic/setup.bash
+sudo apt-get autoremove -y
+sudo apt-get autoclean -y
 echo "[INFO: $MYFILENAME $LINENO] Install finished." 2>&1 | tee -a "$LOGPATH"

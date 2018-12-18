@@ -61,7 +61,7 @@ mkdir -p "$CATKIN"/"$SRC"
 #####################################################################
 # Install dependencies
 #####################################################################
-sudo apt-get -y install freeglut3-dev=2.8.1-2\
+sudo apt-get update && apt-get -y install freeglut3-dev=2.8.1-2\
                 libglu1-mesa-dev=9.0.0-2.1\
                 libogre-1.9-dev=1.9.0+dfsg1-7\
                 mesa-common-dev=18.0.5-0ubuntu0~16.04.1
@@ -86,8 +86,10 @@ then
     echo "[INFO: $MYFILENAME $LINENO] Steam is already installed, skipping installation."
 else
 	sudo dpkg --add-architecture i386
-    sudo apt update
-    sudo apt-get -y install wget gdebi-core libgl1-mesa-dri:i386 libgl1-mesa-glx:i386
+    sudo apt-get update && apt-get -y install gdebi-core\
+                                    libgl1-mesa-dri:i386\
+                                    libgl1-mesa-glx:i386\
+                                    wget
     wget http://media.steampowered.com/client/installer/steam.deb
     yes | sudo gdebi steam.deb
     rm -f steam.deb*

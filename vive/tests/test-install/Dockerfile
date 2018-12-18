@@ -1,16 +1,10 @@
 # Use Ubuntu 16.04 as a base image
 FROM ubuntu:16.04
 
-# COPY . /app
+RUN apt-get update && apt-get install -y git sudo
 
-# WORKDIR /app
+RUN git clone -b install-cleanup --single-branch https://github.com/UTNuclearRoboticsPublic/ece-senior-design
 
-RUN apt-get update && apt-get install -y git
+WORKDIR ece-senior-design/vive/install
 
-RUN git clone https://github.com/UTNuclearRoboticsPublic/ece-senior-design
-
-# COPY . ece-senior-design/vive/tests/test-install
-
-WORKDIR ece-senior-design/vive/tests/test-install
-
-CMD ["bash", "test.sh"]
+CMD ["bash", "install.sh", "-c", "catkin", "-l", "log.txt"]
