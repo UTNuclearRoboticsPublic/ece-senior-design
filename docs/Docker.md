@@ -49,3 +49,6 @@ Amy Tabb's [website](https://amytabb.com/) contains a good three part [tutorial]
 #### Vladislav`s Blog
 
 This guy`s [blog](https://vsupalov.com/) is a wealth of information and has tons of articles regarding more advanced Docker usage.
+
+stash re copying files
+https://stackoverflow.com/questions/22049212/copying-files-from-docker-container-to-host
