@@ -10,8 +10,6 @@
 ## Introduction
 This README contains instructions for installation and usage of the project. Directions for complete clean installation are given as well as how to install each subsystem individually. All dependencies for each section are described, **read carefully** as we may install software that will replace what you are currently using. Make sure your system already meets the requirements listed below before trying to install and run this project.
 
-![Image](https://i.imgur.com/Uyfj7dN.png)
-
 ---
 
 ## Contents
