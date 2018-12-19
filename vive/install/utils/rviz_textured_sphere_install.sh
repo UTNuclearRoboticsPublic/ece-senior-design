@@ -90,13 +90,5 @@ if ! cp "$MYPATH"/"$CONFIG"/"$VIVELAUNCH" "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$V
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $VIVELAUNCH to $CATKIN/$SRC/$DEST/$LAUNCH/$VIVELAUNCH failed." >> "$LOGFILE"
 fi
-
-LINETOEDIT=8
-PATHTOLAUNCH="$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$VIVELAUNCH"
-LINEBEFORE=$(head -"$LINETOEDIT" "$PATHTOLAUNCH" | tail -1)
-    sed -i "8s|.*|        launch-prefix=\"${HOME}/.steam/ubuntu12_32/steam-runtime/run.sh\" />|" "$CATKIN"/"$SRC"/"$DEST"/"$LAUNCH"/"$VIVELAUNCH"
-LINEAFTER=$(head -"$LINETOEDIT" "$PATHTOLAUNCH" | tail -1)
-echo "[INFO: $MYFILENAME $LINENO] $SPHERELAUNCH Line $LINETOEDIT changed from $LINEBEFORE to $LINEAFTER">> "$LOGFILE"
-
 # Move rviz config file to proper location
 #cp $MYPATH/$CONFIG/$RVIZ_CONFIG $CATKIN/$SRC/$DEST/$RVIZ_CONFIG_FOLDER/$RVIZ_CONFIG
