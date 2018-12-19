@@ -67,3 +67,11 @@ echo "export VISUAL=vim" >> ~/.bashrc
 echo "export EDITOR=\"$VISUAL\"" >> ~/.bashrc
 source ~/.bashrc
 ```
+
+## Using git commit --amend
+
+Git commit is usually useful for things like typos. Be very careful about amending a commit already pushed to the remote repository.
+
+If you already made a commit, first make your amended changes, then stage them with `git add <file>`. Then run `git commit --amend`, which should bring up the message from the commit you are trying to amend. If you have not yet pushed your changes, then just push as normal. Otherwise if you are amending a commit already in the remote, you will need to use `git push --force <branch>`.
+
+More details are [here](https://help.github.com/articles/changing-a-commit-message/).
