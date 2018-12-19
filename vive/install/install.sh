@@ -174,7 +174,7 @@ fi
 #############################################################################
 bash -i "$UTILS"/cv_video_stream_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
 bash -i "$UTILS"/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
-bash -i "$UTILS"/vive_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
+bash -i "$UTILS"/openhmd_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
 
 # shellcheck disable=SC1091
 source /opt/ros/kinetic/setup.bash
