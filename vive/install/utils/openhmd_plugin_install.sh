@@ -109,6 +109,17 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed libogre-1.9-dev." >> "$LOGFILE"
 fi
 
+if dpkg -s libopenhmd0 &> /dev/null
+then
+    echo "[INFO: $MYFILENAME $LINENO] libopenhmd0 is already installed, skipping installation." >> "$LOGFILE"
+else 
+    echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd0." >> "$LOGFILE"
+    sudo add-apt-repository ppa:theonlyjoey/openhmd
+    sudo apt-get update
+    sudo apt-get install libopenhmd0
+    echo "[INFO: $MYFILENAME $LINENO] Installed libopenhmd0." >> "$LOGFILE"
+fi
+
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST1" >> "$LOGFILE"
 # shellcheck disable=SC2024
 if ! sudo cp -a "$OGREFILES" "$OGREDEST1" &>> "$LOGFILE"
