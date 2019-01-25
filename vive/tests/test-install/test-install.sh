@@ -41,7 +41,8 @@ MYFILENAME="test_install.sh"
 
 # start time
 
-if ! docker build -t testinstall .
+#unsure if --no-chache flag is needed?
+if ! docker build --no-cache -t testinstall .
 then
     echo "[ERROR l.$LINENO $MYFILENAME] Docker needs to be installed." # to logfile or no?
     exit 1

@@ -45,8 +45,9 @@ fi
 #####################################################################
 # Install ROS-Kinetic and dependencies
 #####################################################################
-sudo apt-get update && apt-get -y install lsb_release\
-                                ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800
+sudo apt-get update
+#sudo apt-get update && apt-get -y install lsb_release\
+#                                ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800
 
 if ! dpkg -s ros-kinetic-desktop-full > /dev/null
 then
@@ -63,3 +64,7 @@ then
     source ~/.bashrc
     echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop-full."
 fi
+
+sudo apt-get update && apt-get -y install lsb_release\
+                                ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800\
+				python-catkin-pkg=0.4.9-100
