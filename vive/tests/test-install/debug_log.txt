@@ -1,0 +1,39 @@
+Reading package lists...
+dpkg-query: package 'ros-kinetic-desktop-full' is not installed and no information is available
+Use dpkg --info (= dpkg-deb --info) to examine archive files,
+and dpkg --contents (= dpkg-deb --contents) to list their contents.
+Executing: /tmp/tmp.IeSskWhdMM/gpg.1.sh --keyserver
+hkp://ha.pool.sks-keyservers.net:80
+--recv-key
+421C365BD9FF1F717815A3895523BAEEB01FA116
+gpg: requesting key B01FA116 from hkp server ha.pool.sks-keyservers.net
+gpg: key B01FA116: public key "ROS Builder <rosbuild@ros.org>" imported
+gpg: Total number processed: 1
+gpg:               imported: 1
+Get:1 http://packages.ros.org/ros/ubuntu xenial InRelease [4040 B]
+Hit:2 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu xenial InRelease
+Get:4 http://packages.ros.org/ros/ubuntu xenial/main amd64 Packages [732 kB]
+Hit:5 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:6 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
+Fetched 736 kB in 0s (950 kB/s)
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+E: Version '1.3.2-0' for 'ros-kinetic-desktop-full' was not found
+sudo: rosdep: command not found
+utils/ros_install.sh: line 62: rosdep: command not found
+[INFO: ros_install.sh 66] Installed ros-kinetic-desktop-full.
+Hit:1 http://security.ubuntu.com/ubuntu xenial-security InRelease
+Hit:2 http://packages.ros.org/ros/ubuntu xenial InRelease
+Hit:3 http://archive.ubuntu.com/ubuntu xenial InRelease
+Hit:4 http://archive.ubuntu.com/ubuntu xenial-updates InRelease
+Hit:5 http://archive.ubuntu.com/ubuntu xenial-backports InRelease
+Reading package lists...
+Reading package lists...
+Building dependency tree...
+Reading state information...
+E: Unable to locate package lsb_release
+E: Version '0.4.9-100' for 'python-catkin-pkg' was not found
+
