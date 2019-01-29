@@ -5,7 +5,7 @@
 #
 # Purpose:
 # 	This script installs the following packages if they are not already installed:
-#		* ros-kinetic-desktop-full
+#		* ros-kinetic-desktop
 
 #####################################################################
 # Parse args
@@ -46,10 +46,8 @@ fi
 # Install ROS-Kinetic and dependencies
 #####################################################################
 sudo apt-get update
-#sudo apt-get update && apt-get -y install lsb_release\
-#                                ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800
 
-if ! dpkg -s ros-kinetic-desktop-full > /dev/null
+if ! dpkg -s ros-kinetic-desktop > /dev/null
 then
     # Replaced $(lsb_release -sc) with xenial 
     # shellcheck disable=SC2016
