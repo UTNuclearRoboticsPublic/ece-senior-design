@@ -57,13 +57,13 @@ then
     sudo apt-key adv \
         --keyserver hkp://ha.pool.sks-keyservers.net:80 \
         --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-    sudo apt-get update && apt-get -y install ros-kinetic-desktop-full=1.3.2-0
+    sudo apt-get update && apt-get -y install ros-kinetic-desktop=1.3.2-0xenial-20181117-041809-0800
     sudo rosdep init
     rosdep update
     echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
     # shellcheck disable=SC1090
     source ~/.bashrc
-    echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop-full."
+    echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop."
 fi
 
 sudo apt-get update && apt-get -y install lsb_release\
