@@ -48,10 +48,10 @@ then
     exit 1
 fi
 
-docker run testinstall #TODO fix for mounting volume
+docker run -a STDOUT testinstall > $LOGFILE 
 
-# get log file
-
+#NUM_ERRORS=$(grep $LOGFILE E | wc -l)
+#if 
 # search for errors 
 
 # write out results
