@@ -65,7 +65,3 @@ then
     source ~/.bashrc
     echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop."
 fi
-
-sudo apt-get update && apt-get -y install lsb_release\
-                                ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800\
-				python-catkin-pkg=0.4.9-100
