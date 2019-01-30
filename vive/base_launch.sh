@@ -73,6 +73,16 @@ fi
 #    with the default ones in our repo (still need to make)
 # 2) IF network command line args were set, use sed to edit the overwritten files
 
+#diff files
+#if exit code is 0 or 2 bad condition
+EXITCODE=$(diff utils/netconfig/hosts /etc/hosts)$?
+#EXITCODE=$(echo $?)
+#EXITCODE=echo $?
+echo "exit code"
+echo $EXITCODE
+
+exit(1)
+
 #####################################################################
 # Configure log and vars
 #####################################################################
