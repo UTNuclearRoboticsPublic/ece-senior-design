@@ -48,11 +48,12 @@ then
     exit 1
 fi
 
-docker run -a STDOUT testinstall > $LOGFILE 
+docker run -a STDOUT testinstall > "$LOGFILE" 
 
 #NUM_ERRORS=$(grep $LOGFILE E | wc -l)
 #if 
 # search for errors 
+# copy code from test-singlenode launch
 
 # write out results
 
