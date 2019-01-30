@@ -5,7 +5,7 @@
 #
 # Purpose:
 # 	This script installs the following packages if they are not already installed:
-#		* ros-kinetic-desktop-full
+#		* ros-kinetic-desktop
 
 #####################################################################
 # Parse args
@@ -45,21 +45,21 @@ fi
 #####################################################################
 # Install ROS-Kinetic and dependencies
 #####################################################################
-sudo apt-get update && apt-get -y install lsb_release\
-                                ros-kinetic-catkin=0.7.14-0xenial-20180809-132632-0800
+sudo apt-get update
 
-if ! dpkg -s ros-kinetic-desktop-full > /dev/null
+if ! dpkg -s ros-kinetic-desktop > /dev/null
 then
+    # Replaced $(lsb_release -sc) with xenial 
     # shellcheck disable=SC2016
-    sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu $(lsb_release -sc) main" > /etc/apt/sources.list.d/ros-latest.list'
+    sudo sh -c 'echo "deb http://packages.ros.org/ros/ubuntu xenial main" > /etc/apt/sources.list.d/ros-latest.list'
     sudo apt-key adv \
         --keyserver hkp://ha.pool.sks-keyservers.net:80 \
         --recv-key 421C365BD9FF1F717815A3895523BAEEB01FA116
-    sudo apt-get update && apt-get -y install ros-kinetic-desktop-full=1.3.2-0
+    sudo apt-get update && apt-get -y install ros-kinetic-desktop=1.3.2-0xenial-20181117-041809-0800
     sudo rosdep init
     rosdep update
     echo "source /opt/ros/kinetic/setup.bash" >> ~/.bashrc
     # shellcheck disable=SC1090
     source ~/.bashrc
-    echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop-full."
+    echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop."
 fi
