@@ -22,22 +22,12 @@
 #	simply skip over these
 #
 
-# Check if shell was launched with interactive mode '-i'
-#if [[ $- == *i* ]]
-#then
-#	echo "Launching..."
-#else
-#	echo "Usage: bash -i install.sh <Path to catkin workspace directory>"
-#	echo "Did you forget the '-i'?"
-#    exit 1
-#fi
-
 #####################################################################
 # Parse args
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: single_node_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	echo "Usage: install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -66,7 +56,13 @@ timestamp() {
 # TODO check catkin relative for absolute and ~
 CATKIN_ABS=$PWD/$CATKIN_RELATIVE
 MYFILENAME="install.sh"
-LOGFILE="log_${MYFILENAME}_$(timestamp).txt"
+
+# Check if log was passed in, if not then make one
+if [[ -z "$LOGFILE" ]];
+then
+    LOGFILE="log_${MYFILENAME}_$(timestamp).txt"
+fi
+
 LOGDIR="logs"
 mkdir -p "$CATKIN_RELATIVE"
 mkdir -p "$CATKIN_RELATIVE"/"$LOGDIR"
