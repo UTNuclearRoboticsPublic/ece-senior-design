@@ -7,7 +7,7 @@
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: test_install.sh <-b|--branch branch containing modification to test> [-l|--logfile logfile]"
+	echo "Usage: install_test.sh <-b|--branch branch containing modification to test> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -33,7 +33,7 @@ timestamp() {
       date +"%T"
 }
 
-MYFILENAME="test_install.sh"
+MYFILENAME="install_test.sh"
 
 # Check if log was passed in, if not then make one
 if [[ -z "$LOGFILE" ]];

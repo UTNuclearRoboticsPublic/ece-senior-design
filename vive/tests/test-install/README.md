@@ -7,5 +7,5 @@ The install test runs a Docker container with a fresh Ubuntu 16.04 as a base ima
 Example usage:
 
 ```shell
-bash test_install.sh --branch my-modifications
+bash install_test.sh --branch my-modifications
 ```
