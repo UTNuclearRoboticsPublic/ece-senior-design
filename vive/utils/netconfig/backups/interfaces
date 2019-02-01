@@ -8,6 +8,6 @@ iface lo inet loopback
 
 auto eno1
 iface eno1 inet static
-address 10.0.0.1
+address 8.8.8.8
 netmask 255.255.255.0
 
