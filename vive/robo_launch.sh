@@ -6,14 +6,35 @@
 # Date:    01/28/2019
 #####################################################################
 
+export HELLO="hello"
+
+function valid_ip()
+{
+    local  ip=$1
+    local  stat=1
+
+    if [[ $ip =~ ^[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}$ ]]; then
+        OIFS=$IFS
+        IFS='.'
+        ip=($ip)
+        IFS=$OIFS
+        [[ ${ip[0]} -le 255 && ${ip[1]} -le 255 \
+            && ${ip[2]} -le 255 && ${ip[3]} -le 255 ]]
+        stat=$?
+    fi
+    return $stat
+}
+
+
 #####################################################################
 # Parse args
 #####################################################################
-if [ $# -lt 2 ];
-then
-	echo "Usage: robo_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
-	exit 1
-fi
+#if [ $# -ne 5 -o $# -ne 6 ];
+#then
+	#echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b|--basehostname] [-bip|--baseip] [-r|--robohostname] [-rip|--roboip]"
+    #exit 1
+	#echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-nc|--force-default-netconfig] [-b|--basehostname] [-bip|--baseip] [-r|--robohostname] [-rip|--roboip]"
+#fi
 
 while [[ $# -gt 0 ]]
 do
@@ -30,8 +51,80 @@ case $key in
     shift # past argument
     shift # past value
     ;;
+    #-nc|--use-custom-netconfig)
+    #FORCE_DEFAULT_NETCONFIG="$2"
+    #shift # past argument
+    #shift # past value
+    #;;
+    -b|--basehostname)
+    BASENAME="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -r|--robohostname)
+    ROBONAME="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -bip|--baseip)
+    BASEIP="$2"
+    shift # past argument
+    shift # past value
+    ;;
+    -rip|--roboip)
+    ROBOIP="$2"
+    shift # past argument
+    shift # past value
+    ;;
 esac
 done
+
+if [ -z ${CATKIN} ];
+then
+    echo "ERROR: Must provide path to catkin workspace"
+	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
+    exit 1
+    # TODO: Make sure $CATKIN is a valid directory
+fi
+
+if [ -z ${BASENAME} ];
+then
+    echo "ERROR: Must provide base station name"
+	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
+    exit 1
+fi
+
+if [ -z ${ROBONAME} ];
+then
+    echo "ERROR: Must provide robo station name"
+	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
+    exit 1
+fi
+
+if [ -z ${BASEIP} ];
+then
+    echo "ERROR: Must provide base station IP"
+	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
+    exit 1
+else
+    if ! valid_ip $BASEIP;
+        then echo 'Invalid base station IP'; 
+        exit 1;
+    fi
+fi
+
+if [ -z ${ROBOIP} ];
+then
+    echo "ERROR: Must provide robo station IP"
+	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
+    exit 1
+else
+    if ! valid_ip $ROBOIP;
+        then echo 'Invalid robot station IP'; 
+        exit 1;
+    fi
+fi
+
 
 #####################################################################
 # Configure log and vars
@@ -39,7 +132,7 @@ done
 timestamp() {
     date +"%T"
 }
-MYFILENAME="usb-install.sh"
+MYFILENAME="robo_launch.sh"
 if [[ -z "$LOGFILE" ]];
 then
     LOGFILE="log$(timestamp)$MYFILENAME.txt"
@@ -75,6 +168,9 @@ function find_cam_dev_name {
 		)
 	done
 }
+
+export ROS_IP="$ROBOIP"
+export ROS_MASTER_URI="http://$ROBOIP:11311"
 
 #####################################################################
  # Source devel/setup.bash and start roscore
