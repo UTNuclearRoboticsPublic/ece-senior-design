@@ -10,7 +10,7 @@
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: vive_plugin_install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	echo "Usage: openhmd_plugin_install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
