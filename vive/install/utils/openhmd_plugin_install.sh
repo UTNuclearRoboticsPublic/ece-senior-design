@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# Authors: John Sigmon and Daniel Diamont
-# Last modified 11-18-18
+# Authors: John Sigmon, Daniel Diamont, Beathan Andersen, Kate Baumli
+# Last modified 02/04/2019
 # Purpose:
-# This script installs the OSS plug-in for the Vive headset and SteamVR
+# This script installs tbe openHMD plugin
 
 #####################################################################
 # Parse args
@@ -52,6 +52,7 @@ DEST="rviz_openhmd"
 OGREFILES="/usr/include/OGRE/RenderSystems/GL/GL/."
 OGREDEST1="/usr/include/OGRE/RenderSystems/GL/"
 OGREDEST2="/usr/include/GL/"
+OPENHMDDEST="openhmd"
 #RVIZ_CONFIG_FILE="vive_launch_config.rviz"
 #RVIZ_CONFIG="rviz_cfg"
 
@@ -109,17 +110,54 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed libogre-1.9-dev." >> "$LOGFILE"
 fi
 
-if dpkg -s libopenhmd0 &> /dev/null
+#########################################
+# START: New, untested code
+#########################################
+
+# Apt get installs
+sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev
+sudo apt-get install autotools-dev autoconf automake libtool
+sudo apt-get install libsdl2-dev
+sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev
+sudo apt-get install libglew1.5-dev libglew-dev libglewmx1.5-dev libglewmx-dev freeglut3-dev
+
+
+# HIDAPI
+if dpkg -s libhidapi-dev &> /dev/null
 then
-    echo "[INFO: $MYFILENAME $LINENO] libopenhmd0 is already installed, skipping installation." >> "$LOGFILE"
-else 
-    echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd0." >> "$LOGFILE"
-    sudo add-apt-repository ppa:theonlyjoey/openhmd
-    sudo apt-get update
-    sudo apt-get install libopenhmd0
-    echo "[INFO: $MYFILENAME $LINENO] Installed libopenhmd0." >> "$LOGFILE"
+    echo "[INFO: $MYFILENAME $LINENO] libhidapi-dev is already installed, skipping installation." >> "$LOGFILE"
+else
+    echo "[INFO: $MYFILENAME $LINENO] Installing libhidapi-dev." >> "$LOGFILE"
+    sudo apt-get install libhidapi-dev &&
+    echo "[INFO: $MYFILENAME $LINENO] Installed libhidapi.9-dev." >> "$LOGFILE"
+fi
+# OpenHMD
+if dpkg -s libopenhmd-dev &> /dev/null
+then
+    echo "[INFO: $MYFILENAME $LINENO] libopenhmd-dev is already installed, skipping installation." >> "$LOGFILE"
+else
+    echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd-dev." >> "$LOGFILE"
+    git clone https://github.com/OpenHMD/OpenHMD.git
+    ./openHMD/autogen.sh
+    ./openHMD/configure --enable-openglexample
+    make
+    sudo make install
 fi
 
+#if dpkg -s libopenhmd0 &> /dev/null
+#then
+#    echo "[INFO: $MYFILENAME $LINENO] libopenhmd0 is already installed, skipping installation." >> "$LOGFILE"
+#else 
+#    echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd0." >> "$LOGFILE"
+#    sudo add-apt-repository ppa:theonlyjoey/openhmd
+#    sudo apt-get update
+#    sudo apt-get install libopenhmd0
+#    echo "[INFO: $MYFILENAME $LINENO] Installed libopenhmd0." >> "$LOGFILE"
+#fi
+
+#########################################
+# END: New, untested code
+#########################################
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST1" >> "$LOGFILE"
 # shellcheck disable=SC2024
 if ! sudo cp -a "$OGREFILES" "$OGREDEST1" &>> "$LOGFILE"
