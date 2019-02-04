@@ -52,7 +52,6 @@ DEST="rviz_openhmd"
 OGREFILES="/usr/include/OGRE/RenderSystems/GL/GL/."
 OGREDEST1="/usr/include/OGRE/RenderSystems/GL/"
 OGREDEST2="/usr/include/GL/"
-OPENHMDDEST="openhmd"
 #RVIZ_CONFIG_FILE="vive_launch_config.rviz"
 #RVIZ_CONFIG="rviz_cfg"
 
@@ -114,7 +113,7 @@ fi
 # START: New, untested code
 #########################################
 
-# Apt get installs
+# Apt get installs #TODO: This is breaking on the desktop is it breaking on the laptop
 sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev
 sudo apt-get install autotools-dev autoconf automake libtool
 sudo apt-get install libsdl2-dev
@@ -138,10 +137,10 @@ then
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd-dev." >> "$LOGFILE"
     git clone https://github.com/OpenHMD/OpenHMD.git
-    ./openHMD/autogen.sh
-    ./openHMD/configure --enable-openglexample
-    make
-    sudo make install
+    ./OpenHMD/autogen.sh
+    ./OpenHMD/configure --enable-openglexample
+    make -C OpenHMD/
+    sudo make install # Is this right?
 fi
 
 #if dpkg -s libopenhmd0 &> /dev/null
