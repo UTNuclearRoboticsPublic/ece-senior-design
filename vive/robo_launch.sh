@@ -1,12 +1,9 @@
-#!/usr/bin/env bash
 #####################################################################
 # Purpose: Launch robot station part of the system including camera 
 #          setup and publishing, and roscore master
 # Authors: Kate Baumli, Daniel Diamont, Caleb Johnson
 # Date:    01/28/2019
 #####################################################################
-
-export HELLO="hello"
 
 function valid_ip()
 {
@@ -29,12 +26,6 @@ function valid_ip()
 #####################################################################
 # Parse args
 #####################################################################
-#if [ $# -ne 5 -o $# -ne 6 ];
-#then
-	#echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b|--basehostname] [-bip|--baseip] [-r|--robohostname] [-rip|--roboip]"
-    #exit 1
-	#echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-nc|--force-default-netconfig] [-b|--basehostname] [-bip|--baseip] [-r|--robohostname] [-rip|--roboip]"
-#fi
 
 while [[ $# -gt 0 ]]
 do
@@ -142,9 +133,6 @@ SPHERE_LAUNCH="vive.launch"
 SINGLE_CAM_LAUNCH="single-cam.launch"
 DUAL_CAM_LAUNCH="dual-cam.launch"
 
-#RVIZ_CONFIG_FILE="rviz_textured_sphere.rviz"
-#RVIZ_CONFIG="rviz_cfg"
-
 #####################################################################
 # Camera parsing function  --- works for Kodaks only
 #####################################################################
@@ -169,8 +157,6 @@ function find_cam_dev_name {
 	done
 }
 
-export ROS_IP="$ROBOIP"
-export ROS_MASTER_URI="http://$ROBOIP:11311"
 
 #####################################################################
  # Source devel/setup.bash and start roscore
