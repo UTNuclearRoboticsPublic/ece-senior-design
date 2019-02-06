@@ -41,17 +41,19 @@ MYFILENAME="test_install.sh"
 
 # start time
 
-if ! docker build -t testinstall .
+#unsure if --no-chache flag is needed?
+if ! docker build --no-cache -t testinstall .
 then
     echo "[ERROR l.$LINENO $MYFILENAME] Docker needs to be installed." # to logfile or no?
     exit 1
 fi
 
-docker run testinstall #TODO fix for mounting volume
+docker run -a STDOUT testinstall > "$LOGFILE" 
 
-# get log file
-
+#NUM_ERRORS=$(grep $LOGFILE E | wc -l)
+#if 
 # search for errors 
+# copy code from test-singlenode launch
 
 # write out results
 

@@ -82,7 +82,6 @@ sudo apt-get update && apt-get -y install build-essential=12.1ubuntu2\
                         cmake=3.5.1-1ubuntu3\
                         git\
                         libgtest-dev=1.7.0-4ubuntu1\
-                        python-catkin-pkg=0.4.9-100\
                         v4l-utils=1.10.0-1 2>&1 | tee -a "$LOGPATH"
 
 #                    python-empy\ 

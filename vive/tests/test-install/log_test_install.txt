@@ -1,83 +1,0 @@
-Hit:1 http://archive.ubuntu.com/ubuntu xenial InRelease
-Get:2 http://security.ubuntu.com/ubuntu xenial-security InRelease [107 kB]
-Get:3 http://archive.ubuntu.com/ubuntu xenial-updates InRelease [109 kB]
-Get:4 http://archive.ubuntu.com/ubuntu xenial-backports InRelease [107 kB]
-Fetched 323 kB in 1s (318 kB/s)
-Reading package lists...
-Reading package lists...
-Building dependency tree...
-Reading state information...
-E: Version '0.4.9-100' for 'python-catkin-pkg' was not found
-Reading package lists...
-Building dependency tree...
-Reading state information...
-E: Unable to locate package ros-kinetic-catkin
-dpkg-query: package 'ros-kinetic-desktop-full' is not installed and no information is available
-Use dpkg --info (= dpkg-deb --info) to examine archive files,
-and dpkg --contents (= dpkg-deb --contents) to list their contents.
-sh: 1: lsb_release: not found
-Executing: /tmp/tmp.un6hVo17tP/gpg.1.sh --keyserver
-hkp://ha.pool.sks-keyservers.net:80
---recv-key
-421C365BD9FF1F717815A3895523BAEEB01FA116
-gpg: requesting key B01FA116 from hkp server ha.pool.sks-keyservers.net
-gpgkeys: key 421C365BD9FF1F717815A3895523BAEEB01FA116 can't be retrieved
-gpg: no valid OpenPGP data found.
-gpg: Total number processed: 0
-gpg: keyserver communications error: keyserver helper general error
-gpg: keyserver communications error: unknown pubkey algorithm
-gpg: keyserver receive failed: unknown pubkey algorithm
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-sudo: rosdep: command not found
-utils/ros_install.sh: line 60: rosdep: command not found
-[INFO: ros_install.sh 64] Installed ros-kinetic-desktop-full.
-[INFO: open_cv_video_stream_install.sh 66] Installing video_stream_opencv into /ece-senior-design/vive/install/catkin/src/video_stream_opencv
-Cloning into '/ece-senior-design/vive/install/catkin/src/video_stream_opencv'...
-[INFO: open_cv_video_stream_install.sh 68] Installed video_stream_opencv into /ece-senior-design/vive/install/catkin/src/video_stream_opencv
-[INFO: open_cv_video_stream_install.sh 76] Copying single-cam.launch to /ece-senior-design/vive/install/catkin/src/video_stream_opencv/launch/single-cam.launch
-[INFO: open_cv_video_stream_install.sh 87] Copying dual-cam.launch to /ece-senior-design/vive/install/catkin/src/video_stream_opencv/launch/dual-cam.launch
-[INFO: rviz_textured_sphere_install.sh 68] Cloning rviz_textured_sphere into /ece-senior-design/vive/install/catkin/src.
-Cloning into '/ece-senior-design/vive/install/catkin/src/rviz_textured_sphere'...
-[INFO: rviz_textured_sphere_install.sh 70] rviz_textured_sphere cloned to /ece-senior-design/vive/install/catkin/src/rviz_textured_sphere
-[INFO: rviz_textured_sphere_install.sh 76] Copying vive.launch from /ece-senior-design/vive/install/utils/config/vive.launch 	to /ece-senior-design/vive/install/catkin/src/rviz_textured_sphere/launch/vive.launch
-[INFO: rviz_textured_sphere_install.sh 87]  Line 8 changed from 	launch-prefix="/home/btandersen/.steam/ubuntu12_32/steam-runtime/run.sh" /> to         launch-prefix="/root/.steam/ubuntu12_32/steam-runtime/run.sh" />
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-cp: cannot stat '/usr/include/OGRE/RenderSystems/GL/GL/.': No such file or directory
-[ERROR: vive_plugin_install.sh 72] Copy /usr/include/OGRE/RenderSystems/GL/GL/. to /usr/include/OGRE/RenderSystems/GL/ failed
-cp: cannot stat '/usr/include/OGRE/RenderSystems/GL/GL/.': No such file or directory
-[ERROR: vive_plugin_install.sh 78] Copy /usr/include/OGRE/RenderSystems/GL/GL/. to /usr/include/OGRE/RenderSystems/GL/ failed
-
-WARNING: apt does not have a stable CLI interface. Use with caution in scripts.
-
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-utils/vive_plugin_install.sh: line 91: wget: command not found
-sudo: gdebi: command not found
-[INFO: vive_plugin_install.sh 108] Cloning OpenVR into /ece-senior-design/vive/install/catkin/src.
-Cloning into '/ece-senior-design/vive/install/catkin/src/openvr'...
-Checking out files:  17% (121/686)   Checking out files:  18% (124/686)   Checking out files:  19% (131/686)   Checking out files:  20% (138/686)   Checking out files:  21% (145/686)   Checking out files:  22% (151/686)   Checking out files:  23% (158/686)   Checking out files:  24% (165/686)   Checking out files:  25% (172/686)   Checking out files:  26% (179/686)   Checking out files:  27% (186/686)   Checking out files:  28% (193/686)   Checking out files:  29% (199/686)   Checking out files:  30% (206/686)   Checking out files:  31% (213/686)   Checking out files:  32% (220/686)   Checking out files:  33% (227/686)   Checking out files:  34% (234/686)   Checking out files:  35% (241/686)   Checking out files:  36% (247/686)   Checking out files:  37% (254/686)   Checking out files:  38% (261/686)   Checking out files:  39% (268/686)   Checking out files:  40% (275/686)   Checking out files:  41% (282/686)   Checking out files:  42% (289/686)   Checking out files:  43% (295/686)   Checking out files:  44% (302/686)   Checking out files:  45% (309/686)   Checking out files:  46% (316/686)   Checking out files:  47% (323/686)   Checking out files:  48% (330/686)   Checking out files:  49% (337/686)   Checking out files:  50% (343/686)   Checking out files:  51% (350/686)   Checking out files:  52% (357/686)   Checking out files:  53% (364/686)   Checking out files:  54% (371/686)   Checking out files:  55% (378/686)   Checking out files:  56% (385/686)   Checking out files:  57% (392/686)   Checking out files:  58% (398/686)   Checking out files:  59% (405/686)   Checking out files:  60% (412/686)   Checking out files:  61% (419/686)   Checking out files:  62% (426/686)   Checking out files:  63% (433/686)   Checking out files:  64% (440/686)   Checking out files:  65% (446/686)   Checking out files:  66% (453/686)   Checking out files:  67% (460/686)   Checking out files:  68% (467/686)   Checking out files:  69% (474/686)   Checking out files:  70% (481/686)   Checking out files:  71% (488/686)   Checking out files:  72% (494/686)   Checking out files:  73% (501/686)   Checking out files:  74% (508/686)   Checking out files:  75% (515/686)   Checking out files:  76% (522/686)   Checking out files:  77% (529/686)   Checking out files:  78% (536/686)   Checking out files:  79% (542/686)   Checking out files:  80% (549/686)   Checking out files:  81% (556/686)   Checking out files:  82% (563/686)   Checking out files:  83% (570/686)   Checking out files:  84% (577/686)   Checking out files:  85% (584/686)   Checking out files:  86% (590/686)   Checking out files:  87% (597/686)   Checking out files:  88% (604/686)   Checking out files:  89% (611/686)   Checking out files:  90% (618/686)   Checking out files:  91% (625/686)   Checking out files:  92% (632/686)   Checking out files:  93% (638/686)   Checking out files:  94% (645/686)   Checking out files:  95% (652/686)   Checking out files:  96% (659/686)   Checking out files:  97% (666/686)   Checking out files:  98% (673/686)   Checking out files:  99% (680/686)   Checking out files: 100% (686/686)   Checking out files: 100% (686/686), done.
-utils/vive_plugin_install.sh: line 113: cmake: command not found
-utils/vive_plugin_install.sh: line 118: make: command not found
-[INFO: vive_plugin_install.sh 130] Cloning rviz_vive in /ece-senior-design/vive/install/catkin/src.
-Cloning into '/ece-senior-design/vive/install/catkin/src/rviz_vive'...
-[INFO: vive_plugin_install.sh 146] /ece-senior-design/vive/install/catkin/src/rviz_vive/CMakeLists.txt for rviz_vive edited. Line 30 changed from set(OPENVR "~/agn/openvr") to set(OPENVR "/ece-senior-design/vive/install/catkin/src/openvr")
-sudo: ubuntu-drivers: command not found
-[INFO: vive_plugin_install.sh 163] Updating package lists with 'apt-get update'.
-[INFO: vive_plugin_install.sh 166] Installing 
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-E: Malformed entry 1 in list file /etc/apt/sources.list.d/ros-latest.list (Component)
-E: The list of sources could not be read.
-[INFO: install.sh 104] Install finished.
