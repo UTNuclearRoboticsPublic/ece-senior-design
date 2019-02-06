@@ -63,3 +63,4 @@ then
     source ~/.bashrc
     echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop."
 fi
+

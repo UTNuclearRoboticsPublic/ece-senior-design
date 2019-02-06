@@ -104,7 +104,12 @@ sudo apt-get autoclean -y
 echo "[INFO: $MYFILENAME $LINENO] Install finished." 2>&1 | tee -a "$LOGPATH"
 
 ####################################################################
-# Set ROS environment variables
+# Set ROS environment variables and set up network files
 ####################################################################
 echo 'export ROS_MASTER_URI=http://robo:11311'>>~/.bashrc
 echo 'export ROS_IP=10.0.0.2'>>~/.bashrc
+
+> /etc/hosts
+echo '127.0.0.1       localhost'>>/etc/hosts
+echo '10.0.0.1        base'>>/etc/hosts
+echo '10.0.0.2        robo'>>/etc/hosts
