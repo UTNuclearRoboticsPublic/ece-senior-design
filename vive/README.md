@@ -66,7 +66,7 @@ Navigate to `install/` and run `install.sh`.
 
 ```bash
 cd install
-bash -i install.sh <path to catkin workspace>
+sudo bash install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]
 ```
 
 You must make the catkin workspace after intallation.

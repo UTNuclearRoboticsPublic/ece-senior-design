@@ -5,7 +5,7 @@ To install the full module for the first time, start by creating or locating the
 
 ```bash
 cd install
-bash -i install.sh <path to catkin workspace>
+sudo bash install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]
 ```
 
 You must build the catkin workspace after intallation.
