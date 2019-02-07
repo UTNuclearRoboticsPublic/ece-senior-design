@@ -5,7 +5,14 @@ To install the full module for the first time, start by creating or locating the
 
 ```bash
 cd install
-sudo bash install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]
+bash install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]
+```
+
+There are currently problems with sudo and ros, a temporary fix may be to run the following after installation:
+
+```bash
+sudo rosdep fix-permissions
+rosdep update
 ```
 
 You must build the catkin workspace after intallation.

@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#/usr/bin/env bash
 #
 # Authors: Daniel Diamont and John Sigmon
 # Last Modified: 12-18-2018
@@ -63,3 +63,5 @@ then
     source ~/.bashrc
     echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-desktop."
 fi
+
+sudo apt-get install -y ros-kinetic-camera-info-manager 2>&1 | tee -a "$LOGFILE" 
