@@ -141,16 +141,19 @@ else
     echo 'Improper use of -isbase. Use -isbase (y or n)'
 fi
 
+# shellcheck disable=SC2188
 > /etc/hosts
-echo '127.0.0.1       localhost'>>/etc/hosts
+# shellcheck disable=SC2129
+echo "127.0.0.1       localhost">>/etc/hosts
 echo "$BASEIP        $BASENAME">>/etc/hosts
 echo "$ROBOIP        $ROBONAME">>/etc/hosts
 
+# shellcheck disable=SC2188
 > /etc/hostname
 if [ "$ISBASE" == "y" ];
 then
     echo "$BASENAME">>/etc/hostname
-elif [ $ISBASE == "n" ];
+elif [ "$ISBASE" == "n" ];
 then
     echo "$ROBONAME">>/etc/hostname
 else

@@ -1,3 +1,4 @@
+#!/usr/bin/env bash
 #####################################################################
 # Purpose: Launch robot station part of the system including camera 
 #          setup and publishing, and roscore master
@@ -45,7 +46,7 @@ case $key in
 esac
 done
 
-if [ -z ${CATKIN} ];
+if [ -z "${CATKIN}" ];
 then
     echo "ERROR: Must provide path to catkin workspace"
 	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
@@ -66,7 +67,7 @@ then
     LOGFILE="log$(timestamp)$MYFILENAME.txt"
 fi
 
-SPHERE_LAUNCH="vive.launch"
+# SPHERE_LAUNCH="vive.launch"
 SINGLE_CAM_LAUNCH="single-cam.launch"
 DUAL_CAM_LAUNCH="dual-cam.launch"
 

@@ -45,7 +45,7 @@ case $key in
 esac
 done
 
-if [ -z ${CATKIN} ];
+if [ -z "${CATKIN}" ];
 then
     echo "ERROR: Must provide path to catkin workspace"
 	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
@@ -66,8 +66,8 @@ then
 fi
 
 SPHERE_LAUNCH="vive.launch"
-RVIZ_CONFIG_FILE="rviz_textured_sphere.rviz"
-RVIZ_CONFIG="rviz_cfg"
+# RVIZ_CONFIG_FILE="rviz_textured_sphere.rviz"
+# RVIZ_CONFIG="rviz_cfg"
 
 #####################################################################
  # Source devel/setup.bash 
