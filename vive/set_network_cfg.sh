@@ -72,38 +72,38 @@ esac
 done
 
 
-if [ -z ${ISBASE} ];
+if [ -z "${ISBASE}" ];
 then
     echo 'Must specify if this machine is base or robo.'
     echo 'Use -isbase (y or n)'
     exit 1;
 fi
 
-if [ -z ${BASENAME} ];
+if [ -z "${BASENAME}" ];
 then
     BASENAME="base"
 fi
 
-if [ -z ${ROBONAME} ];
+if [ -z "${ROBONAME}" ];
 then
     ROBONAME="robo"
 fi
 
-if [ -z ${BASEIP} ];
+if [ -z "${BASEIP}" ];
 then
     BASEIP="10.0.0.1"
 else
-    if ! valid_ip $BASEIP;
+    if ! valid_ip "$BASEIP";
         then echo 'Invalid base station IP'; 
         exit 1;
     fi
 fi
 
-if [ -z ${ROBOIP} ];
+if [ -z "${ROBOIP}" ];
 then
     ROBOIP="10.0.0.2"
 else
-    if ! valid_ip $ROBOIP;
+    if ! valid_ip "$ROBOIP";
         then echo 'Invalid robot station IP'; 
         exit 1;
     fi
@@ -128,10 +128,13 @@ fi
 ####################################################################
 echo "export ROS_MASTER_URI=http://$ROBOIP:11311">>~/.bashrc
 
-if [ $ISBASE == "y" ];
+# shellcheck disable=SC2188
+# shellcheck disable=SC2129
+
+if [ "$ISBASE" == "y" ];
 then
     echo "export ROS_IP=$BASEIP">>~/.bashrc
-elif [ $ISBASE == "n" ];
+elif [ "$ISBASE" == "n" ];
 then
     echo "export ROS_IP=$ROBOIP">>~/.bashrc
 else
@@ -144,7 +147,7 @@ echo "$BASEIP        $BASENAME">>/etc/hosts
 echo "$ROBOIP        $ROBONAME">>/etc/hosts
 
 > /etc/hostname
-if [ $ISBASE == "y" ];
+if [ "$ISBASE" == "y" ];
 then
     echo "$BASENAME">>/etc/hostname
 elif [ $ISBASE == "n" ];

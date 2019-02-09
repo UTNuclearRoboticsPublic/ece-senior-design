@@ -42,31 +42,6 @@ case $key in
     shift # past argument
     shift # past value
     ;;
-    #-nc|--use-custom-netconfig)
-    #FORCE_DEFAULT_NETCONFIG="$2"
-    #shift # past argument
-    #shift # past value
-    #;;
-    -b|--basehostname)
-    BASENAME="$2"
-    shift # past argument
-    shift # past value
-    ;;
-    -r|--robohostname)
-    ROBONAME="$2"
-    shift # past argument
-    shift # past value
-    ;;
-    -bip|--baseip)
-    BASEIP="$2"
-    shift # past argument
-    shift # past value
-    ;;
-    -rip|--roboip)
-    ROBOIP="$2"
-    shift # past argument
-    shift # past value
-    ;;
 esac
 done
 
@@ -76,44 +51,6 @@ then
 	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
     exit 1
     # TODO: Make sure $CATKIN is a valid directory
-fi
-
-if [ -z ${BASENAME} ];
-then
-    echo "ERROR: Must provide base station name"
-	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
-    exit 1
-fi
-
-if [ -z ${ROBONAME} ];
-then
-    echo "ERROR: Must provide robo station name"
-	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
-    exit 1
-fi
-
-if [ -z ${BASEIP} ];
-then
-    echo "ERROR: Must provide base station IP"
-	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
-    exit 1
-else
-    if ! valid_ip $BASEIP;
-        then echo 'Invalid base station IP'; 
-        exit 1;
-    fi
-fi
-
-if [ -z ${ROBOIP} ];
-then
-    echo "ERROR: Must provide robo station IP"
-	echo "Usage: base_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile] [-b basehostname] [-bip baseip] [-r robohostname] [-rip roboip]"
-    exit 1
-else
-    if ! valid_ip $ROBOIP;
-        then echo 'Invalid robot station IP'; 
-        exit 1;
-    fi
 fi
 
 
