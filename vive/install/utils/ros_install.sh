@@ -1,4 +1,4 @@
-#/usr/bin/env bash
+#!/usr/bin/env bash
 #
 # Authors: Daniel Diamont and John Sigmon
 # Last Modified: 12-18-2018
