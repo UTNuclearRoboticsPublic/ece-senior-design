@@ -78,7 +78,7 @@ then
     echo "[INFO: $MYFILENAME $LINENO] libglu1-mesa-dev is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing libglu1-mesa-dev." >> "$LOGFILE"
-    sudo apt-get libglu1-mesa-dev &&
+    sudo apt-get -y install libglu1-mesa-dev &&
     echo "[INFO: $MYFILENAME $LINENO] Installed libglu1-mesa-dev." >> "$LOGFILE"
 fi
 
@@ -87,7 +87,7 @@ then
     echo "[INFO: $MYFILENAME $LINENO] freeglut3-dev is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing freeglut3-dev." >> "$LOGFILE"
-    sudo apt-get freeglut3-dev &&
+    sudo apt-get -y install freeglut3-dev &&
     echo "[INFO: $MYFILENAME $LINENO] Installed freeglut3-dev." >> "$LOGFILE"
 fi
 
@@ -96,7 +96,7 @@ then
     echo "[INFO: $MYFILENAME $LINENO] mesa-common-dev is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing mesa-common-dev." >> "$LOGFILE"
-    sudo apt-get mesa-common-dev &&
+    sudo apt-get -y install mesa-common-dev &&
     echo "[INFO: $MYFILENAME $LINENO] Installed mesa-common-dev." >> "$LOGFILE"
 fi
 
@@ -105,7 +105,7 @@ then
     echo "[INFO: $MYFILENAME $LINENO] libogre-1.9-dev is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing libogre-1.9-dev." >> "$LOGFILE"
-    sudo apt-get libogre-1.9-dev &&
+    sudo apt-get -y install libogre-1.9-dev &&
     echo "[INFO: $MYFILENAME $LINENO] Installed libogre-1.9-dev." >> "$LOGFILE"
 fi
 
@@ -114,11 +114,11 @@ fi
 #########################################
 
 # Apt get installs #TODO: This is breaking on the desktop is it breaking on the laptop
-sudo apt-get install libudev-dev libusb-1.0-0-dev libfox-1.6-dev
-sudo apt-get install autotools-dev autoconf automake libtool
-sudo apt-get install libsdl2-dev
-sudo apt-get install build-essential libxmu-dev libxi-dev libgl-dev
-sudo apt-get install libglew1.5-dev libglew-dev libglewmx1.5-dev libglewmx-dev freeglut3-dev
+sudo apt-get -y install libudev-dev libusb-1.0-0-dev libfox-1.6-dev &&
+sudo apt-get -y install autotools-dev autoconf automake libtool &&
+sudo apt-get -y install libsdl2-dev &&
+sudo apt-get -y install build-essential libxmu-dev libxi-dev libgl-dev &&
+sudo apt-get -y install libglew1.5-dev libglew-dev libglewmx1.5-dev libglewmx-dev freeglut3-dev &&
 
 
 # HIDAPI
@@ -127,7 +127,7 @@ then
     echo "[INFO: $MYFILENAME $LINENO] libhidapi-dev is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing libhidapi-dev." >> "$LOGFILE"
-    sudo apt-get install libhidapi-dev &&
+    sudo apt-get -y install libhidapi-dev &&
     echo "[INFO: $MYFILENAME $LINENO] Installed libhidapi.9-dev." >> "$LOGFILE"
 fi
 # OpenHMD
@@ -137,10 +137,15 @@ then
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd-dev." >> "$LOGFILE"
     git clone https://github.com/OpenHMD/OpenHMD.git
-    ./OpenHMD/autogen.sh
-    ./OpenHMD/configure --enable-openglexample
-    make -C OpenHMD/
-    sudo make install # Is this right?
+    cd OpenHMD
+    git checkout 4ca169b49ab4ea4bee2a8ea519d9ba8dcf662bd5
+    cmake .
+    make
+    ./autogen.sh
+    ./configure
+    make
+    sudo make install
+    cd ..
 fi
 
 #if dpkg -s libopenhmd0 &> /dev/null
