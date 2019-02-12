@@ -62,23 +62,7 @@ bash kill_launch.sh
 
 ## Installation
 
-Navigate to `install/` and run `install.sh`.
-
-```bash
-cd install
-bash -i install.sh <path to catkin workspace>
-```
-
-You must make the catkin workspace after intallation.
-
-```bash
-cd <catkin workspace>
-catkin build
-```
-
-Note that `catkin_make` can also be used to build your workspace, however the two methods cannot be combined. See [https://catkin-tools.readthedocs.io/en/latest/migration.html](https://catkin-tools.readthedocs.io/en/latest/migration.html) for more details.
-
-Further installation details can be found inside [`install/`](install)
+See installation instructions in [the install directory](#install/README.md).
 
 ---
 
