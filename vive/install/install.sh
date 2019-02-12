@@ -59,8 +59,8 @@ MYFILENAME="install.sh"
 
 # Check if log was passed in, if not then make one
 if [[ -z "$LOGFILE" ]];
-then 
-    LOGILE="log_${MYFILENAME}_$(timestamp).txt"
+then
+    LOGFILE="log_${MYFILENAME}_$(timestamp).txt"
 fi
 
 LOGDIR="logs"
