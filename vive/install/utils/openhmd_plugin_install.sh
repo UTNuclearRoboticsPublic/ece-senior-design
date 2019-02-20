@@ -52,6 +52,8 @@ DEST="rviz_openhmd"
 OGREFILES="/usr/include/OGRE/RenderSystems/GL/GL/."
 OGREDEST1="/usr/include/OGRE/RenderSystems/GL/"
 OGREDEST2="/usr/include/GL/"
+OPENHMDRULES="/config/50-openhmd.rules"
+RULESDEST="/etc/udev/rules"
 #RVIZ_CONFIG_FILE="vive_launch_config.rviz"
 #RVIZ_CONFIG="rviz_cfg"
 
@@ -130,6 +132,7 @@ else
     sudo apt-get -y install libhidapi-dev &&
     echo "[INFO: $MYFILENAME $LINENO] Installed libhidapi.9-dev." >> "$LOGFILE"
 fi
+
 # OpenHMD
 if dpkg -s libopenhmd-dev &> /dev/null
 then
@@ -141,12 +144,18 @@ else
     git checkout 4ca169b49ab4ea4bee2a8ea519d9ba8dcf662bd5
     cmake .
     make
-    ./autogen.sh
-    ./configure
-    make
-    sudo make install
     cd ..
 fi
+
+# Add usb rules
+echo "[INFO: $MYFILENAME $LINENO] Copying $OPENHMDRULES to $RULESDEST" >> "$LOGFILE"
+# shellcheck disable=SC2024
+if ! sudo cp -a "$OPENHMDRULES" "$RULESDEST" &>> "$LOGFILE"
+then
+    echo "[ERROR: $MYFILENAME $LINENO] Copy $OPENHMDRULES to $RULESDEST failed" >> "$LOGFILE"
+fi
+
+udevadm control --reload-rules
 
 #if dpkg -s libopenhmd0 &> /dev/null
 #then
