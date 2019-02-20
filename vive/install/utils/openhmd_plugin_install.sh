@@ -111,10 +111,6 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed libogre-1.9-dev." >> "$LOGFILE"
 fi
 
-#########################################
-# START: New, untested code
-#########################################
-
 # Apt get installs #TODO: This is breaking on the desktop is it breaking on the laptop
 sudo apt-get -y install libudev-dev libusb-1.0-0-dev libfox-1.6-dev &&
 sudo apt-get -y install autotools-dev autoconf automake libtool &&
@@ -133,6 +129,9 @@ else
     echo "[INFO: $MYFILENAME $LINENO] Installed libhidapi.9-dev." >> "$LOGFILE"
 fi
 
+#########################################
+# TODO: check for install
+#########################################
 # OpenHMD
 if dpkg -s libopenhmd-dev &> /dev/null
 then
@@ -147,6 +146,9 @@ else
     cd ..
 fi
 
+#########################################
+# TODO: cp is not working
+#########################################
 # Add usb rules
 echo "[INFO: $MYFILENAME $LINENO] Copying $OPENHMDRULES to $RULESDEST" >> "$LOGFILE"
 # shellcheck disable=SC2024
@@ -154,23 +156,8 @@ if ! sudo cp -a "$OPENHMDRULES" "$RULESDEST" &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $OPENHMDRULES to $RULESDEST failed" >> "$LOGFILE"
 fi
-
 udevadm control --reload-rules
 
-#if dpkg -s libopenhmd0 &> /dev/null
-#then
-#    echo "[INFO: $MYFILENAME $LINENO] libopenhmd0 is already installed, skipping installation." >> "$LOGFILE"
-#else 
-#    echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd0." >> "$LOGFILE"
-#    sudo add-apt-repository ppa:theonlyjoey/openhmd
-#    sudo apt-get update
-#    sudo apt-get install libopenhmd0
-#    echo "[INFO: $MYFILENAME $LINENO] Installed libopenhmd0." >> "$LOGFILE"
-#fi
-
-#########################################
-# END: New, untested code
-#########################################
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST1" >> "$LOGFILE"
 # shellcheck disable=SC2024
 if ! sudo cp -a "$OGREFILES" "$OGREDEST1" &>> "$LOGFILE"
