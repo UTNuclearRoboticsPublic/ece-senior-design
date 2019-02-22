@@ -22,16 +22,6 @@
 #	simply skip over these
 #
 
-# Check if shell was launched with interactive mode '-i'
-if [[ $- == *i* ]]
-then
-	echo "Launching..."
-else
-	echo "Usage: bash -i install.sh <Path to catkin workspace directory>"
-	echo "Did you forget the '-i'?"
-    exit 1
-fi
-
 #####################################################################
 # Parse args
 #####################################################################
