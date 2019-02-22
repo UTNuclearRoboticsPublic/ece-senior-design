@@ -36,19 +36,20 @@ else
     echo "[INFO: $0 $LINENO $(timestamp)] First test passed!]" >> "$LOGFILE"
 fi
 
+sleep 60s
+
+bash ../kill_launch.sh
 
 #####################################################################
 # Grep log for errors
 #####################################################################
-NUMERRORS=$(grep ERROR "$LOGFILE")
+# -c for count, -e acts as switch statement
+NUMERRORS=$(grep -c -e ERROR -e E. "$LOGFILE")
 if [ "$NUMERRORS" = "0" ]
 then
-    echo "[ERROR: $0 $LINENO $(timestamp)] $NUMERRORS tests failed.]" >> "$LOGFILE"
+    echo "[ERROR: $0 $LINENO $(timestamp)] $NUMERRORS tests failed.]" 2>&1 | tee -a "$LOGFILE"
     exit 1
 else
-    echo "[ERROR: $0 $LINENO $(timestamp)] $NUMERRORS tests failed.]" >> "$LOGFILE"
+    echo "No errors found in log file."
     exit 0
 fi
-
-#TODO fail on warnings?
-

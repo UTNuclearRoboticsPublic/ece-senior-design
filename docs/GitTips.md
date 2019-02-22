@@ -2,6 +2,14 @@
 
 ---
 
+## Oh Shit Git
+
+There is a copy of [Julia Evans'](https://jvns.ca/) wonderful 10 page pdf called "Oh Shit Git" pinned to our Slack general.
+
+## Commit messages
+
+A [rant](https://juffalow.com/other/write-good-git-commit-message) on writing commit messages. This never seems to matter until you have a broken build and can't figure out which commit to revert to.
+
 ## Submitting a Pull Request
 
 In the ideal case, any changes we make are in a branch separate from master. After verifying your changes on your branch, you can navigate to the repository in your web browser and issue a pull request.
@@ -59,3 +67,11 @@ echo "export VISUAL=vim" >> ~/.bashrc
 echo "export EDITOR=\"$VISUAL\"" >> ~/.bashrc
 source ~/.bashrc
 ```
+
+## Using git commit --amend
+
+Git commit is usually useful for things like typos. Be very careful about amending a commit already pushed to the remote repository.
+
+If you already made a commit, first make your amended changes, then stage them with `git add <file>`. Then run `git commit --amend`, which should bring up the message from the commit you are trying to amend. If you have not yet pushed your changes, then just push as normal. Otherwise if you are amending a commit already in the remote, you will need to use `git push --force <branch>`.
+
+More details are [here](https://help.github.com/articles/changing-a-commit-message/).

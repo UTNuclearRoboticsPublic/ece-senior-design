@@ -71,6 +71,3 @@ catkin/
 catkin-ws/
 test-catkin/
 test_catkin/
-
-# OpenHMD install
-OpenHMD/

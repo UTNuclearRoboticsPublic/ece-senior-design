@@ -37,7 +37,7 @@ fi
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: single_node_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	echo "Usage: install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -66,7 +66,17 @@ timestamp() {
 # TODO check catkin relative for absolute and ~
 CATKIN_ABS=$PWD/$CATKIN_RELATIVE
 MYFILENAME="install.sh"
-LOGFILE="log$(timestamp)$MYFILENAME.txt"
+
+# Check if log was passed in, if not then make one
+if [[ -z "$LOGFILE" ]];
+then
+    LOGFILE="log_${MYFILENAME}_$(timestamp).txt"
+fi
+
+LOGDIR="logs"
+mkdir -p "$CATKIN_RELATIVE"
+mkdir -p "$CATKIN_RELATIVE"/"$LOGDIR"
+LOGPATH="$CATKIN_ABS"/"$LOGDIR"/"$LOGFILE"
 UTILS="utils"
 scriptdir="$(dirname "$0")"
 cd "$scriptdir" || exit
@@ -74,108 +84,27 @@ cd "$scriptdir" || exit
 #####################################################################
 # Install dependencies
 #####################################################################
-if dpkg -s git &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] git is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing git." >> "$LOGFILE"
-    sudo apt-get install git &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed git." >> "$LOGFILE"
-fi
+sudo apt-get update && sudo apt-get -y install build-essential=12.1ubuntu2\
+                        cmake=3.5.1-1ubuntu3\
+                        git\
+                        libgtest-dev=1.7.0-4ubuntu1\
+                        v4l-utils=1.10.0-1 2>&1 | tee -a "$LOGPATH"
 
-if dpkg -s python-catkin-pkg &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] python-catkin-pkg is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing python-catkin-pkg." >> "$LOGFILE"
-	sudo apt-get install python-catkin-pkg &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed python-catkin-pkg." >> "$LOGFILE"
-fi
-
-if dpkg -s cmake &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] cmake is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing cmake." >> "$LOGFILE"
-	sudo apt-get install cmake &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed cmake." >> "$LOGFILE"
-fi
-
-if dpkg -s python-empy &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] python-empy is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing python-empy." >> "$LOGFILE"
-	sudo apt-get install python-empy &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed python-empy." >> "$LOGFILE"
-fi
-
-if dpkg -s v4l-utils &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] v4l-utils is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing v4l-utils." >> "$LOGFILE"
-	sudo apt-get install v4l-utils &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed v4l-utils." >> "$LOGFILE"
-fi
-
-if dpkg -s python-nose &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] python-nose is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing python-nose." >> "$LOGFILE"
-	sudo apt-get install python-nose &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed python-nose." >> "$LOGFILE"
-fi
-
-if dpkg -s python-setuptools &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] python-setuptools is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing python-setuptools." >> "$LOGFILE"
-	sudo apt-get install python-setuptools &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed python-setuptools." >> "$LOGFILE"
-fi
-
-if dpkg -s libgtest-dev &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] libgtest-dev is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing libgtest-dev." >> "$LOGFILE"
-	sudo apt-get install libgtest-dev &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed libgtest-dev." >> "$LOGFILE"
-fi
-
-if dpkg -s build-essential &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] build-essential is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing build-essential." >> "$LOGFILE"
-	sudo apt-get install build-essential &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed build-essential." >> "$LOGFILE"
-fi
+#                    python-empy\ 
+#                    python-nose\
+#                    python-setuptools\
 
 #####################################################################
-# Install ROS-Kinetic
+# Install ROS-Kinetic, OpenCV Video streaming package, 
+# stitching plug-in, and Vive plug-in
 #####################################################################
-bash -i "$UTILS"/ros_install.sh -l "$LOGFILE"
-
-if dpkg -s ros-kinetic-catkin &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] ros-kinetic-catkin is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing ros-kinetic-catkin." >> "$LOGFILE"
-    sudo apt-get install ros-kinetic-catkin &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed ros-kinetic-catkin." >> "$LOGFILE"
-fi
-
-#############################################################################
-# Install OpenCV Video streaming package, stitching plug-in, and Vive plug-in
-#############################################################################
-bash -i "$UTILS"/cv_video_stream_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
-bash -i "$UTILS"/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
-bash -i "$UTILS"/openhmd_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGFILE"
+bash "$UTILS"/ros_install.sh -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/open_cv_video_stream_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/openhmd_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
 
 # shellcheck disable=SC1091
-source /opt/ros/kinetic/setup.bash
-echo "[INFO: $MYFILENAME $LINENO] Install finished." >> "$LOGFILE"
+source /opt/ros/kinetic/setup.bash >> ~/.bashrc
+sudo apt-get autoremove -y
+sudo apt-get autoclean -y
+echo "[INFO: $MYFILENAME $LINENO] Install finished." 2>&1 | tee -a "$LOGPATH"

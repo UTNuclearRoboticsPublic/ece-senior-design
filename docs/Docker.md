@@ -28,6 +28,12 @@ Docker provides installation instructions on their website for many platforms [h
 
 ## Advanced Usage
 
+#### Best Practices
+
+* [Collection of practices on GitHub](https://github.com/FuriKuri/docker-best-practices)
+
+* [Google post on best practices](https://cloud.google.com/solutions/best-practices-for-building-containers)
+
 #### Dockerfiles
 
 * [Docker's Documentation](https://docs.docker.com/engine/reference/builder/#usage)
@@ -43,3 +49,6 @@ Amy Tabb's [website](https://amytabb.com/) contains a good three part [tutorial]
 #### Vladislav`s Blog
 
 This guy`s [blog](https://vsupalov.com/) is a wealth of information and has tons of articles regarding more advanced Docker usage.
+
+stash re copying files
+https://stackoverflow.com/questions/22049212/copying-files-from-docker-container-to-host
