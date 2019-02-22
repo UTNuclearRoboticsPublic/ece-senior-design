@@ -60,91 +60,45 @@ RULESDEST="/etc/udev/rules"
 #####################################################################
 # Make Catkin dirs if not there
 #####################################################################
-if [ ! -d "$CATKIN"/"$BUILD" ];
-then
-	echo "[INFO: $MYFILENAME $LINENO] Making $BUILD dir in catkin workspace at $CATKIN" >> "$LOGFILE"
-    mkdir -p "$CATKIN"/"$BUILD"
-fi
-
-if [ ! -d "$CATKIN"/"$SRC" ];
-then
-	echo "[INFO: $MYFILENAME $LINENO] Making $SRC dir in catkin workspace at $CATKIN" >> "$LOGFILE"
-    mkdir -p "$CATKIN"/"$SRC"
-fi
+mkdir -p "$CATKIN"/"$BUILD"
+mkdir -p "$CATKIN"/"$SRC"
 
 #####################################################################
 # Install dependencies
 #####################################################################
-if dpkg -s libglu1-mesa-dev &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] libglu1-mesa-dev is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing libglu1-mesa-dev." >> "$LOGFILE"
-    sudo apt-get -y install libglu1-mesa-dev &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed libglu1-mesa-dev." >> "$LOGFILE"
-fi
-
-if dpkg -s freeglut3-dev &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] freeglut3-dev is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing freeglut3-dev." >> "$LOGFILE"
-    sudo apt-get -y install freeglut3-dev &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed freeglut3-dev." >> "$LOGFILE"
-fi
-
-if dpkg -s mesa-common-dev &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] mesa-common-dev is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing mesa-common-dev." >> "$LOGFILE"
-    sudo apt-get -y install mesa-common-dev &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed mesa-common-dev." >> "$LOGFILE"
-fi
-
-if dpkg -s libogre-1.9-dev &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] libogre-1.9-dev is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing libogre-1.9-dev." >> "$LOGFILE"
-    sudo apt-get -y install libogre-1.9-dev &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed libogre-1.9-dev." >> "$LOGFILE"
-fi
-
-# Apt get installs #TODO: This is breaking on the desktop is it breaking on the laptop
-sudo apt-get -y install libudev-dev libusb-1.0-0-dev libfox-1.6-dev &&
-sudo apt-get -y install autotools-dev autoconf automake libtool &&
-sudo apt-get -y install libsdl2-dev &&
-sudo apt-get -y install build-essential libxmu-dev libxi-dev libgl-dev &&
-sudo apt-get -y install libglew1.5-dev libglew-dev libglewmx1.5-dev libglewmx-dev freeglut3-dev &&
-
-
-# HIDAPI
-if dpkg -s libhidapi-dev &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] libhidapi-dev is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing libhidapi-dev." >> "$LOGFILE"
-    sudo apt-get -y install libhidapi-dev &&
-    echo "[INFO: $MYFILENAME $LINENO] Installed libhidapi.9-dev." >> "$LOGFILE"
-fi
+sudo apt-get -y install libglu1-mesa-dev \
+        freeglut3-dev \
+        mesa-common-dev \
+        libogre-1.9-dev \
+        libudev-dev \
+        libusb-1.0-0-dev \
+        libfox-1.6-dev \
+        autotools-dev \
+        autoconf \
+        automake \
+        libtool \
+        libsdl2-dev \
+        libxmu-dev \
+        libxi-dev \
+        libgl-dev \
+        libglew1.5-dev \
+        libglew-dev \
+        libglewmx1.5-dev \
+        libglewmx-dev \
+        libhidapi-dev \
+        freeglut3-dev 2>&1 | tee -a "$LOGFILE"
 
 #########################################
-# TODO: check for install
+# TODO: check for install method
 #########################################
 # OpenHMD
-if dpkg -s libopenhmd-dev &> /dev/null
-then
-    echo "[INFO: $MYFILENAME $LINENO] libopenhmd-dev is already installed, skipping installation." >> "$LOGFILE"
-else
-    echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd-dev." >> "$LOGFILE"
-    git clone https://github.com/OpenHMD/OpenHMD.git ~/OpenHMD
-    cd ~/OpenHMD
-    git checkout 4ca169b49ab4ea4bee2a8ea519d9ba8dcf662bd5
-    cmake .
-    make
-    cd -
-fi
+echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd-dev." >> "$LOGFILE"
+git clone https://github.com/OpenHMD/OpenHMD.git ~/OpenHMD
+cd ~/OpenHMD || exit 1
+git checkout 4ca169b49ab4ea4bee2a8ea519d9ba8dcf662bd5
+cmake .
+make
+cd - || exit 1
 
 #########################################
 # TODO: cp is not working
