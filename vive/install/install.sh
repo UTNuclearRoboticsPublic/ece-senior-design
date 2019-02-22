@@ -91,7 +91,7 @@ sudo apt-get update && sudo apt-get -y install build-essential=12.1ubuntu2\
 bash "$UTILS"/ros_install.sh -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
 bash "$UTILS"/open_cv_video_stream_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
 bash "$UTILS"/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
-bash "$UTILS"/vive_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/openhmd_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
 
 # shellcheck disable=SC1091
 source /opt/ros/kinetic/setup.bash >> ~/.bashrc
