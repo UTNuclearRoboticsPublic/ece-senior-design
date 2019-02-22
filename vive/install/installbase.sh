@@ -22,22 +22,12 @@
 #	simply skip over these
 #
 
-# Check if shell was launched with interactive mode '-i'
-#if [[ $- == *i* ]]
-#then
-#	echo "Launching..."
-#else
-#	echo "Usage: bash -i install.sh <Path to catkin workspace directory>"
-#	echo "Did you forget the '-i'?"
-#    exit 1
-#fi
-
 #####################################################################
 # Parse args
 #####################################################################
 if [ $# -lt 2 ];
 then
-	echo "Usage: single_node_launch.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
+	echo "Usage: install.sh <-c|--catkin path to catkin workspace> [-l|--logfile logfile]"
 	exit 1
 fi
 
@@ -66,7 +56,13 @@ timestamp() {
 # TODO check catkin relative for absolute and ~
 CATKIN_ABS=$PWD/$CATKIN_RELATIVE
 MYFILENAME="install.sh"
-LOGFILE="log_${MYFILENAME}_$(timestamp).txt"
+
+# Check if log was passed in, if not then make one
+if [[ -z "$LOGFILE" ]];
+then
+    LOGFILE="log_${MYFILENAME}_$(timestamp).txt"
+fi
+
 LOGDIR="logs"
 mkdir -p "$CATKIN_RELATIVE"
 mkdir -p "$CATKIN_RELATIVE"/"$LOGDIR"
@@ -78,7 +74,7 @@ cd "$scriptdir" || exit
 #####################################################################
 # Install dependencies
 #####################################################################
-sudo apt-get update && apt-get -y install build-essential=12.1ubuntu2\
+sudo apt-get update && sudo apt-get -y install build-essential=12.1ubuntu2\
                         cmake=3.5.1-1ubuntu3\
                         git\
                         libgtest-dev=1.7.0-4ubuntu1\
@@ -95,10 +91,10 @@ sudo apt-get update && apt-get -y install build-essential=12.1ubuntu2\
 bash "$UTILS"/ros_install.sh -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
 bash "$UTILS"/open_cv_video_stream_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
 bash "$UTILS"/rviz_textured_sphere_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
-bash "$UTILS"/vive_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
+bash "$UTILS"/openhmd_plugin_install.sh -c "$CATKIN_ABS" -l "$LOGPATH" 2>&1 | tee -a "$LOGPATH"
 
 # shellcheck disable=SC1091
-source /opt/ros/kinetic/setup.bash
+source /opt/ros/kinetic/setup.bash >> ~/.bashrc
 sudo apt-get autoremove -y
 sudo apt-get autoclean -y
 echo "[INFO: $MYFILENAME $LINENO] Install finished." 2>&1 | tee -a "$LOGPATH"
