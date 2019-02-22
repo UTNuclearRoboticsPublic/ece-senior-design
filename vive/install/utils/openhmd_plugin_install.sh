@@ -138,12 +138,12 @@ then
     echo "[INFO: $MYFILENAME $LINENO] libopenhmd-dev is already installed, skipping installation." >> "$LOGFILE"
 else
     echo "[INFO: $MYFILENAME $LINENO] Installing libopenhmd-dev." >> "$LOGFILE"
-    git clone https://github.com/OpenHMD/OpenHMD.git
-    cd OpenHMD
+    git clone https://github.com/OpenHMD/OpenHMD.git ~/OpenHMD
+    cd ~/OpenHMD
     git checkout 4ca169b49ab4ea4bee2a8ea519d9ba8dcf662bd5
     cmake .
     make
-    cd ..
+    cd -
 fi
 
 #########################################
