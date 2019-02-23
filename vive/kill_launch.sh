@@ -8,10 +8,10 @@ STEAM=$(ps -ef | awk '/steam/ {print $2}')
 kill "$STEAM" 2> /dev/null
 
 OPENCV=$(ps -ef | awk '/opencv/ {print $2}')
-kill "$OPENCV" 2> /dev/null
+kill -9 "$OPENCV" 2> /dev/null
 
 ROSCORE=$(ps -ef | awk '/roscore/ {print $2}')
-kill "$ROSCORE" 2> /dev/null
+kill -9 "$ROSCORE" 2> /dev/null
 
 LAUNCHSCRIPT=$(ps -uf | awk '/node_launch.sh/ {print $2}')
 kill -9 "$LAUNCHSCRIPT" 2> /dev/null
@@ -25,3 +25,8 @@ kill -9 "$RVIZ" 2> /dev/null
 USB_CAM=$(ps -ef | awk '/usb/ {print $2}')
 kill -9 "$USB_CAM" 2> /dev/null
 
+IMAGE_VIEW=$(ps -ef | awk '/image_view/ {print $2}')
+kill -9 "$IMAGE_VIEW" 2> /dev/null
+
+VIDEO_STREAM=$(ps -ef | awk '/video_stream_opencv/ {print $2}')
+kill -9 "$VIDEO_STREAM" 2> /dev/null

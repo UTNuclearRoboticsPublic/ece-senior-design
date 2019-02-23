@@ -42,7 +42,7 @@ Visualization Manager:
       Value: true
     - Class: rviz/Image
       Enabled: false
-      Image Topic: /camera1/usb_cam1/image_raw
+      Image Topic: /camera1/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -54,7 +54,7 @@ Visualization Manager:
       Value: false
     - Class: rviz/Image
       Enabled: false
-      Image Topic: /camera2/usb_cam2/image_raw
+      Image Topic: /camera2/image_raw
       Max Value: 1
       Median window: 5
       Min Value: 0
@@ -69,10 +69,10 @@ Visualization Manager:
       Enabled: true
       FOV front: 222.5
       FOV rear: 222.5
-      Front camera image: /camera1/usb_cam1/image_raw
+      Front camera image: /camera1/image_raw
       Name: SphereDisplay
       Radius: 10
-      Rear camera image: /camera2/usb_cam2/image_raw
+      Rear camera image: /camera2/image_raw
       Reference frame: <Fixed Frame>
       Ring count: 64
       Segment count: 64
