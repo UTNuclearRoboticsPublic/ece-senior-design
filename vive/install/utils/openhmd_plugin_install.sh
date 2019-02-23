@@ -98,6 +98,9 @@ cd ~/OpenHMD || exit 1
 git checkout 4ca169b49ab4ea4bee2a8ea519d9ba8dcf662bd5
 cmake .
 make
+./autogen.sh
+./configure
+make
 cd - || exit 1
 
 #########################################
@@ -110,7 +113,7 @@ if ! sudo cp -a "$OPENHMDRULES" "$RULESDEST" &>> "$LOGFILE"
 then
     echo "[ERROR: $MYFILENAME $LINENO] Copy $OPENHMDRULES to $RULESDEST failed" >> "$LOGFILE"
 fi
-udevadm control --reload-rules
+sudo udevadm control --reload-rules
 
 echo "[INFO: $MYFILENAME $LINENO] Copying $OGREFILES to $OGREDEST1" >> "$LOGFILE"
 # shellcheck disable=SC2024
