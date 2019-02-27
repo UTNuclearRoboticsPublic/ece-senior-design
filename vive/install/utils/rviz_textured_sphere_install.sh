@@ -54,8 +54,8 @@ CONFIG="config"
 LAUNCH="launch"
 #DEMOLAUNCH="demo.launch"
 VIVELAUNCH="vive.launch"
-RVIZ_CONFIG="vive_launch_config.rviz"
-RVIZ_CONFIG_FOLDER="rviz_cfg"
+#RVIZ_CONFIG="vive_launch_config.rviz"
+#RVIZ_CONFIG_FOLDER="rviz_cfg"
 
 mkdir -p "$CATKIN"/"$BUILD"
 mkdir -p "$CATKIN"/"$SRC"
@@ -87,4 +87,4 @@ fi
 #echo "[INFO: $MYFILENAME $LINENO] $SPHERELAUNCH Line $LINETOEDIT changed from $LINEBEFORE to $LINEAFTER"
 
 # Move rviz config file to proper location
-cp $MYPATH/$CONFIG/$RVIZ_CONFIG $CATKIN/$SRC/$DEST/$RVIZ_CONFIG_FOLDER/$RVIZ_CONFIG
+#cp $MYPATH/$CONFIG/$RVIZ_CONFIG $CATKIN/$SRC/$DEST/$RVIZ_CONFIG_FOLDER/$RVIZ_CONFIG
