@@ -54,3 +54,5 @@ This line gives us information on the screen's position and its name, as explain
 The script lists the information for all screens. When the script is run with the screen and the window class as arguments, it looks up the (x-) position of the screen, looks up all windows (-id's) of a certain class (with the help of wmctrl -l and the output of xprop -id <window_id>.
 
 Subsequently, the script moves all windows, one by one, to a position on the targeted screen (using wmctrl -ir <window_id> -e 0,<x>,<y>,<width>,<height>) and maximizes it (with xdotool windowsize 100% 100%).
+    
+for further info see [xrandr explination](https://askubuntu.com/questions/614145/output-of-xrandr-shows-1024x76813660-what-does-it-mean-and-can-i-change-it/614242#614242) and [script source](https://askubuntu.com/questions/702071/move-windows-to-specific-screens-using-the-command-line)
